@@ -1,0 +1,157 @@
+{
+  "json_data": [
+  	{
+    	"module": "accessible",
+    	"data": [{
+    		"mccabe": 7992,
+    		"wmc_sum_cyclomatic": 11042,
+    		"loc": 93495,
+    		"loc_code": 52453,
+    		"files": 451,
+    		"files_with_dependencies": 440,
+    		"sum_fanin": 19302,
+    		"sum_fanout": 19302,
+    		"sum_vfanin": 43868,
+    		"sum_vfanout": 43868,
+    		"dependencies_density": 0.013967,
+    		"prop_cost": 0.073068,
+    		"core_size": 133,
+    		"periphery_size": 146,
+    		"shared_size": 78,
+    		"control_size": 83,
+    		"percent_in_core": 0.30227273
+		}]
+	},
+	{
+		"module": "browser",
+    	"data": [{
+    		"mccabe": 28534,
+    		"wmc_sum_cyclomatic": 24354,
+    		"loc": 285797,
+    		"loc_code": 181579,
+    		"files": 1591,
+    		"files_with_dependencies": 1418,
+    		"sum_fanin": 72380,
+    		"sum_fanout": 72380,
+    		"sum_vfanin": 412221,
+    		"sum_vfanout": 412221,
+    		"dependencies_density": 0.0050032,
+    		"prop_cost": 0.026228,
+    		"core_size": 306,
+    		"periphery_size": 454,
+    		"shared_size": 262,
+    		"control_size": 396,
+    		"percent_in_core": 0.2157969
+		}]
+    },
+	{
+		"module": "js",
+    	"data": [{
+    		"mccabe": 92842,
+    		"wmc_sum_cyclomatic": 78455,
+    		"loc": 917871,
+    		"loc_code": 553724,
+    		"files": 6938,
+    		"files_with_dependencies": 6138,
+    		"sum_fanin": 199487,
+    		"sum_fanout": 199487,
+    		"sum_vfanin": 523001,
+    		"sum_vfanout": 523001,
+    		"dependencies_density": 0.00071124,
+    		"prop_cost": 0.013882,
+    		"core_size": 464,
+    		"periphery_size": 3578,
+    		"shared_size": 416,
+    		"control_size": 1680,
+    		"percent_in_core": 0.075594656
+		}]
+    },
+	{
+		"module": "layout",
+    	"data": [{
+    		"mccabe": 48449,
+    		"wmc_sum_cyclomatic": 50624,
+    		"loc": 671108,
+    		"loc_code": 264929,
+    		"files": 10784,
+    		"files_with_dependencies": 5099,
+    		"sum_fanin": 130181,
+    		"sum_fanout": 130181,
+    		"sum_vfanin": 276346,
+    		"sum_vfanout": 276346,
+    		"dependencies_density": 0.00062112,
+    		"prop_cost": 0.010629,
+    		"core_size": 624,
+    		"periphery_size": 2596,
+    		"shared_size": 334,
+    		"control_size": 1545,
+    		"percent_in_core": 0.12237694
+		}]
+    },
+    {
+		"module": "dom",
+    	"data": [{
+    		"mccabe": 54993,
+    		"wmc_sum_cyclomatic": 65427,
+    		"loc": 604209,
+    		"loc_code": 349586,
+    		"files": 3518,
+    		"files_with_dependencies": 3278,
+    		"sum_fanin": 99971,
+    		"sum_fanout": 99971,
+    		"sum_vfanin": 534224,
+    		"sum_vfanout": 534224,
+    		"dependencies_density": 0.0012258,
+    		"prop_cost": 0.049717,
+    		"core_size": 59,
+    		"periphery_size": 2314,
+    		"shared_size": 664,
+    		"control_size": 241,
+    		"percent_in_core": 0.017998878
+		}]
+    },
+    {
+		"module": "gfx",
+    	"data": [{
+    		"mccabe": 87556,
+    		"wmc_sum_cyclomatic": 102243,
+    		"loc": 793383,
+    		"loc_code": 506571,
+    		"files": 2274,
+    		"files_with_dependencies": 2187,
+    		"sum_fanin": 216668,
+    		"sum_fanout": 216668,
+    		"sum_vfanin": 459701,
+    		"sum_vfanout": 459701,
+    		"dependencies_density": 0.0036212,
+    		"prop_cost": 0.096112,
+    		"core_size": 389,
+    		"periphery_size": 647,
+    		"shared_size": 665,
+    		"control_size": 486,
+    		"percent_in_core": 0.17786923
+		}]
+    },
+    {
+		"module": "content",
+    	"data": [{
+    		"mccabe": 68760,
+    		"wmc_sum_cyclomatic": 77470,
+    		"loc": 554043,
+    		"loc_code": 345268,
+    		"files": 2885,
+    		"files_with_dependencies": 2634,
+    		"sum_fanin": 115239,
+    		"sum_fanout": 115239,
+    		"sum_vfanin": 670746,
+    		"sum_vfanout": 670746,
+    		"dependencies_density": 0.0021913,
+    		"prop_cost": 0.096678,
+    		"core_size": 771,
+    		"periphery_size": 903,
+    		"shared_size": 423,
+    		"control_size": 537,
+    		"percent_in_core": 0.29271071
+		}]
+    }
+]}
