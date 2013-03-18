@@ -13,9 +13,12 @@ $(document).ready(function () {
 		
 	assignEventListeners();
 	
-	drawMetric("#metric", "loc_code");
-	drawMetric("#metric", "mccabe");
-	drawMetric("#metric", "prop_cost");
+	drawMetric("#metric", ["loc_code", "mccabe_per_kloc_code"], "");
+	drawMetric("#metric", ["loc_code", "dependencies_density"], "");
+	drawMetric("#metric", ["loc_code", "prop_cost"], "");
+	drawMetric("#metric", ["loc_code", "percent_in_core"], "");
+	drawMetric("#metric", ["loc_code", "sum_fanin"], "");
+	drawMetric("#metric", ["loc_code", "sum_vfanin"], "");
 });
 
 function assignEventListeners() {
@@ -24,40 +27,90 @@ function assignEventListeners() {
 	});
 }
 
-function drawMetric(container, metric) {
- 	d3.json("data/firefox16_module_breakdown.json", function(data) {
-		//draw a set of bars for each module
-		//console.log(data.json_data);
+function drawMetric(container, metrics, max_value) {
+	setTimeout(function() {
+	 	d3.json("data/firefox16_module_breakdown.json", function(data) {
+	 		//console.log(data.json_data);
+	 		//data.json_data.map(function(d, i) { console.log(d.data[0].mccabe/(d.data[0].loc_code/1000)); });
+	 	
+			//draw a set of bars for each module
+			data.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
 		
-		var w = 1000,
-			h = 200,
-			rect_width = 50;
+			var h = 340,
+				w = 200,
+				rect_height = 15,
+				rect_padding = 5,
+				svgPaddingTop = 30,
+				svgPaddingRight = 60;
 			
-		var svg = d3.select(container)
-	        .append("svg")
-	        	.attr("id", metric)
-			    .attr("width", w)
-			    .attr("height", h);
-			        
-		$.each(data.json_data, function(i, d) {
-			var yMax = d3.max(data.json_data, function(d) { return eval("d.data[0]."+metric);})
 			
-			console.log(yMax);
-			var yScale = d3.scale.linear()
-		        .domain([0, yMax])
-    		    .range([0, h]);
+		
+			$.each(metrics, function(metric_i, metric) {
+				var svg = d3.select(container)
+		        	.append("svg")
+	    	    		.attr("class", function() {
+		    	    		if(metric_i == 0)
+		    	    			return "left";
+	    		    		else
+	    		    			return "right";
+	    	    		})
+	        			.attr("id", metric)
+			    		.attr("width", w)
+				   	 .attr("height", h);
+				    
+				$.each(data.json_data, function(i, d) {
+					var xMax = (max_value != "") ? max_value : d3.max(data.json_data, function(d) { return eval("d.data[0]."+metric);});
+			
+					//console.log(xMax);
+					var xScale = d3.scale.linear()
+			    	    .domain([0, xMax])
+    			    	.range([svgPaddingRight, w-svgPaddingRight]);
 			        
-			svg.append("svg:rect")
-				.style("position", "absolute")
-				.style("float", "left")
-				.attr("x", function() { return (rect_width+5) * i; })
-				.attr("width", rect_width)
-				.attr("height", function() {
-					//console.log(yScale(eval("d.data[0]."+metric)));
-					return yScale(eval("d.data[0]."+metric));
+					svg.append("svg:rect")
+						.style("position", "absolute")
+						.style("float", "left")
+						.attr("x", function() {
+							if(metric_i == 0) {
+								return w-xScale(eval("d.data[0]."+metric));
+							}
+							else {
+								return 0;
+							}
+						})
+						.attr("y", function() { return svgPaddingTop + ((rect_height+rect_padding) * i); })
+						.attr("height", rect_height)
+						.attr("width", function() {
+							//console.log(xScale(eval("d.data[0]."+metric)));
+							return xScale(eval("d.data[0]."+metric));
+					});
+					
+					if(metric_i == 1) {
+						svg.append("svg:text")
+			    			.text(function() {
+								return d.module;
+							})
+							.attr('text-anchor', "end")
+							.attr("class", "module_name")
+							.attr('dy', function() {
+								return svgPaddingTop + ((rect_height+rect_padding) * i) + (rect_height/2+3);
+							})
+							.attr("dx", w);
+					}
 				});
-		});		
-	});
+		
+			svg.append("svg:text")
+		   		.text(function() {
+					return metric;
+				})
+				.attr('text-anchor', 'middle')
+				.attr('dy', 10)
+				.attr('dx', function() {
+					return w/2;
+				})
+				.style('font-weight', 'bold');
+			});
+		});
+	}, 0);
 }
 
 function startRotate() {

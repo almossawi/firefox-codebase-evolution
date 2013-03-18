@@ -24,7 +24,7 @@ body {
 
 p {
 	font-family: Cardo, serif;
-	padding-left:40px;
+	padding-left:0px;
 	line-height:1.4;
 }
 
@@ -60,6 +60,36 @@ ul, li {
 svg {
 	font: 10px sans-serif;
 	shape-rendering: crispEdges;
+	margin-top:15px;
+	/*border-right:1px solid white;*/
+}
+
+svg.right {
+	padding-right:40px;
+}
+
+svg.left rect {
+	fill:#594F4F;
+}
+
+svg.right rect {
+	fill:#76B0D8;
+	/*fill: #0095DD;*/
+}
+
+text {
+	fill:black;
+	stroke:none;
+	stroke-width:1;
+	font-family:'Open Sans', 'Gill Sans', Arial;
+    font-size:11px;
+    text-antialiasing:true;
+    font-weight:600;
+    kerning:0.5;
+}
+
+text.module_name {
+    opacity:0.7;
 }
 
 #chart {
@@ -163,4 +193,14 @@ canvas {
 	width:658px;
 	height:660px;
 	display:none;
+}
+
+#metric {
+	width:100%;
+	border:1px solid #cccccc;
+	background-color:#fcfbfb;
+}
+
+h1 {
+	font-weight:300;
 }
