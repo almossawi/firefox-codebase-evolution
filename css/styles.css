@@ -66,10 +66,12 @@ svg {
 
 svg.right {
 	padding-right:40px;
+	/*border-right:1px solid black;*/
 }
 
 svg.left rect {
 	fill:#594F4F;
+	/*fill:#dcd3d3;*/
 }
 
 svg.right rect {
@@ -89,7 +91,7 @@ text {
 }
 
 text.module_name {
-    opacity:0.7;
+    opacity:0.2;
 }
 
 #chart {
@@ -197,10 +199,27 @@ canvas {
 
 #metric {
 	width:100%;
+	height:700px;
 	border:1px solid #cccccc;
-	background-color:#fcfbfb;
+	background-color:#fbfbfb;
 }
 
 h1 {
 	font-weight:300;
+}
+
+.metric_value {
+	opacity:0.6;
+	font-size:9px;
+	font-weight:600;
+}
+
+#metric div {
+	float:left;
+	width:450px;
+}
+
+.metric_title {
+	font-size:12px;
+	font-wight:600;
 }

@@ -7,18 +7,28 @@ var point_size = 0.5,
 	
 var version = ["1", "1.5", "2", "3", "3.5", "3.6", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"];
 
+var metrics_nice = new Object();
+metrics_nice["mccabe_per_kloc_code"] = "McCabe per KLOC";
+metrics_nice["loc_code"] = "LOC";
+metrics_nice["dependencies_density"] = "Dependency density";
+metrics_nice["prop_cost"] = "Propagation cost";
+metrics_nice["percent_in_core"] = "Core size";
+metrics_nice["sum_fanin"] = "Direct dependencies";
+metrics_nice["sum_vfanin"] = "Total dependencies";
+
 $(document).ready(function () {	
 	//other initializations
 	$("select, input, a.button, button").uniform();
 		
 	assignEventListeners();
 	
-	drawMetric("#metric", ["loc_code", "mccabe_per_kloc_code"], "");
-	drawMetric("#metric", ["loc_code", "dependencies_density"], "");
-	drawMetric("#metric", ["loc_code", "prop_cost"], "");
-	drawMetric("#metric", ["loc_code", "percent_in_core"], "");
-	drawMetric("#metric", ["loc_code", "sum_fanin"], "");
-	drawMetric("#metric", ["loc_code", "sum_vfanin"], "");
+	drawMetric("#metric #loc_code", ["loc_code", "loc_code"], "", 0);
+	drawMetric("#metric #mccabe_per_kloc_code", ["loc_code", "mccabe_per_kloc_code"], "", 0);
+	//drawMetric("#metric", ["loc_code", "dependencies_density"], "", 1);
+	drawMetric("#metric #prop_cost", ["loc_code", "prop_cost"], "", 1);
+	drawMetric("#metric #percent_in_core", ["loc_code", "percent_in_core"], "", 1);
+	drawMetric("#metric #sum_fanin", ["loc_code", "sum_fanin"], "", 0);
+	drawMetric("#metric #sum_vfanin", ["loc_code", "sum_vfanin"], "", 0);
 });
 
 function assignEventListeners() {
@@ -27,7 +37,7 @@ function assignEventListeners() {
 	});
 }
 
-function drawMetric(container, metrics, max_value) {
+function drawMetric(container, metrics, max_value, is_percent) {
 	setTimeout(function() {
 	 	d3.json("data/firefox16_module_breakdown.json", function(data) {
 	 		//console.log(data.json_data);
@@ -41,9 +51,7 @@ function drawMetric(container, metrics, max_value) {
 				rect_height = 15,
 				rect_padding = 5,
 				svgPaddingTop = 30,
-				svgPaddingRight = 60;
-			
-			
+				svgPaddingRight = 10;
 		
 			$.each(metrics, function(metric_i, metric) {
 				var svg = d3.select(container)
@@ -70,10 +78,10 @@ function drawMetric(container, metrics, max_value) {
 						.style("position", "absolute")
 						.style("float", "left")
 						.attr("x", function() {
-							if(metric_i == 0) {
+							if(metric_i == 0) { //lhs metric
 								return w-xScale(eval("d.data[0]."+metric));
 							}
-							else {
+							else { //rhs metric
 								return 0;
 							}
 						})
@@ -84,6 +92,25 @@ function drawMetric(container, metrics, max_value) {
 							return xScale(eval("d.data[0]."+metric));
 					});
 					
+					//show value for rhs metric
+					if(metric_i == 1) {
+						svg.append("svg:text")
+			    			.text(function() {
+			    				if(is_percent)
+			    					return (eval("d.data[0]."+metric)*100).toFixed(2) + "%";
+			    				else
+									return getHumanSize(eval("d.data[0]."+metric));
+									
+							})
+							.attr("class", "metric_value")
+							.attr('dy', function() {
+								return Math.floor(svgPaddingTop + ((rect_height+rect_padding) * i) + (rect_height/2+4));
+							})
+							.attr('dx', xScale(eval("d.data[0]."+metric))+3);
+					}
+											
+					
+					//module names
 					if(metric_i == 1) {
 						svg.append("svg:text")
 			    			.text(function() {
@@ -92,7 +119,7 @@ function drawMetric(container, metrics, max_value) {
 							.attr('text-anchor', "end")
 							.attr("class", "module_name")
 							.attr('dy', function() {
-								return svgPaddingTop + ((rect_height+rect_padding) * i) + (rect_height/2+3);
+								return Math.floor(svgPaddingTop + ((rect_height+rect_padding) * i) + (rect_height/2+4));
 							})
 							.attr("dx", w);
 					}
@@ -100,14 +127,14 @@ function drawMetric(container, metrics, max_value) {
 		
 			svg.append("svg:text")
 		   		.text(function() {
-					return metric;
+					return metrics_nice[metric];
 				})
-				.attr('text-anchor', 'middle')
+				.attr('text-anchor', 'start')
+				.attr('class', 'metric_title')
 				.attr('dy', 10)
 				.attr('dx', function() {
-					return w/2;
-				})
-				.style('font-weight', 'bold');
+					return 10;
+				});
 			});
 		});
 	}, 0);
