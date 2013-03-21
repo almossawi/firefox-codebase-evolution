@@ -74,6 +74,17 @@ svg.left rect {
 	/*fill:#dcd3d3;*/
 }
 
+svg rect.module_name_box {
+	fill:#594F4F;
+	opacity:0.8;
+	position:absolute;
+	display:none;
+}
+
+.module_name {
+	display:none;
+}
+
 svg.right rect {
 	fill:#76B0D8;
 	/*fill: #0095DD;*/
@@ -91,7 +102,10 @@ text {
 }
 
 text.module_name {
-    opacity:0.2;
+    /*opacity:0.2;*/
+    fill:white;
+    opacity:0.7;
+    font-weight:300;
 }
 
 #chart {

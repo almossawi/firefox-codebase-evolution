@@ -32,8 +32,19 @@ $(document).ready(function () {
 });
 
 function assignEventListeners() {
-	$("#rotate img").on("click", function() {
+	/*$("#rotate img").on("click", function() {
 		pause = true;
+	});*/
+	
+	$("#metric div").on("mouseenter", function(d) {console.log($(this).attr("id"));
+		$("#" + $(this).attr("id") + " .module_name_box").show();
+		$("#" + $(this).attr("id") + " .module_name").show();
+	});
+	
+	
+	$("#metric div").on("mouseleave", function(d) {console.log($(this).attr("id"));
+		$("#" + $(this).attr("id") + " .module_name_box").hide();
+		$("#" + $(this).attr("id") + " .module_name").hide();
 	});
 }
 
@@ -62,10 +73,20 @@ function drawMetric(container, metrics, max_value, is_percent) {
 	    		    		else
 	    		    			return "right";
 	    	    		})
-	        			.attr("id", metric)
+	        			//.attr("id", metric)
 			    		.attr("width", w)
 				   	 .attr("height", h);
-				    
+				
+				//show module name block background rect
+				/*if(metric_i == 0) {
+					svg.append("svg:rect")
+						.attr("class", "module_name_box")
+						.attr("x", svgPaddingRight)
+						.attr("y", svgPaddingTop)
+						.attr("height", h-65)
+						.attr("width", w);
+				}*/
+			
 				$.each(data.json_data, function(i, d) {
 					var xMax = (max_value != "") ? max_value : d3.max(data.json_data, function(d) { return eval("d.data[0]."+metric);});
 			
@@ -92,6 +113,21 @@ function drawMetric(container, metrics, max_value, is_percent) {
 							return xScale(eval("d.data[0]."+metric));
 					});
 					
+					//show background rect for each module
+					if(metric_i == 0) {
+						svg.append("svg:rect")
+						.attr("class", "module_name_box")
+						.attr("x", function() {
+							return 0;
+						})
+						.attr("y", function() { return svgPaddingTop + ((rect_height+rect_padding) * i); })
+						.attr("height", rect_height)
+						.attr("width", function() {
+							//console.log(xScale(eval("d.data[0]."+metric)));
+							return w;
+						});
+					}
+						
 					//show value for rhs metric
 					if(metric_i == 1) {
 						svg.append("svg:text")
@@ -100,7 +136,6 @@ function drawMetric(container, metrics, max_value, is_percent) {
 			    					return (eval("d.data[0]."+metric)*100).toFixed(2) + "%";
 			    				else
 									return getHumanSize(eval("d.data[0]."+metric));
-									
 							})
 							.attr("class", "metric_value")
 							.attr('dy', function() {
@@ -110,8 +145,8 @@ function drawMetric(container, metrics, max_value, is_percent) {
 					}
 											
 					
-					//module names
-					if(metric_i == 1) {
+					//module names block
+					if(metric_i == 0) {
 						svg.append("svg:text")
 			    			.text(function() {
 								return d.module;
@@ -121,10 +156,10 @@ function drawMetric(container, metrics, max_value, is_percent) {
 							.attr('dy', function() {
 								return Math.floor(svgPaddingTop + ((rect_height+rect_padding) * i) + (rect_height/2+4));
 							})
-							.attr("dx", w);
+							.attr("dx", w-5);
 					}
 				});
-		
+			
 			svg.append("svg:text")
 		   		.text(function() {
 					return metrics_nice[metric];
