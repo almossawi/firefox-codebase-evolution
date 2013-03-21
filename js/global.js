@@ -5,6 +5,9 @@ var point_size = 0.5,
 	max_version = 17,
 	pause = false;
 	
+var data_v16,
+	data_v17;
+	
 var version = ["1", "1.5", "2", "3", "3.5", "3.6", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"];
 
 var metrics_nice = new Object();
@@ -21,14 +24,25 @@ $(document).ready(function () {
 	$("select, input, a.button, button").uniform();
 		
 	assignEventListeners();
+	getDataFiles();
 	
-	drawMetric("#metric #loc_code", ["loc_code", "loc_code"], "", 0);
-	drawMetric("#metric #mccabe_per_kloc_code", ["loc_code", "mccabe_per_kloc_code"], "", 0);
-	//drawMetric("#metric", ["loc_code", "dependencies_density"], "", 1);
-	drawMetric("#metric #prop_cost", ["loc_code", "prop_cost"], "", 1);
-	drawMetric("#metric #percent_in_core", ["loc_code", "percent_in_core"], "", 1);
-	drawMetric("#metric #sum_fanin", ["loc_code", "sum_fanin"], "", 0);
-	drawMetric("#metric #sum_vfanin", ["loc_code", "sum_vfanin"], "", 0);
+	$("#loc_code")
+		.append("<div class='metric_title' style='width:400px'>" + metrics_nice["loc_code"] + "</div>");
+		
+	$("#mccabe_per_kloc_code")
+		.append("<div class='metric_title' style='width:400px'>" + metrics_nice["mccabe_per_kloc_code"] + "</div>");
+		
+	$("#prop_cost")
+		.append("<div class='metric_title' style='width:400px'>" + metrics_nice["prop_cost"] + "</div>");
+		
+	$("#percent_in_core")
+		.append("<div class='metric_title' style='width:400px'>" + metrics_nice["percent_in_core"] + "</div>");
+		
+	$("#sum_fanin")
+		.append("<div class='metric_title' style='width:400px'>" + metrics_nice["sum_fanin"] + "</div>");
+		
+	$("#sum_vfanin")
+		.append("<div class='metric_title' style='width:400px'>" + metrics_nice["sum_vfanin"] + "</div>");
 });
 
 function assignEventListeners() {
@@ -48,14 +62,32 @@ function assignEventListeners() {
 	});
 }
 
+function getDataFiles() {
+	d3.json("data/firefox16_module_breakdown.json", function(d_v16) {
+	 	d3.json("data/firefox17_module_breakdown.json", function(d_v17) {
+	 		data_v16 = d_v16;
+	 		data_v17 = d_v17;
+	 		data_v16.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
+	 		data_v17.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
+	 		
+			drawMetric("#metric #loc_code", ["loc_code", "loc_code"], "", 0);
+			drawMetric("#metric #mccabe_per_kloc_code", ["mccabe_per_kloc_code", "mccabe_per_kloc_code"], "", 0);
+			//drawMetric("#metric", ["loc_code", "dependencies_density"], "", 1);
+			drawMetric("#metric #prop_cost", ["prop_cost", "prop_cost"], "", 1);
+			drawMetric("#metric #percent_in_core", ["percent_in_core", "percent_in_core"], "", 1);
+			drawMetric("#metric #sum_fanin", ["sum_fanin", "sum_fanin"], "", 0);
+			drawMetric("#metric #sum_vfanin", ["sum_vfanin", "sum_vfanin"], "", 0);	 
+	 	})	
+	 });
+}
+
 function drawMetric(container, metrics, max_value, is_percent) {
 	setTimeout(function() {
-	 	d3.json("data/firefox16_module_breakdown.json", function(data) {
 	 		//console.log(data.json_data);
 	 		//data.json_data.map(function(d, i) { console.log(d.data[0].mccabe/(d.data[0].loc_code/1000)); });
 	 	
 			//draw a set of bars for each module
-			data.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
+			//data.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
 		
 			var h = 340,
 				w = 200,
@@ -87,6 +119,11 @@ function drawMetric(container, metrics, max_value, is_percent) {
 						.attr("width", w);
 				}*/
 			
+				//show data for each metric (there will always be two), each in its own svg
+				var data;
+				if(metric_i == 0) data = data_v16;
+				else data = data_v17;
+				
 				$.each(data.json_data, function(i, d) {
 					var xMax = (max_value != "") ? max_value : d3.max(data.json_data, function(d) { return eval("d.data[0]."+metric);});
 			
@@ -149,6 +186,21 @@ function drawMetric(container, metrics, max_value, is_percent) {
 							})
 							.attr('x', xScale(eval("d.data[0]."+metric))+3);
 					}
+					else {
+						svg.append("svg:text")
+			    			.text(function() {
+			    				if(is_percent)
+			    					return (eval("d.data[0]."+metric)*100).toFixed(2) + "%";
+			    				else
+									return getHumanSize(eval("d.data[0]."+metric));
+							})
+							.attr("text-anchor", "end")
+							.attr("class", "metric_value")
+							.attr('y', function() {
+								return Math.floor(svgPaddingTop + ((rect_height+rect_padding) * i) + (rect_height/2+4));
+							})
+							.attr('x', w-xScale(eval("d.data[0]."+metric))-3);
+					}
 											
 					
 					//module names block
@@ -166,7 +218,7 @@ function drawMetric(container, metrics, max_value, is_percent) {
 					}
 				});
 			
-			svg.append("svg:text")
+			/*svg.append("svg:text")
 		   		.text(function() {
 					return metrics_nice[metric];
 				})
@@ -175,9 +227,8 @@ function drawMetric(container, metrics, max_value, is_percent) {
 				.attr('dy', 10)
 				.attr('dx', function() {
 					return 10;
-				});
+				});*/
 			});
-		});
 	}, 0);
 }
 
