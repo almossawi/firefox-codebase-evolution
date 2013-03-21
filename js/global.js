@@ -36,13 +36,13 @@ function assignEventListeners() {
 		pause = true;
 	});*/
 	
-	$("#metric div").on("mouseenter", function(d) {console.log($(this).attr("id"));
+	$("#metric div").on("mouseenter", function(d) {//console.log($(this).attr("id"));
 		$("#" + $(this).attr("id") + " .module_name_box").show();
 		$("#" + $(this).attr("id") + " .module_name").show();
 	});
 	
 	
-	$("#metric div").on("mouseleave", function(d) {console.log($(this).attr("id"));
+	$("#metric div").on("mouseleave", function(d) {//console.log($(this).attr("id"));
 		$("#" + $(this).attr("id") + " .module_name_box").hide();
 		$("#" + $(this).attr("id") + " .module_name").hide();
 	});
@@ -118,7 +118,7 @@ function drawMetric(container, metrics, max_value, is_percent) {
 						svg.append("svg:rect")
 						.attr("class", "module_name_box")
 						.attr("x", function() {
-							return 0;
+							return w-xScale(xMax);
 						})
 						.attr("y", function() { return svgPaddingTop + ((rect_height+rect_padding) * i); })
 						.attr("height", rect_height)
@@ -153,10 +153,10 @@ function drawMetric(container, metrics, max_value, is_percent) {
 							})
 							.attr('text-anchor', "end")
 							.attr("class", "module_name")
-							.attr('dy', function() {
+							.attr('y', function() {
 								return Math.floor(svgPaddingTop + ((rect_height+rect_padding) * i) + (rect_height/2+4));
 							})
-							.attr("dx", w-5);
+							.attr("x", w-5);
 					}
 				});
 			
