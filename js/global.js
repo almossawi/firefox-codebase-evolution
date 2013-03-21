@@ -62,7 +62,7 @@ function drawMetric(container, metrics, max_value, is_percent) {
 				rect_height = 15,
 				rect_padding = 5,
 				svgPaddingTop = 30,
-				svgPaddingRight = 10;
+				svgPaddingRight = 40;
 		
 			$.each(metrics, function(metric_i, metric) {
 				var svg = d3.select(container)
@@ -93,7 +93,7 @@ function drawMetric(container, metrics, max_value, is_percent) {
 					//console.log(xMax);
 					var xScale = d3.scale.linear()
 			    	    .domain([0, xMax])
-    			    	.range([svgPaddingRight, w-svgPaddingRight]);
+    			    	.range([0, w-svgPaddingRight]);
 			        
 					svg.append("svg:rect")
 						.style("position", "absolute")
@@ -118,7 +118,13 @@ function drawMetric(container, metrics, max_value, is_percent) {
 						svg.append("svg:rect")
 						.attr("class", "module_name_box")
 						.attr("x", function() {
-							return w-xScale(xMax);
+							//return w-xScale(xMax);
+
+							//if(d.module.length > 6) {
+								return 180 - (d.module.length*5);
+							//}
+							//else
+							//	return w;
 						})
 						.attr("y", function() { return svgPaddingTop + ((rect_height+rect_padding) * i); })
 						.attr("height", rect_height)
@@ -138,10 +144,10 @@ function drawMetric(container, metrics, max_value, is_percent) {
 									return getHumanSize(eval("d.data[0]."+metric));
 							})
 							.attr("class", "metric_value")
-							.attr('dy', function() {
+							.attr('y', function() {
 								return Math.floor(svgPaddingTop + ((rect_height+rect_padding) * i) + (rect_height/2+4));
 							})
-							.attr('dx', xScale(eval("d.data[0]."+metric))+3);
+							.attr('x', xScale(eval("d.data[0]."+metric))+3);
 					}
 											
 					

@@ -65,8 +65,6 @@ svg {
 }
 
 svg.right {
-	padding-right:40px;
-	/*border-right:1px solid black;*/
 }
 
 svg.left rect {
@@ -76,7 +74,7 @@ svg.left rect {
 
 svg rect.module_name_box {
 	fill:#594F4F;
-	opacity:0.8;
+	opacity:0.6;
 	position:absolute;
 	display:none;
 }
@@ -91,6 +89,7 @@ svg.right rect {
 }
 
 text {
+	cursor:default;
 	fill:black;
 	stroke:none;
 	stroke-width:1;
