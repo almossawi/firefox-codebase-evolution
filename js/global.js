@@ -17,32 +17,32 @@ metrics_nice["dependencies_density"] = "Dependency density";
 metrics_nice["prop_cost"] = "Propagation cost";
 metrics_nice["percent_in_core"] = "Core size";
 metrics_nice["sum_fanin"] = "Direct dependencies";
-metrics_nice["sum_vfanin"] = "Total dependencies";
+metrics_nice["sum_vfanin"] = "Reachability";
 
 $(document).ready(function () {	
 	//other initializations
 	$("select, input, a.button, button").uniform();
-		
-	assignEventListeners();
+
 	getDataFiles();
+	assignEventListeners();
 	
 	$("#loc_code")
-		.append("<div class='metric_title' style='width:400px'>" + metrics_nice["loc_code"] + "</div>");
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["loc_code"] + "</div>");
 		
 	$("#mccabe_per_kloc_code")
-		.append("<div class='metric_title' style='width:400px'>" + metrics_nice["mccabe_per_kloc_code"] + "</div>");
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["mccabe_per_kloc_code"] + "</div>");
 		
 	$("#prop_cost")
-		.append("<div class='metric_title' style='width:400px'>" + metrics_nice["prop_cost"] + "</div>");
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["prop_cost"] + "</div>");
 		
 	$("#percent_in_core")
-		.append("<div class='metric_title' style='width:400px'>" + metrics_nice["percent_in_core"] + "</div>");
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["percent_in_core"] + "</div>");
 		
 	$("#sum_fanin")
-		.append("<div class='metric_title' style='width:400px'>" + metrics_nice["sum_fanin"] + "</div>");
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["sum_fanin"] + "</div>");
 		
 	$("#sum_vfanin")
-		.append("<div class='metric_title' style='width:400px'>" + metrics_nice["sum_vfanin"] + "</div>");
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["sum_vfanin"] + "</div>");
 });
 
 function assignEventListeners() {
@@ -59,6 +59,31 @@ function assignEventListeners() {
 	$("#metric div").on("mouseleave", function(d) {//console.log($(this).attr("id"));
 		$("#" + $(this).attr("id") + " .module_name_box").hide();
 		$("#" + $(this).attr("id") + " .module_name").hide();
+	});
+	
+	
+	
+	//listeners for our modules' bars
+	$("svg rect.module_bar.js").on("mouseenter", function(d) {
+		$("svg.left rect.module_bar.js")
+			.css("fill", "#242424");
+			
+		$(".module_name_box.js")
+			.css("fill", "#242424");
+			
+		$("svg.right rect.module_bar.js")
+			.css("fill", "#4898ff");
+	});
+			
+	$("svg rect.module_bar.js").on("mouseleave", function(d) {
+		$("svg.left rect.module_bar.js")
+			.css("fill", "#594F4F");
+			
+		$(".module_name_box.js")
+			.css("fill", "#594F4F");
+			
+		$("svg.right rect.module_bar.js")
+			.css("fill", "#76B0D8");
 	});
 }
 
@@ -133,6 +158,9 @@ function drawMetric(container, metrics, max_value, is_percent) {
     			    	.range([0, w-svgPaddingRight]);
 			        
 					svg.append("svg:rect")
+						.attr("class", function() {
+							return d.module + " module_bar";
+						})
 						.style("position", "absolute")
 						.style("float", "left")
 						.attr("x", function() {
@@ -153,7 +181,7 @@ function drawMetric(container, metrics, max_value, is_percent) {
 					//show background rect for each module
 					if(metric_i == 0) {
 						svg.append("svg:rect")
-						.attr("class", "module_name_box")
+						.attr("class", "module_name_box " + d.module)
 						.attr("x", function() {
 							//return w-xScale(xMax);
 
@@ -229,6 +257,8 @@ function drawMetric(container, metrics, max_value, is_percent) {
 					return 10;
 				});*/
 			});
+			
+			assignEventListeners();
 	}, 0);
 }
 

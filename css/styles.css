@@ -11,6 +11,7 @@ body {
 	font-size:16px;
 	font-weight:300;
 	background-color:#fff;
+	color:black;
 }
 
 #title {
@@ -65,6 +66,10 @@ svg {
 	/*border-right:1px solid white;*/
 }
 
+svg.left {
+	margin-left:30px;
+}
+
 svg.right {
 }
 
@@ -75,7 +80,7 @@ svg.left rect {
 
 svg rect.module_name_box {
 	fill:#594F4F;
-	opacity:0.6;
+	opacity:0.8;
 	position:absolute;
 	display:none;
 }
@@ -233,9 +238,10 @@ h1 {
 #metric div {
 	float:left;
 	width:450px;
+	height:340px;
 }
 
-.metric_title {
+#metric div.metric_title {
 	font-family: 'Old Standard TT', serif;
 	font-size:22px;
 	font-weight:400;
@@ -245,4 +251,7 @@ h1 {
 	height:20px;
 	text-align:center;
 	margin-top:4px;
+}
+
+svg rect.module_bar {
 }
