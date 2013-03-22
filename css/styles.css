@@ -3,7 +3,7 @@
 
 a.active, a.visited, a {
 	color:#4b4b4b;
-	text-decoration:underline;
+	text-decoration:none;
 }
 
 body {
@@ -244,17 +244,24 @@ canvas {
 
 #main_options {
 	width:100%;
-	height:250px;
+	height:50px;
 	margin-top:20px;
 	padding-left:30px;
 	padding-right:30px;
+	margin-bottom:30px;
+	font-weight:400;
+	background-color:#d9d9d9;
+	background-image:url(../images/gradient_grey.png);
+	background-repeat:repeat-x;
 }
 
-#main_options div {
+#main_options a div {
 	width:33%;
 	float:left;
-	margin-top:15px;
-	height:90%;
+	margin-top:5px;
+	text-align:center;
+	padding-top:10px;
+	height:60%;
 }
 
 h1 {
@@ -287,4 +294,20 @@ h1 {
 }
 
 svg rect.module_bar {
+}
+
+.selected {
+	font-weight:600;
+	color:black;
+}
+
+#main_options a div div.selected_view {
+	clear:both;
+	position:absolute;
+	margin-top:10px;
+	width:452px;
+	height:3px;
+	background-color:#FF9500;
+	padding:0;
+	margin-left:-1px;
 }
