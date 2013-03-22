@@ -64,27 +64,41 @@ function assignEventListeners() {
 	
 	
 	//listeners for our modules' bars
-	$("svg rect.module_bar.js").on("mouseenter", function(d) {
-		$("svg.left rect.module_bar.js")
+	$("svg rect.module_bar").on("mouseenter", function(d) {
+		//clear existing highlights
+		$("svg.left rect.module_bar")
+			.css("fill", "#594F4F");
+			
+		$(".module_name_box")
+			.css("fill", "#594F4F");
+			
+		$("svg.right rect.module_bar")
+			.css("fill", "#76B0D8");
+			
+		var module_name = $(d.srcElement).attr("class").split(' ')[0];
+		
+		$("svg.left rect.module_bar." + module_name)
 			.css("fill", "#242424");
 			
-		$(".module_name_box.js")
+		$(".module_name_box." + module_name)
 			.css("fill", "#242424");
 			
-		$("svg.right rect.module_bar.js")
+		$("svg.right rect.module_bar." + module_name)
 			.css("fill", "#4898ff");
 	});
 			
-	$("svg rect.module_bar.js").on("mouseleave", function(d) {
-		$("svg.left rect.module_bar.js")
+	/*$("svg rect.module_bar").on("mouseleave", function(d) {
+		var module_name = $(d.srcElement).attr("class").split(' ')[0];	
+		
+		$("svg.left rect.module_bar." + module_name)
 			.css("fill", "#594F4F");
 			
-		$(".module_name_box.js")
+		$(".module_name_box." + module_name)
 			.css("fill", "#594F4F");
 			
-		$("svg.right rect.module_bar.js")
+		$("svg.right rect.module_bar." + module_name)
 			.css("fill", "#76B0D8");
-	});
+	});*/
 }
 
 function getDataFiles() {
