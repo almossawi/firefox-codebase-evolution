@@ -80,7 +80,7 @@ svg.left rect {
 
 svg rect.module_name_box {
 	fill:#594F4F;
-	opacity:0.8;
+	opacity:0.6;
 	position:absolute;
 	display:none;
 }
@@ -218,10 +218,43 @@ canvas {
 	width:100%;
 	height:700px;
 	/*border:1px solid #cccccc;*/
-	margin-top:40px;
+	margin-top:1px;
+	padding-top:30px;
 	padding-left:30px;
 	padding-right:30px;
 	background-color:#f9f7f7;
+	/*border-radius:10px;*/
+	background-image: url(../images/noise.png);
+	linear-gradient(hsla(0,0%,100%,.7), hsla(0,0%,100%,.4));
+}
+
+#version_select {
+	text-align:center;
+	width:100%;
+	height:50px;
+	padding-left:30px;
+	padding-right:30px;
+	padding-top:15px;
+	padding-bottom:15px;
+	border-bottom:1px solid #cccccc;
+	font-size:24px;
+	background-image: url(../images/noise_light.png);
+	linear-gradient(hsla(0,0%,100%,.7), hsla(0,0%,100%,.4));
+}
+
+#main_options {
+	width:100%;
+	height:250px;
+	margin-top:20px;
+	padding-left:30px;
+	padding-right:30px;
+}
+
+#main_options div {
+	width:33%;
+	float:left;
+	margin-top:15px;
+	height:90%;
 }
 
 h1 {

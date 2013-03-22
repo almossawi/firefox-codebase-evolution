@@ -30,8 +30,11 @@
 			<canvas id="canvas2" width="650" height="650"></canvas>
 		</div>-->
 		
-		<h1>Firefox 16.0 and 17.0 module breakdown</h1>
-		<p>Here, we look at all modules of said versions of Firefox for Desktop and analyze a set of metrics for each module that are indicative of quality.  Only modules that have a reasonable level of complexity are analyzed.  We define that using several criteria, one of which is that a module must have at least 400 source-code files; the rest are a bit more nuanced.</p>
+		<h1>Firefox module breakdown</h1>
+		<p>Here, we look at the modules of the two selected versions of Firefox for Desktop and analyze a set of metrics for each module that are indicative of quality.  Only modules that have a reasonable level of complexity are analyzed.  We define that using several criteria, one of which is that a module must have at least 400 source-code files; the rest are a bit more nuanced.</p>
+		<div id="version_select">
+			<img src="images/firefox_tiny.png" style="padding-left:10px;padding-right:10px" />
+		</div>
 		<div id="metric">
 			<div id="loc_code"></div>
 			<div id="mccabe_per_kloc_code"></div>
@@ -39,6 +42,12 @@
 			<div id="percent_in_core"></div>
 			<div id="sum_fanin"></div>
 			<div id="sum_vfanin"></div>
+		</div>
+		
+		<div id="main_options">
+			<div style="border-right:1px solid #d2d2d2"></div>
+			<div style="border-right:1px solid #d2d2d2"></div>
+			<div></div>
 		</div>
 		
 		<div id="rotate">

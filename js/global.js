@@ -59,9 +59,17 @@ function assignEventListeners() {
 	$("#metric div").on("mouseleave", function(d) {//console.log($(this).attr("id"));
 		$("#" + $(this).attr("id") + " .module_name_box").hide();
 		$("#" + $(this).attr("id") + " .module_name").hide();
+		
+		//clear existing highlights
+		$("svg.left rect.module_bar")
+			.css("fill", "#594F4F");
+			
+		$(".module_name_box")
+			.css("fill", "#594F4F");
+			
+		$("svg.right rect.module_bar")
+			.css("fill", "#76B0D8");
 	});
-	
-	
 	
 	//listeners for our modules' bars
 	$("svg rect.module_bar").on("mouseenter", function(d) {
@@ -195,7 +203,7 @@ function drawMetric(container, metrics, max_value, is_percent) {
 					//show background rect for each module
 					if(metric_i == 0) {
 						svg.append("svg:rect")
-						.attr("class", "module_name_box " + d.module)
+						.attr("class", d.module + " module_name_box")
 						.attr("x", function() {
 							//return w-xScale(xMax);
 
