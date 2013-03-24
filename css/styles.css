@@ -298,6 +298,10 @@ h1 {
 svg rect.module_bar {
 }
 
+svg rect.module_bar_transparent {
+	opacity:0;
+}
+
 .selected {
 	font-weight:600;
 	color:black;
@@ -307,11 +311,18 @@ svg rect.module_bar {
 	clear:both;
 	position:absolute;
 	margin-top:10px;
-	width:452px;
+	width:451px;
 	height:3px;
 	background-color:#FF9500;
 	padding:0;
 	margin-left:-1px;
+}
+
+@-moz-document url-prefix() { 
+	#main_options a div div.selected_view {
+		margin-top:9px;
+		width:450px;
+	}
 }
 
 #wide_pane {
@@ -376,4 +387,36 @@ svg rect.module_bar {
 	height:40px;
 	z-index:222;
 	position:absolute;
+}
+
+#lhs_left {
+	margin-left:-530px;
+	margin-top:0px;
+	position:absolute;
+	opacity:0.4;
+	display:none;
+}
+
+#lhs_right {
+	margin-left:-490px;
+	margin-top:0px;
+	position:absolute;
+	opacity:0.4;
+	display:none;
+}
+
+#rhs_left {
+	margin-left:450px;
+	margin-top:0px;
+	position:absolute;
+	opacity:0.4;
+	display:none;
+}
+
+#rhs_right {
+	margin-left:490px;
+	margin-top:0px;
+	position:absolute;
+	opacity:0.4;
+	display:none;
 }

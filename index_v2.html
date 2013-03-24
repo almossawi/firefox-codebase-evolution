@@ -3,7 +3,7 @@
 <html>
   <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-	<title>Experimenting with interactive DSMs</title>
+	<title>Analysis of Firefox for Desktop codebases</title>
 	<link rel="stylesheet" href="css/styles.css" type="text/css" charset="utf-8" />
 	
 	<link href='https://fonts.googleapis.com/css?family=Cardo' rel='stylesheet' type='text/css'>
@@ -20,22 +20,12 @@
   </head>
   <body>
 	<div id="page">
-		<!--<div id="labels">
-			<div id="lhs">Firefox 16</div>
-			<div id="rhs">Firefox 17</div>
-		</div>
-		
-		<div id="canvases">
-			<canvas id="canvas1" width="650" height="650"></canvas>
-			<canvas id="canvas2" width="650" height="650"></canvas>
-		</div>-->
-		
 		<div id="main_options">
 			<a href="#"><div style="border-right:1px solid #bfbfbf">
 				Matrix
 			</div></a>
 			<a href="#"><div style="border-right:1px solid #bfbfbf;border-left:1px solid #f1f1f1">
-				<span class="selected">Bars</span>
+				<span class="selected">Chart</span>
 				<div class="selected_view"></div>
 			</div></a>
 			<a href="#"><div style="border-left:1px solid #f1f1f1">
@@ -46,7 +36,11 @@
 		<!--<h1>Firefox module breakdown</h1>
 		<p>Here, we look at the modules of the two selected versions of Firefox for Desktop and analyze a set of metrics for each module that are indicative of quality.  Only modules that have a reasonable level of complexity are analyzed.  We define that using several criteria, one of which is that a module must have at least 400 source-code files; the rest are a bit more nuanced.</p>-->
 		<div id="version_select">
+			<a href="#"><img src="images/lhs_left.png" id="lhs_left" class="version_arrow" /></a>
+			<a href="#"><img src="images/lhs_right.png" id="lhs_right" class="version_arrow" /></a>
 			<img src="images/firefox_tiny.png" style="padding-left:10px;padding-right:10px" />
+			<a href="#"><img src="images/rhs_left.png" id="rhs_left" class="version_arrow" /></a>
+			<a href="#"><img src="images/rhs_right.png" id="rhs_right" class="version_arrow" /></a>
 		</div>
 		<div id="metric">
 			<div id="loc_code"></div>
@@ -57,25 +51,40 @@
 			<div id="sum_vfanin"></div>
 		</div>
 		
-		<div id="wide_pane">		
+		<div style="margin-top:80px">
+			<p>Here, we take a look at the analysis of two Firefox for Desktop codebases and display a set of metrics for each that are indicative of different facets of quality.  For the module breakdown view, <i>Chart</i>, only modules that have a reasonable level of complexity are considered; some of the criteria for what is reasonable is more nuanced, but generally, a module is expected to have around 400 source-code files.</p>
+			<br />
+		</div>
+			
+		<!--<div id="wide_pane">		
 			<div id="logo_container">
-				<!--<div id="count_hider"></div>-->
 				
 				<div id="twitter_block">
 <a href="https://twitter.com/share" data-size="large" class="twitter-share-button">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 				</div>
 				
-				<!--<div id="fb_block" class="fb-like" data-href="http://bahrainvisualized.com" data-send="false" data-layout="box_count" data-width="150" data-show-faces="false" data-font="arial"></div>
-				-->
+				<div id="fb_block" class="fb-like" data-href="http://almossawi.com/firefox" data-send="false" data-layout="box_count" data-width="150" data-show-faces="false" data-font="arial"></div>
+				
 				<div id="credits_block">
 					ALI ALMOSSAWI &middot; almossawi@mozilla.com &middot; <a href="https://twitter.com/alialmossawi">Follow me on Twitter</a> &middot; April 2013<br />
 					This work is being released under a Creative Commons Attribution-NonCommercial license (<a href="http://creativecommons.org/licenses/by-nc/3.0/">CC BY-NC</a>).
 				</div>
-				
-				<!--<div style="float:right;z-index:3;padding-top:13px;padding-right:15px"></div>-->
 			</div>
 		</div>
-	</div>
+	</div>-->
+	
+	<script>
+		var images = [
+			'images/lhs_left.png',
+			'images/lhs_right.png',
+			'images/rhs_left.png',
+			'images/rhs_right.png',
+		];
+
+		$(images).each(function() {
+			var image = $('<img />').attr('src', this);
+		});
+		</script>
   </body>
 </html>

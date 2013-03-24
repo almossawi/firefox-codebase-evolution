@@ -11,7 +11,7 @@ var data_v16,
 var version = ["1", "1.5", "2", "3", "3.5", "3.6", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"];
 
 var metrics_nice = new Object();
-metrics_nice["mccabe_per_kloc_code"] = "McCabe per KLOC";
+metrics_nice["mccabe_per_kloc_code"] = "Cyclomatic complexity";
 metrics_nice["loc_code"] = "LOC";
 metrics_nice["dependencies_density"] = "Dependency density";
 metrics_nice["prop_cost"] = "Propagation cost";
@@ -43,18 +43,29 @@ $(document).ready(function () {
 		
 	$("#sum_vfanin")
 		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["sum_vfanin"] + "</div>");
+		
+	$(".version_arrow").delay(1500).fadeIn("slow");
 });
 
 function assignEventListeners() {
-	/*$("#rotate img").on("click", function() {
-		pause = true;
-	});*/
+	$(".version_arrow").on("mouseenter", function(d) {
+		$(this).css("opacity", 1);
+		
+		return false;
+	});
+	
+	$(".version_arrow").on("mouseleave", function(d) {
+		$(this).css("opacity", 0.4);
+		
+		return false;
+	});
+	
+	
 	
 	$("#metric div").on("mouseenter", function(d) {//console.log($(this).attr("id"));
 		$("#" + $(this).attr("id") + " .module_name_box").show();
 		$("#" + $(this).attr("id") + " .module_name").show();
 	});
-	
 	
 	$("#metric div").on("mouseleave", function(d) {//console.log($(this).attr("id"));
 		$("#" + $(this).attr("id") + " .module_name_box").hide();
@@ -72,7 +83,7 @@ function assignEventListeners() {
 	});
 	
 	//listeners for our modules' bars
-	$("svg rect.module_bar").on("mouseenter", function(d) {
+	$("svg rect.module_bar_transparent").on("mouseenter", function(d) {
 		//clear existing highlights
 		$("svg.left rect.module_bar")
 			.css("fill", "#594F4F");
@@ -83,7 +94,33 @@ function assignEventListeners() {
 		$("svg.right rect.module_bar")
 			.css("fill", "#76B0D8");
 			
-		var module_name = $(d.srcElement).attr("class").split(' ')[0];
+			var srcE = d.srcElement ? d.srcElement : d.target;
+			var module_name = $(srcE).attr("class").split(' ')[0];
+		
+		$("svg.left rect.module_bar." + module_name)
+			.css("fill", "#242424");
+			
+		$(".module_name_box." + module_name)
+			.css("fill", "#242424");
+			
+		$("svg.right rect.module_bar." + module_name)
+			.css("fill", "#4898ff");
+	});
+	
+	//listeners for our modules' bars
+	$(".module_name, .module_name_box").on("mouseenter", function(d) {
+		//clear existing highlights
+		$("svg.left rect.module_bar")
+			.css("fill", "#594F4F");
+			
+		$(".module_name_box")
+			.css("fill", "#594F4F");
+			
+		$("svg.right rect.module_bar")
+			.css("fill", "#76B0D8");
+			
+		var srcE = d.srcElement ? d.srcElement : d.target;
+		var module_name = $(srcE).attr("class").split(' ')[0];
 		
 		$("svg.left rect.module_bar." + module_name)
 			.css("fill", "#242424");
@@ -200,18 +237,24 @@ function drawMetric(container, metrics, max_value, is_percent) {
 							return xScale(eval("d.data[0]."+metric));
 					});
 					
+					//a transparent copy of each to attach the mouse listener to
+					svg.append("svg:rect")
+						.attr("class", function() {
+							return d.module + " module_bar_transparent";
+						})
+						.style("position", "absolute")
+						.style("float", "left")
+						.attr("x", 0)
+						.attr("y", function() { return svgPaddingTop + ((rect_height+rect_padding) * i); })
+						.attr("height", rect_height)
+						.attr("width", w);
+					
 					//show background rect for each module
 					if(metric_i == 0) {
 						svg.append("svg:rect")
 						.attr("class", d.module + " module_name_box")
 						.attr("x", function() {
-							//return w-xScale(xMax);
-
-							//if(d.module.length > 6) {
-								return 180 - (d.module.length*5);
-							//}
-							//else
-							//	return w;
+							return 180 - (d.module.length*5);
 						})
 						.attr("y", function() { return svgPaddingTop + ((rect_height+rect_padding) * i); })
 						.attr("height", rect_height)
@@ -260,7 +303,9 @@ function drawMetric(container, metrics, max_value, is_percent) {
 								return d.module;
 							})
 							.attr('text-anchor', "end")
-							.attr("class", "module_name")
+							.attr("class", function() {
+								return d.module + " module_name";
+							})
 							.attr('y', function() {
 								return Math.floor(svgPaddingTop + ((rect_height+rect_padding) * i) + (rect_height/2+4));
 							})
