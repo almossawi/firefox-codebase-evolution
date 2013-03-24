@@ -43,13 +43,59 @@
 			<a href="#"><img src="images/rhs_right.png" id="rhs_right" class="version_arrow" /></a>
 		</div>
 		<div id="metric">
-			<div id="loc_code"></div>
-			<div id="mccabe_per_kloc_code"></div>
-			<div id="prop_cost"></div>
-			<div id="percent_in_core"></div>
-			<div id="sum_fanin"></div>
-			<div id="sum_vfanin"></div>
+			<div id="loc_code" class="topmetric"></div>
+			<div id="mccabe_per_kloc_code" class="topmetric"></div>
+			<div id="prop_cost" class="topmetric"></div>
+			<div id="percent_in_core" class="topmetric"></div>
+			<div id="sum_fanin" class="topmetric"></div>
+			<div id="sum_vfanin" class="topmetric"></div>
 		</div>
+		
+		<div style="clear:both"></div>
+		
+		<div id="container">
+			<div id="chart_container_container">
+				<div class="chart_container" id="allversions_defects_per_kloc" style="position:relative;left:50%;margin-left:-305px">
+					<span class="container_title">Defect density</span>
+					<div></div>
+				</div>
+				<div style="clear:both"></div>
+						
+				<div class="chart_container" id="allversions_loc_code">
+					<span class="container_title">LOC</span>
+					<div></div>
+				</div>
+				
+				<div class="chart_container" id="allversions_mccabe_per_kloc">
+					<span class="container_title">Cyclomatic complexity</span>
+					<div></div>
+				</div>
+				<div style="clear:both"></div>
+				
+				<div class="chart_container" id="allversions_prop_cost">
+					<span class="container_title">Propagation cost</span>
+					<div></div>
+				</div>
+				
+				<div class="chart_container" id="allversions_percent_in_core">
+					<span class="container_title">Core size</span>
+					<div></div>
+				</div>
+				<div style="clear:both"></div>
+
+				<div class="chart_container" id="allversions_mem">
+					<span class="container_title">Resident Memory</span>
+					<div></div>
+				</div>
+				
+				<div class="chart_container" id="allversions_speed">
+					<span class="container_title">Speed</span>
+					<div></div>
+				</div>
+			</div><!-- end #container -->
+		</div>
+			
+		<div style="clear:both"></div>
 		
 		<div style="margin-top:80px">
 			<p>Here, we take a look at the analysis of two Firefox for Desktop codebases and display a set of metrics for each that are indicative of different facets of quality.  For the module breakdown view, <i>Chart</i>, only modules that have a reasonable level of complexity are considered; some of the criteria for what is reasonable is more nuanced, but generally, a module is expected to have around 400 source-code files.</p>
@@ -57,8 +103,7 @@
 		</div>
 			
 		<!--<div id="wide_pane">		
-			<div id="logo_container">
-				
+			<div id="logo_container">	
 				<div id="twitter_block">
 <a href="https://twitter.com/share" data-size="large" class="twitter-share-button">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
@@ -71,8 +116,8 @@
 					This work is being released under a Creative Commons Attribution-NonCommercial license (<a href="http://creativecommons.org/licenses/by-nc/3.0/">CC BY-NC</a>).
 				</div>
 			</div>
-		</div>
-	</div>-->
+		</div>-->
+	</div>
 	
 	<script>
 		var images = [

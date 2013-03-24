@@ -63,7 +63,6 @@ ul, li {
 
 svg {
 	font: 10px sans-serif;
-	shape-rendering: crispEdges;
 	margin-top:15px;
 	/*border-right:1px solid white;*/
 }
@@ -277,7 +276,7 @@ h1 {
 	font-weight:600;
 }
 
-#metric div {
+#metric div.topmetric {
 	float:left;
 	width:450px;
 	height:340px;
@@ -419,4 +418,154 @@ svg rect.module_bar_transparent {
 	position:absolute;
 	opacity:0.4;
 	display:none;
+}
+
+
+
+
+
+
+
+
+
+#page #container {
+	border-top:1px solid #cccccc;
+	position:relative;
+	height:1000px;
+	width:100%;
+	padding-left:30px;
+	padding-right:30px;
+	margin-top:30px;
+	padding-top:30px;
+	margin-bottom:80px;
+	text-align:center;
+	font-size:14px;
+	color:#3b3b3b;
+}
+
+
+#page #container #chart_container_container {
+	width:1200px;
+	/*width:570px;*/
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#page .chart_container {
+	font-weight:200;
+	font-size:18px;
+	float:left;
+	margin-bottom:100px;
+	margin-left:20px;
+	width:580px;
+	height:152px;
+	border:0px solid #000000;
+	text-align:center;
+	color:white;
+}
+
+.chart_container span {
+	margin-left:20px;
+}
+
+.chart_container svg {
+	margin-top:5px;
+	border:0px solid #494949;
+}
+
+.chart_container .container_title {
+	font-weight:300;
+	color:#3b3b3b;
+}
+
+#page .chart_container div {
+	margin-top:5px;
+	/*-moz-border-radius:4px;
+	border-radius:4px;*/
+	width:580px;
+	height:160px
+}
+
+.tickx text,
+.ticky text {
+  fill:#fff;
+  font-size:10px;
+}
+
+.tick line {
+	opacity:0;
+}
+
+/*text {
+  fill:#fff;
+  font-size:10.5px;
+}*/
+
+path {
+  stroke-width:2px;
+  fill:none;
+}
+
+.default_path_format {
+  stroke:#2b2b2b;
+}
+
+line {
+  stroke-width:1px;
+  stroke:#cccccc;
+  stroke-opacity:1;
+  shape-rendering:crispedges;
+}
+
+.point {
+	fill:#2b2b2b;
+	/*stroke-width:1px;
+	stroke:rgb(255,255,255);*/
+	/*display:none;*/
+}
+
+.point.max {
+  fill:rgb(51,156,255);
+  stroke-width:2px;
+}
+
+.axis {
+	font-size:7.5pt;
+	fill:none;
+	stroke-width:1;
+	font-weight:300;
+	stroke:#fff;
+	stroke-opacity:0.6;
+	shape-rendering:crispedges;
+	/*text-transform:uppercase;*/
+}
+
+.x path,
+.y path { /* don't show lines for x and y axes */
+	display:none;
+	fill:none;
+	stroke:#4f4f4f;
+}
+
+.tick {
+	stroke:none;
+	fill:none;
+}
+
+.tooltip {
+	fill:#fff;
+	font-size:8.5pt;
+	font-weight:normal;
+	text-shadow:0px 2px 5px #000;
+}
+
+.line_label {
+	font-size:7pt;
+	font-weight:400;
+	/*text-shadow:0px 2px 5px #000;*/
+	text-rendering:optimizeLegibility;
+}
+
+.tooltip_box {
+	fill:#000000;
 }
