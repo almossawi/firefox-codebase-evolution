@@ -208,6 +208,10 @@ canvas {
 	height:900px;
 }
 
+.axis g text {
+	opacity:0.5;
+}
+
 #rotate {
 	background-color:black;
 	width:658px;
@@ -221,8 +225,6 @@ canvas {
 	/*border:1px solid #cccccc;*/
 	margin-top:1px;
 	padding-top:30px;
-	padding-left:30px;
-	padding-right:30px;
 	background-color:#f9f7f7;
 	/*border-radius:10px;*/
 	background-image: url(../images/noise.png);
@@ -233,8 +235,6 @@ canvas {
 	text-align:center;
 	width:100%;
 	height:50px;
-	padding-left:30px;
-	padding-right:30px;
 	padding-top:15px;
 	padding-bottom:15px;
 	border-bottom:1px solid #cccccc;
@@ -244,11 +244,9 @@ canvas {
 }
 
 #main_options {
-	width:100%;
+	width:1360px;
 	height:50px;
 	margin-top:20px;
-	padding-left:30px;
-	padding-right:30px;
 	margin-bottom:30px;
 	font-weight:400;
 	background-color:#d9d9d9;
@@ -389,7 +387,7 @@ svg rect.module_bar_transparent {
 }
 
 #lhs_left {
-	margin-left:-530px;
+	margin-left:-500px;
 	margin-top:0px;
 	position:absolute;
 	opacity:0.4;
@@ -397,7 +395,7 @@ svg rect.module_bar_transparent {
 }
 
 #lhs_right {
-	margin-left:-490px;
+	margin-left:-460px;
 	margin-top:0px;
 	position:absolute;
 	opacity:0.4;
@@ -405,7 +403,7 @@ svg rect.module_bar_transparent {
 }
 
 #rhs_left {
-	margin-left:450px;
+	margin-left:420px;
 	margin-top:0px;
 	position:absolute;
 	opacity:0.4;
@@ -413,7 +411,7 @@ svg rect.module_bar_transparent {
 }
 
 #rhs_right {
-	margin-left:490px;
+	margin-left:460px;
 	margin-top:0px;
 	position:absolute;
 	opacity:0.4;
@@ -433,8 +431,6 @@ svg rect.module_bar_transparent {
 	position:relative;
 	height:1000px;
 	width:100%;
-	padding-left:30px;
-	padding-right:30px;
 	margin-top:30px;
 	padding-top:30px;
 	margin-bottom:80px;
@@ -445,7 +441,7 @@ svg rect.module_bar_transparent {
 
 
 #page #container #chart_container_container {
-	width:1200px;
+	width:1170px;
 	/*width:570px;*/
 	margin-left:auto;
 	margin-right:auto;
@@ -456,7 +452,6 @@ svg rect.module_bar_transparent {
 	font-size:18px;
 	float:left;
 	margin-bottom:100px;
-	margin-left:20px;
 	width:580px;
 	height:152px;
 	border:0px solid #000000;

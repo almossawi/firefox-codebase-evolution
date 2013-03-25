@@ -392,7 +392,7 @@ function drawEachChart(data, container, format, humanify_numbers, custom_units, 
 		.rangeBands([xPadding+16, w]); 
             
     var yScale = d3.scale.linear()
-        .domain([yMin, yMax])
+        .domain([0, yMax])
         .range([h-yPadding+2, yPadding-6]);
             
     var xAxis = d3.svg.axis()
