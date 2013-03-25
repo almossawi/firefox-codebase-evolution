@@ -74,10 +74,10 @@ function assignEventListeners() {
 		
 		//clear existing highlights
 		$("svg.left rect.module_bar")
-			.css("fill", "#594F4F");
+			.css("fill", "#dcdcdc");
 			
 		$(".module_name_box")
-			.css("fill", "#594F4F");
+			.css("fill", "#dcdcdc");
 			
 		$("svg.right rect.module_bar")
 			.css("fill", "#76B0D8");
@@ -87,10 +87,10 @@ function assignEventListeners() {
 	$("svg rect.module_bar_transparent").on("mouseenter", function(d) {
 		//clear existing highlights
 		$("svg.left rect.module_bar")
-			.css("fill", "#594F4F");
+			.css("fill", "#dcdcdc");
 			
 		$(".module_name_box")
-			.css("fill", "#594F4F");
+			.css("fill", "#dcdcdc");
 			
 		$("svg.right rect.module_bar")
 			.css("fill", "#76B0D8");
@@ -99,10 +99,10 @@ function assignEventListeners() {
 			var module_name = $(srcE).attr("class").split(' ')[0];
 		
 		$("svg.left rect.module_bar." + module_name)
-			.css("fill", "#242424");
+			.css("fill", "#fff");
 			
 		$(".module_name_box." + module_name)
-			.css("fill", "#242424");
+			.css("fill", "#fff");
 			
 		$("svg.right rect.module_bar." + module_name)
 			.css("fill", "#4898ff");
@@ -112,10 +112,10 @@ function assignEventListeners() {
 	$(".module_name, .module_name_box").on("mouseenter", function(d) {
 		//clear existing highlights
 		$("svg.left rect.module_bar")
-			.css("fill", "#594F4F");
+			.css("fill", "#dcdcdc");
 			
 		$(".module_name_box")
-			.css("fill", "#594F4F");
+			.css("fill", "#dcdcdc");
 			
 		$("svg.right rect.module_bar")
 			.css("fill", "#76B0D8");
@@ -124,13 +124,14 @@ function assignEventListeners() {
 		var module_name = $(srcE).attr("class").split(' ')[0];
 		
 		$("svg.left rect.module_bar." + module_name)
-			.css("fill", "#242424");
+			.css("fill", "#fff");
 			
 		$(".module_name_box." + module_name)
-			.css("fill", "#242424");
+			.css("fill", "#fff");
 			
 		$("svg.right rect.module_bar." + module_name)
 			.css("fill", "#4898ff");
+			
 	});
 			
 	/*$("svg rect.module_bar").on("mouseleave", function(d) {
