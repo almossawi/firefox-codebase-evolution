@@ -16,11 +16,11 @@
     		"sum_vfanout": 47972,
     		"dependencies_density": 0.013561,
     		"prop_cost": 0.23796,
-    		"core_size": 77,
-    		"periphery_size": 170,
-    		"shared_size": 146,
-    		"control_size": 55,
-    		"percent_in_core": 0.17420814
+    		"core_size": 0,
+    		"periphery_size": 197,
+    		"shared_size": 221,
+    		"control_size": 31,
+    		"percent_in_core": 0
 		}]
 	},
 	{
@@ -39,11 +39,11 @@
     		"sum_vfanout": 424464,
     		"dependencies_density": 0.005033,
     		"prop_cost": 0.1967,
-    		"core_size": 516,
-    		"periphery_size": 203,
-    		"shared_size": 507,
-    		"control_size": 239,
-    		"percent_in_core": 0.35197817
+    		"core_size": 56,
+    		"periphery_size": 685,
+    		"shared_size": 526,
+    		"control_size": 202,
+    		"percent_in_core": 0.038199181
 		}]
     },
     {
@@ -62,11 +62,11 @@
     		"sum_vfanout": 658889,
     		"dependencies_density": 0.0019935,
     		"prop_cost": 0.091259,
-    		"core_size": 974,
-    		"periphery_size": 515,
-    		"shared_size": 963,
-    		"control_size": 234,
-    		"percent_in_core": 0.36302646
+    		"core_size": 720,
+    		"periphery_size": 1168,
+    		"shared_size": 469,
+    		"control_size": 330,
+    		"percent_in_core": 0.26835632
 		}]
     },
     {
@@ -85,11 +85,11 @@
     		"sum_vfanout": 569765,
     		"dependencies_density": 0.00114,
     		"prop_cost": 0.047048,
-    		"core_size": 900,
-    		"periphery_size": 696,
-    		"shared_size": 1238,
-    		"control_size": 645,
-    		"percent_in_core": 0.25914195
+    		"core_size": 118,
+    		"periphery_size": 2378,
+    		"shared_size": 679,
+    		"control_size": 305,
+    		"percent_in_core": 0.033976389
 		}]
     },
 	{
@@ -109,8 +109,8 @@
     		"dependencies_density": 0.0034958,
     		"prop_cost": 0.089309,
     		"core_size": 568,
-    		"periphery_size": 575,
-    		"shared_size": 558,
+    		"periphery_size": 595,
+    		"shared_size": 538,
     		"control_size": 565,
     		"percent_in_core": 0.25099426
 		}]
@@ -131,11 +131,11 @@
     		"sum_vfanout": 48912,
     		"dependencies_density": 0.0056286,
     		"prop_cost": 0.073278,
-    		"core_size": 173,
-    		"periphery_size": 143,
-    		"shared_size": 268,
-    		"control_size": 228,
-    		"percent_in_core": 0.21279213
+    		"core_size": 123,
+    		"periphery_size": 184,
+    		"shared_size": 265,
+    		"control_size": 245,
+    		"percent_in_core": 0.15129151
 		}]
     },
 	{
@@ -154,11 +154,11 @@
     		"sum_vfanout": 395623,
     		"dependencies_density": 0.00060191,
     		"prop_cost": 0.010584,
-    		"core_size": 1403,
-    		"periphery_size": 1650,
-    		"shared_size": 2092,
-    		"control_size": 967,
-    		"percent_in_core": 0.15844667
+    		"core_size": 388,
+    		"periphery_size": 3941,
+    		"shared_size": 491,
+    		"control_size": 1294,
+    		"percent_in_core": 0.06357529084
 		}]
     },
 	{
@@ -177,11 +177,11 @@
     		"sum_vfanout": 322199,
     		"dependencies_density": 0.00061667,
     		"prop_cost": 0.012158,
-    		"core_size": 1661,
-    		"periphery_size": 1082,
-    		"shared_size": 1402,
-    		"control_size": 1001,
-    		"percent_in_core": 0.32290047
+    		"core_size": 649,
+    		"periphery_size": 2256,
+    		"shared_size": 332,
+    		"control_size": 1911,
+    		"percent_in_core": 0.12616641
 		}]
     },
     {
@@ -200,11 +200,11 @@
     		"sum_vfanout": 222609,
     		"dependencies_density": 0.0015862,
     		"prop_cost": 0.021658,
-    		"core_size": 791,
-    		"periphery_size": 789,
-    		"shared_size": 821,
-    		"control_size": 802,
-    		"percent_in_core": 0.27852113
+    		"core_size": 731,
+    		"periphery_size": 757,
+    		"shared_size": 859,
+    		"control_size": 859,
+    		"percent_in_core": 0.25739437
 		}]
     },
     {
@@ -223,11 +223,11 @@
     		"sum_vfanout": 10739,
     		"dependencies_density": 0.007396,
     		"prop_cost": 0.030131,
-    		"core_size": 124,
-    		"periphery_size": 121,
-    		"shared_size": 191,
-    		"control_size": 158,
-    		"percent_in_core": 0.20945946
+    		"core_size": 105,
+    		"periphery_size": 144,
+    		"shared_size": 192,
+    		"control_size": 156,
+    		"percent_in_core": 0.17736486
 		}]
     },
     {
@@ -246,11 +246,11 @@
     		"sum_vfanout": 16284,
     		"dependencies_density": 0.00662,
     		"prop_cost": 0.042914,
-    		"core_size": 244,
-    		"periphery_size": 386,
-    		"shared_size": 340,
-    		"control_size": 222,
-    		"percent_in_core": 0.39804241
+    		"core_size": 124,
+    		"periphery_size": 156,
+    		"shared_size": 152,
+    		"control_size": 184,
+    		"percent_in_core": 0.001631321
 		}]
     },
     {
@@ -269,11 +269,11 @@
     		"sum_vfanout": 281121,
     		"dependencies_density": 0.007062,
     		"prop_cost": 0.19752,
-    		"core_size": 244,
-    		"periphery_size": 386,
-    		"shared_size": 340,
-    		"control_size": 222,
-    		"percent_in_core": 0.20504202
+    		"core_size": 95,
+    		"periphery_size": 407,
+    		"shared_size": 478,
+    		"control_size": 213,
+    		"percent_in_core": 0.079831933
 		}]
     },
     {
@@ -292,11 +292,11 @@
     		"sum_vfanout": 334429,
     		"dependencies_density": 0.0021716,
     		"prop_cost": 0.064277,
-    		"core_size": 781,
-    		"periphery_size": 322,
-    		"shared_size": 817,
-    		"control_size": 359,
-    		"percent_in_core": 0.40174897
+    		"core_size": 422,
+    		"periphery_size": 646,
+    		"shared_size": 495,
+    		"control_size": 718,
+    		"percent_in_core": 0.21707819
 		}]
     },
     {
@@ -315,11 +315,11 @@
     		"sum_vfanout": 17788,
     		"dependencies_density": 0.0071303,
     		"prop_cost": 0.079172,
-    		"core_size": 126,
-    		"periphery_size": 114,
-    		"shared_size": 122,
-    		"control_size": 111,
-    		"percent_in_core": 0.26751592
+    		"core_size": 121,
+    		"periphery_size": 129,
+    		"shared_size": 108,
+    		"control_size": 116,
+    		"percent_in_core": 0.0021231423
 		}]
     }
 ]}
