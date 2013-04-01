@@ -8,6 +8,10 @@ var point_size = 0.5,
 var data_v16,
 	data_v17;
 	
+var chart_data_already_loaded = false,
+	matrix_data_already_loaded = false,
+	network_data_already_loaded = false;
+	
 var version = ["1", "1.5", "2", "3", "3.5", "3.6", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"];
 
 var metrics_nice = new Object();
@@ -17,38 +21,52 @@ metrics_nice["dependencies_density"] = "Dependency density";
 metrics_nice["prop_cost"] = "Propagation cost";
 metrics_nice["percent_in_core"] = "Core size";
 metrics_nice["sum_fanin"] = "Direct dependencies";
-metrics_nice["sum_vfanin"] = "Reachability";
+metrics_nice["sum_vfanin"] = "Indirect dependencies";
 
-$(document).ready(function () {	
+$(document).ready(function () {
 	//other initializations
 	$("select, input, a.button, button").uniform();
 
-	getDataFiles();
-	drawCharts();
-	assignEventListeners();
+	//show chart view by default
+	$("#main_options a#switch_to_chart div div.selected_view").show();
+	$("#chart_view").show();
+	loadChartView();
 	
-	$("#loc_code")
-		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["loc_code"] + "</div>");
-		
-	$("#mccabe_per_kloc_code")
-		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["mccabe_per_kloc_code"] + "</div>");
-		
-	$("#prop_cost")
-		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["prop_cost"] + "</div>");
-		
-	$("#percent_in_core")
-		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["percent_in_core"] + "</div>");
-		
-	$("#sum_fanin")
-		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["sum_fanin"] + "</div>");
-		
-	$("#sum_vfanin")
-		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["sum_vfanin"] + "</div>");
-		
 	$(".version_arrow").delay(1500).fadeIn("slow");
+	
+	assignEventListeners();
 });
 
 function assignEventListeners() {
+	$("#switch_to_matrix").on("click", function() {
+		//$("#metric").html($("#matrix_view").html());
+		$(".view").hide();
+		$("#matrix_view").show();
+		
+		$("#main_options a div div.selected_view").hide();
+		$("#main_options a#switch_to_matrix div div.selected_view").show();
+		loadMatrixView();
+	});
+	
+	$("#switch_to_chart").on("click", function() {
+		$(".view").hide();
+		$("#chart_view").show();
+		
+		$("#main_options a div div.selected_view").hide();
+		$("#main_options a#switch_to_chart div div.selected_view").show();
+		loadChartView();
+	});
+	
+	$("#switch_to_network").on("click", function() {
+		$(".view").hide();
+		$("#network_view").show();
+		
+		$("#main_options a div div.selected_view").hide();
+		$("#main_options a#switch_to_network div div.selected_view").show();
+		loadNetworkView();
+	});
+	
+
 	$(".version_arrow").on("mouseenter", function(d) {
 		$(this).css("opacity", 1);
 		
@@ -63,12 +81,12 @@ function assignEventListeners() {
 	
 	
 	
-	$("#metric div").on("mouseenter", function(d) {//console.log($(this).attr("id"));
+	$("#metric #chart_view div").on("mouseenter", function(d) {//console.log($(this).attr("id"));
 		$("#" + $(this).attr("id") + " .module_name_box").show();
 		$("#" + $(this).attr("id") + " .module_name").show();
 	});
 	
-	$("#metric div").on("mouseleave", function(d) {//console.log($(this).attr("id"));
+	$("#metric #chart_view div").on("mouseleave", function(d) {//console.log($(this).attr("id"));
 		$("#" + $(this).attr("id") + " .module_name_box").hide();
 		$("#" + $(this).attr("id") + " .module_name").hide();
 		
@@ -148,6 +166,44 @@ function assignEventListeners() {
 	});*/
 }
 
+function loadChartView() {
+	if(chart_data_already_loaded) return;
+	
+	getDataFiles();
+	drawCharts();
+	
+	$("#loc_code")
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["loc_code"] + "</div>");
+		
+	$("#mccabe_per_kloc_code")
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["mccabe_per_kloc_code"] + "</div>");
+		
+	$("#prop_cost")
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["prop_cost"] + "</div>");
+		
+	$("#percent_in_core")
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["percent_in_core"] + "</div>");
+		
+	$("#sum_fanin")
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["sum_fanin"] + "</div>");
+		
+	$("#sum_vfanin")
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["sum_vfanin"] + "</div>");
+}
+
+function loadMatrixView() {
+	if(matrix_data_already_loaded) return;
+	drawCanvas();
+}
+
+function loadNetworkView() {
+	if(network_data_already_loaded) return;
+	//todo
+	
+	network_data_already_loaded = true;
+}
+
+
 function getDataFiles() {
 	d3.json("data/firefox16_module_breakdown.json", function(d_v16) {
 	 	d3.json("data/firefox17_module_breakdown.json", function(d_v17) {
@@ -156,13 +212,13 @@ function getDataFiles() {
 	 		data_v16.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
 	 		data_v17.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
 	 		
-			drawMetric("#metric #loc_code", ["loc_code", "loc_code"], "", 0);
-			drawMetric("#metric #mccabe_per_kloc_code", ["mccabe_per_kloc_code", "mccabe_per_kloc_code"], "", 0);
+			drawMetric("#metric #chart_view #loc_code", ["loc_code", "loc_code"], "", 0);
+			drawMetric("#metric #chart_view #mccabe_per_kloc_code", ["mccabe_per_kloc_code", "mccabe_per_kloc_code"], "", 0);
 			//drawMetric("#metric", ["loc_code", "dependencies_density"], "", 1);
-			drawMetric("#metric #prop_cost", ["prop_cost", "prop_cost"], "", 1);
-			drawMetric("#metric #percent_in_core", ["percent_in_core", "percent_in_core"], "", 1);
-			drawMetric("#metric #sum_fanin", ["sum_fanin", "sum_fanin"], "", 0);
-			drawMetric("#metric #sum_vfanin", ["sum_vfanin", "sum_vfanin"], "", 0);	 
+			drawMetric("#metric #chart_view #prop_cost", ["prop_cost", "prop_cost"], "", 1);
+			drawMetric("#metric #chart_view #percent_in_core", ["percent_in_core", "percent_in_core"], "", 1);
+			drawMetric("#metric #chart_view #sum_fanin", ["sum_fanin", "sum_fanin"], "", 0);
+			drawMetric("#metric #chart_view #sum_vfanin", ["sum_vfanin", "sum_vfanin"], "", 0);	 
 	 	})	
 	 });
 }
@@ -360,6 +416,8 @@ function drawCharts() {
 			drawEachChart(eval("data."+id), "#chart_container_container #" + id, format, humanify_numbers, custom_units, splice_from);
 		});
 	});
+	
+	chart_data_already_loaded = true;
 }
 
 function drawEachChart(data, container, format, humanify_numbers, custom_units, splice_from) {
@@ -687,17 +745,18 @@ function drawCanvas(container) {
 		
 
 	d3.csv(data_file_a, function(data) {
-		draw(data, ctx_a);
+		draw(data, ctx_a, false);
 	});
 	
 	d3.csv(data_file_b, function(data) {
-		draw(data, ctx_b);
+		draw(data, ctx_b, true);
 	});
 	
+	matrix_data_already_loaded = true;
 }
 
 
-function draw(data, which_canvas) {
+function draw(data, which_canvas, last_one) {
 		var total_deps = 0,
 			nnz = data.length,
 			max_from_file,
@@ -745,6 +804,12 @@ function draw(data, which_canvas) {
 			which_canvas.font="8px sans-serif";
 			which_canvas.fillText(d.from_file, xScale(d.to_file), yScale(d.from_file));*/
 		});		
+		
+		
+		if(last_one) {
+			console.log("done");
+			$("#loading_matrices").delay(2000).fadeOut();
+		}
 }
 
 function addCommas(nStr) {

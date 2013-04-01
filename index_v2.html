@@ -9,6 +9,7 @@
 	<link href='https://fonts.googleapis.com/css?family=Cardo' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Signika:400,300' rel='stylesheet' type='text/css'>
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css" />
+   	<link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Old+Standard+TT:400,400italic,700' rel='stylesheet' type='text/css'>
 	<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
@@ -21,16 +22,24 @@
   </head>
   <body>
   	<div id="main_options">
-			<a href="#"><div style="border-right:1px solid #3b3b3b">
-				MATRIX
-			</div></a>
-			<a href="#"><div style="border-right:1px solid #3b3b3b">
-				<span class="selected">CHART</span>
-				<div class="selected_view"></div>
-			</div></a>
-			<a href="#"><div>
-				NETWORK
-			</div></a>
+			<a href="#" id="switch_to_matrix">
+				<div style="border-right:1px solid #3b3b3b">
+					MATRIX
+					<div class="selected_view"></div>
+				</div>
+			</a>
+			<a href="#" id="switch_to_chart">
+				<div style="border-right:1px solid #3b3b3b">
+					CHART
+					<div class="selected_view"></div>
+				</div>
+			</a>
+			<a href="#" id="switch_to_network">
+				<div>
+					NETWORK
+					<div class="selected_view"></div>
+				</div>
+			</a>
 	</div>
 		
 	<div id="page">		
@@ -44,12 +53,30 @@
 			<a href="#"><img src="images/rhs_right.png" id="rhs_right" class="version_arrow" /></a>
 		</div>
 		<div id="metric">
-			<div id="loc_code" class="topmetric"></div>
-			<div id="mccabe_per_kloc_code" class="topmetric"></div>
-			<div id="prop_cost" class="topmetric"></div>
-			<div id="percent_in_core" class="topmetric"></div>
-			<div id="sum_fanin" class="topmetric"></div>
-			<div id="sum_vfanin" class="topmetric"></div>
+			<div id="chart_view" class="view">
+				<div id="loc_code" class="topmetric"></div>
+				<div id="mccabe_per_kloc_code" class="topmetric"></div>
+				<div id="prop_cost" class="topmetric"></div>
+				<div id="percent_in_core" class="topmetric"></div>
+				<div id="sum_fanin" class="topmetric"></div>
+				<div id="sum_vfanin" class="topmetric"></div>
+			</div>
+			<div id="matrix_view" class="view">
+				<!--<div id="labels">
+					<div id="lhs">Firefox 16</div>
+					<div id="rhs">Firefox 17</div>
+				</div>-->
+				<div id="canvases">
+					<div id="loading_matrices">GENERATING MATRICES</div>
+					<canvas id="canvas1" width="600" height="600"></canvas>
+					<canvas id="canvas2" width="600" height="600"></canvas>
+				</div>
+			</div>
+			<div id="network_view" class="view">
+				<div style="margin-left:auto;margin-right:auto;text-align:center;margin-top:20px">
+					<img src="http://25.media.tumblr.com/tumblr_lo576hVkgi1qgwon1o1_500.jpg" />
+				</div>
+			</div>
 		</div>
 		
 		<div style="clear:both"></div>
@@ -97,7 +124,7 @@
 				
 				<div class="chart_description">
 					<h1>Propagation cost</h1>
-					<p>Propagation cost measures direct as well as indirect dependencies between the files in a code-base, which is a more vivid view of a system's interdependencies. A number of studies have shown that propagation cost is a significant positive predictor of software quality<sup>2</sup>.  Propagation cost is defined as <i>propagation cost = (&Sigma;rows)/m<sup>2</sup></i>, where m is the matrix width/height.</p>
+					<p>Propagation cost measures direct as well as indirect dependencies between the files in a code-base, which is a more vivid view of a system's interdependencies. A number of studies have shown that propagation cost is a significant positive predictor of software quality<sup>2</sup>.  Propagation cost is defined as <i>propagation cost = (&Sigma;rows)/m<sup>2</sup></i>, where m is the matrix height.</p>
 					<p>The process of transforming a first-order dependency matrix that captures only direct dependencies between files to a visibility matrix that captures indirect dependencies as well can be achieved through matrix multiplication. To obtain a visibility matrix, a matrix is raised to successive powers of n, where n represents path lengths. Put differently, that means that if the matrix is raised to the power of two, it would then show the indirect dependencies between elements that have a path length of two, i.e. calls from A to C, if A calls B and B calls C. Thereafter, by summing these matrices together one gets the visibility matrix, V. For this ripple effect to be useful for analysis, it is captured within a metric called propagation cost.</p>
 					<p style='font-size:80%'><sup>2</sup> MacCormack, A. et al, <i>Exploring the Structure of Complex Software Designs: An Empirical Study of Open Source and Proprietary Code</i> (2006).</p>
 				</div>
@@ -163,7 +190,8 @@
 			</div>
 		</div>
 	</div>
-	
+
+		
 	<script>
 		var images = [
 			'images/lhs_left.png',
