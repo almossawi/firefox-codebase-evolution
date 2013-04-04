@@ -1,13 +1,66 @@
 "use strict";
 
-var point_size = 0.5,
-	alpha = 0.2,
+var point_size = 0.6,
+	alpha = 0.4,
 	max_version = 17,
 	pause = false;
 	
 var data_v16,
 	data_v17;
+
+var modules = ["accessible", "browser", "content", "dom", "gfx", "ipc", "js", "layout", "media", "modules", "netwerk", "security", "toolkit", "widget"];
+
+var module_colors = new Object();
+	module_colors["-"] = "199,244,100"; //from, to - Java classes, python libs, etc...
+	module_colors["accessible"] = "199, 23, 13";
+	module_colors["browser"] = "240,198,98";
+	module_colors["content"] = "84,215,71";
+	module_colors["dom"] = "186,0,209";
+	module_colors["gfx"] = "0, 210, 255";
+	module_colors["ipc"] = "48, 255, 228";
+	module_colors["js"] = "255, 150, 48";
+	module_colors["layout"] = "227, 50, 88";
+	module_colors["media"] = "145,177,123";
+	module_colors["modules"] = "26, 164, 4";
+	module_colors["netwerk"] = "92, 100, 196";
+	module_colors["security"] = "140,102,113";
+	module_colors["toolkit"] = "93,48,27";
+	module_colors["widget"] = "12,73,153";
+
+var matrix_v16_modules = new Object();
+	matrix_v16_modules["-"] = [0,637];
+	matrix_v16_modules["accessible"] = [638,1073];
+	matrix_v16_modules["browser"] = [1094,2507];
+	matrix_v16_modules["content"] = [2721,5361];
+	matrix_v16_modules["dom"] = [5544,8825];
+	matrix_v16_modules["gfx"] = [9520,11713];
+	matrix_v16_modules["ipc"] = [12665,13479];
+	matrix_v16_modules["js"] = [13480,19593];
+	matrix_v16_modules["layout"] = [19594,24684];
+	matrix_v16_modules["media"] = [24695,27484];
+	matrix_v16_modules["modules"] = [28591,29187];
+	matrix_v16_modules["netwerk"] = [29212,29860];
+	matrix_v16_modules["security"] = [30926,32117];
+	matrix_v16_modules["toolkit"] = [32842,34754];
+	matrix_v16_modules["widget"] = [35372,35845];
 	
+var matrix_v17_modules = new Object();
+	matrix_v17_modules["-"] = [0,667];
+	matrix_v17_modules["accessible"] = [668,1105];
+	matrix_v17_modules["browser"] = [1128,2592];
+	matrix_v17_modules["content"] = [2818,5516];
+	matrix_v17_modules["dom"] = [5704,9188];
+	matrix_v17_modules["gfx"] = [9891,12162];
+	matrix_v17_modules["ipc"] = [13115,13936];
+	matrix_v17_modules["js"] = [13937,20057];
+	matrix_v17_modules["layout"] = [20058,25209];
+	matrix_v17_modules["media"] = [25210,28056];
+	matrix_v17_modules["modules"] = [29181,29776];
+	matrix_v17_modules["netwerk"] = [29802,30451];
+	matrix_v17_modules["security"] = [31525,32720];
+	matrix_v17_modules["toolkit"] = [33457,35414];
+	matrix_v17_modules["widget"] = [36031,36511];
+		
 var chart_data_already_loaded = false,
 	matrix_data_already_loaded = false,
 	network_data_already_loaded = false;
@@ -45,7 +98,10 @@ function assignEventListeners() {
 		
 		$("#main_options a div div.selected_view").hide();
 		$("#main_options a#switch_to_matrix div div.selected_view").show();
-		loadMatrixView();
+		
+		setTimeout(function() {
+			loadMatrixView();
+		}, 1000);
 	});
 	
 	$("#switch_to_chart").on("click", function() {
@@ -194,6 +250,7 @@ function loadChartView() {
 function loadMatrixView() {
 	if(matrix_data_already_loaded) return;
 	drawCanvas();
+	addModulesLegend();
 }
 
 function loadNetworkView() {
@@ -203,6 +260,12 @@ function loadNetworkView() {
 	network_data_already_loaded = true;
 }
 
+function addModulesLegend() {
+	//add legend
+	for(var i=0; i < modules.length; i++) {
+		$("#modules_legend").append("<div style='background-color:rgb(" + module_colors[modules[i]] + ")'>" + modules[i] + "</div> ");
+	}
+}
 
 function getDataFiles() {
 	d3.json("data/firefox16_module_breakdown.json", function(d_v16) {
@@ -745,18 +808,18 @@ function drawCanvas(container) {
 		
 
 	d3.csv(data_file_a, function(data) {
-		draw(data, ctx_a, false);
+		draw(data, ctx_a, false, matrix_v16_modules);
 	});
 	
 	d3.csv(data_file_b, function(data) {
-		draw(data, ctx_b, true);
+		draw(data, ctx_b, true, matrix_v17_modules);
 	});
 	
 	matrix_data_already_loaded = true;
 }
 
 
-function draw(data, which_canvas, last_one) {
+function draw(data, which_canvas, last_one, which_version) {
 		var total_deps = 0,
 			nnz = data.length,
 			max_from_file,
@@ -788,10 +851,10 @@ function draw(data, which_canvas, last_one) {
 	    var yScale = d3.scale.linear()
     	    .domain([yMin, yMax])
         	.range([0, length]);
-	
+
 		//a circle per observation
 		$.each(data, function(i, d) {
-			which_canvas.fillStyle = "rgba(235, 235, 235, " + alpha + ")";
+			which_canvas.fillStyle = getModuleColor(d, which_version);
 			which_canvas.beginPath();
 			which_canvas.rect(xScale(d.to_file), yScale(d.from_file), point_size, point_size)
 			which_canvas.closePath();
@@ -810,6 +873,106 @@ function draw(data, which_canvas, last_one) {
 			console.log("done");
 			$("#loading_matrices").delay(2000).fadeOut();
 		}
+}
+
+function getModuleColor(d, which_version) {
+	for(var i=0; i < modules.length; i++) {
+		if((d.from_file <= which_version[modules[i]][1] && d.from_file >= which_version[modules[i]][0])
+			|| (d.to_file <= which_version[modules[i]][1] && d.to_file >= which_version[modules[i]][0])
+		) {
+			return "rgba(" + module_colors[modules[i]] + "," + alpha + ")";
+		}
+	}
+	
+	//return white
+	return "rgba(236, 235, 235," + alpha + ")";
+	
+	/*if((d.from_file <= which_version["accessible"][1] && d.from_file >= which_version["accessible"][0])
+			&& (d.to_file <= which_version["accessible"][1] && d.to_file >= which_version["accessible"][0])
+		) {
+		return "rgba(" + module_colors["accessible"][0] + "," + alpha + ")";
+	}
+	//browser
+	else if((d.from_file <= which_version["browser"][1] && d.from_file >= which_version["browser"][0])
+			&& (d.to_file <= which_version["browser"][1] && d.to_file >= which_version["browser"][0])
+		) {
+		return "rgba(" + module_colors["browser"][0] + "," + alpha + ")";
+	}
+	//content
+	else if((d.from_file <= which_version["content"][1] && d.from_file >= which_version["content"][0])
+			&& (d.to_file <= which_version["content"][1] && d.to_file >= which_version["content"][0])
+		) {
+		return "rgba(" + module_colors["content"][0] + "," + alpha + ")";
+	}	
+	//dom
+	else if((d.from_file <= which_version["dom"][1] && d.from_file >= which_version["dom"][0])
+			&& (d.to_file <= which_version["dom"][1] && d.to_file >= which_version["dom"][0])
+		) {
+		return "rgba(" + module_colors["dom"][0] + "," + alpha + ")";
+	}
+	//gfx
+	else if((d.from_file <= which_version["gfx"][1] && d.from_file >= which_version["gfx"][0])
+			&& (d.to_file <= which_version["gfx"][1] && d.to_file >= which_version["gfx"][0])
+		) {
+		return "rgba(" + module_colors["gfx"][0] + "," + alpha + ")";
+	}	
+	//js
+	else if((d.from_file <= which_version["js"][1] && d.from_file >= which_version["js"][0])
+			&& (d.to_file <= which_version["js"][1] && d.to_file >= which_version["js"][0])
+		) {
+		return "rgba(" + module_colors["js"][0] + "," + alpha + ")";
+	}		
+	//ipc
+	else if((d.from_file <= which_version["ipc"][1] && d.from_file >= which_version["ipc"][0])
+			&& (d.to_file <= which_version["ipc"][1] && d.to_file >= which_version["ipc"][0])
+		) {
+		return "rgba(" + module_colors["ipc"][0] + "," + alpha + ")";
+	}			
+	//layout
+	else if((d.from_file <= which_version["layout"][1] && d.from_file >= which_version["layout"][0])
+			&& (d.to_file <= which_version["layout"][1] && d.to_file >= which_version["layout"][0])
+		) {
+		return "rgba(" + module_colors["layout"][0] + "," + alpha + ")";
+	}			
+	//media
+	else if((d.from_file <= which_version["media"][1] && d.from_file >= which_version["media"][0])
+			&& (d.to_file <= which_version["media"][1] && d.to_file >= which_version["media"][0])
+		) {
+		return "rgba(" + module_colors["media"][0] + "," + alpha + ")";
+	}				
+	//modules
+	else if((d.from_file <= which_version["modules"][1] && d.from_file >= which_version["modules"][0])
+			&& (d.to_file <= which_version["modules"][1] && d.to_file >= which_version["modules"][0])
+		) {
+		return "rgba(" + module_colors["modules"][0] + "," + alpha + ")";
+	}				
+	//netwerk
+	else if((d.from_file <= which_version["netwerk"][1] && d.from_file >= which_version["netwerk"][0])
+			&& (d.to_file <= which_version["netwerk"][1] && d.to_file >= which_version["netwerk"][0])
+		) {
+		return "rgba(" + module_colors["netwerk"][0] + "," + alpha + ")";
+	}	
+	//security
+	else if((d.from_file <= which_version["security"][1] && d.from_file >= which_version["security"][0])
+			&& (d.to_file <= which_version["security"][1] && d.to_file >= which_version["security"][0])
+		) {
+		return "rgba(" + module_colors["security"][0] + "," + alpha + ")";
+	}
+	//toolkit
+	else if((d.from_file <= which_version["toolkit"][1] && d.from_file >= which_version["toolkit"][0])
+			&& (d.to_file <= which_version["toolkit"][1] && d.to_file >= which_version["toolkit"][0])
+		) {
+		return "rgba(" + module_colors["toolkit"][0] + "," + alpha + ")";
+	}	
+	//widget
+	else if((d.from_file <= which_version["widget"][1] && d.from_file >= which_version["widget"][0])
+			&& (d.to_file <= which_version["widget"][1] && d.to_file >= which_version["widget"][0])
+		) {
+		return "rgba(" + module_colors["widget"][0] + "," + alpha + ")";
+	}		
+	else {
+		return "rgba(236, 235, 235," + alpha + ")";
+	}*/
 }
 
 function addCommas(nStr) {

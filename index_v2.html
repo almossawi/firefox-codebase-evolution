@@ -4,7 +4,6 @@
   <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 	<title>The evolution of the Firefox codebase</title>
-	<link rel="stylesheet" href="css/styles.css" type="text/css" charset="utf-8" />
 	
 	<link href='https://fonts.googleapis.com/css?family=Cardo' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Signika:400,300' rel='stylesheet' type='text/css'>
@@ -19,6 +18,9 @@
 	<script src="http://d3js.org/d3.v3.min.js"></script>
    	<script type="text/javascript" src="js/global.js"></script>
    	<script type="text/javascript" src="js/jquery.uniform.min.js" charset="utf-8"></script>
+   	
+   	<link rel="stylesheet" href="css/styles.css" type="text/css" charset="utf-8" />
+	<link rel="stylesheet" href="css/uniform.default.css" type="text/css" charset="utf-8" />
   </head>
   <body>
   	<div id="main_options">
@@ -67,9 +69,17 @@
 					<div id="rhs">Firefox 17</div>
 				</div>-->
 				<div id="canvases">
-					<div id="loading_matrices">GENERATING MATRICES</div>
-					<canvas id="canvas1" width="600" height="600"></canvas>
-					<canvas id="canvas2" width="600" height="600"></canvas>
+					<div id="loading_matrices">Generating matrices...</div>
+					<canvas id="canvas1" width="500" height="500"></canvas>
+					<canvas id="canvas2" width="500" height="500"></canvas>
+				</div>
+				
+				<div id="modules_legend"></div>
+				<div id="matrix_options">
+					<input type="radio" name="matrix_showallcalls" value="1" checked> <label>color all dependencies</label> &nbsp; <input type="radio" name="matrix_showallcalls" value="0"> <label>color only inter-module dependencies</label>
+				</div>
+				<div id="matrix_description">
+					<p>These matrices show direct dependencies between files.  A dot represents one or more dependencies and is read <i>A depends on B</i>, where A is a file along the left edge and B is a file along the top edge.  A module's dependencies are colored distinctly.  A square-shaped cluster indicates the density of dependencies within a module.  An ideal system that affords modularity and hence ensures higher quality would have modules that have more dependencies between files within modules and fewer dependencies between files in different modules, or put differently, it would have low coupling.</p>
 				</div>
 			</div>
 			<div id="network_view" class="view">
@@ -103,7 +113,7 @@
 						
 				<div class="chart_description">
 					<h1>LOC</h1>
-					<p>LOC measures the number executable lines of code in each release, and so it ignores comments and blank lines.  Studies have shown that the measure tends to have an inverse relationship with defect density, that is to say, a larger system size has a smaller defect density, though other studies show it to be curvilinear relationship: defect density decreases linearly as system size increases only to then curve up at the tail<sup>1</sup>.</p>
+					<p>LOC measures the number executable lines of code in each release, and so it ignores comments and blank lines.  Studies have shown that the measure tends to have an inverse relationship with defect density, that is to say, a larger system size has a smaller defect density, though other studies show it to be curvilinear relationship: defect density decreases linearly as system size increases only to then curve up at the tail<sup>1</sup>.  Here, unit tests are not included in the set of analyzed files, whereas in the matrices, charts and graphs above, they are.</p>
 					<p style='font-size:80%'><sup>1</sup> Kahn, S., Metrics and Models in Software Quality (2002).</p>
 				</div>
 				<div class="chart_container" id="allversions_loc_code">
