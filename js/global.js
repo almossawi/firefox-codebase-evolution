@@ -1,9 +1,11 @@
 "use strict";
 
-var point_size = 0.6,
-	alpha = 0.4,
+var point_size = 0.8,
+	alpha = 0.3,
 	max_version = 17,
-	pause = false;
+	pause = false,
+	matrix_load_delay = 0,
+	use_raster_for_matrix = false;
 	
 var data_v16,
 	data_v17;
@@ -24,7 +26,7 @@ var module_colors = new Object();
 	module_colors["modules"] = "26, 164, 4";
 	module_colors["netwerk"] = "92, 100, 196";
 	module_colors["security"] = "140,102,113";
-	module_colors["toolkit"] = "93,48,27";
+	module_colors["toolkit"] = "255,133,52";
 	module_colors["widget"] = "12,73,153";
 
 var matrix_v16_modules = new Object();
@@ -85,12 +87,64 @@ $(document).ready(function () {
 	$("#chart_view").show();
 	loadChartView();
 	
+	//add legend on page load to save time
+	addModulesLegend();
+	
 	$(".version_arrow").delay(1500).fadeIn("slow");
 	
 	assignEventListeners();
 });
 
 function assignEventListeners() {
+	$("#modules_legend div").off("mouseover");
+	$("#modules_legend div").off("mouseout");
+	$("#rhs_left").off("click");
+	$("#rhs_right").off("click");
+	$("#lhs_left").off("click");
+	$("#lhs_right").off("click");
+	$("#switch_to_matrix").off("click");
+	$("#switch_to_chart").off("click");
+	$("#switch_to_network").off("click");
+	$(".version_arrow").off("mouseenter");
+	$(".version_arrow").off("mouseleave");
+	
+	$("#modules_legend div").on("mouseover", function(d) {
+		var srcE = d.srcElement ? d.srcElement : d.target;
+		var id = $(srcE).attr("id");
+		$(".left_overlay_" + id).show();
+	});
+	
+	$("#modules_legend div").on("mouseout", function(d) {
+		var srcE = d.srcElement ? d.srcElement : d.target;
+		var id = $(srcE).attr("id");
+		$(".left_overlay_" + id).hide();
+	});
+	
+	
+	$("#rhs_left").on("click", function() {
+		console.log("1");
+		//alert("Switching between releases is currently being worked on.");
+		return false;
+	});
+	
+	$("#rhs_right").on("click", function() {
+		console.log("2");
+		//alert("Switching between releases is currently being worked on.");
+		return false;
+	});
+	
+	$("#lhs_left").on("click", function() {
+		console.log("3");
+		//alert("Switching between releases is currently being worked on.");
+		return false;
+	});
+	
+	$("#lhs_right").on("click", function() {
+		console.log("4");
+		//alert("Switching between releases is currently being worked on.");
+		return false;
+	});
+	
 	$("#switch_to_matrix").on("click", function() {
 		//$("#metric").html($("#matrix_view").html());
 		$(".view").hide();
@@ -100,8 +154,15 @@ function assignEventListeners() {
 		$("#main_options a#switch_to_matrix div div.selected_view").show();
 		
 		setTimeout(function() {
-			loadMatrixView();
-		}, 1000);
+			//png
+			if(use_raster_for_matrix) {
+				$("#loading_matrices").hide();
+				matrix_data_already_loaded = true;
+			}
+			//canvas
+			else
+				loadMatrixView();
+		}, matrix_load_delay);
 	});
 	
 	$("#switch_to_chart").on("click", function() {
@@ -207,19 +268,6 @@ function assignEventListeners() {
 			.css("fill", "#4898ff");
 			
 	});
-			
-	/*$("svg rect.module_bar").on("mouseleave", function(d) {
-		var module_name = $(d.srcElement).attr("class").split(' ')[0];	
-		
-		$("svg.left rect.module_bar." + module_name)
-			.css("fill", "#594F4F");
-			
-		$(".module_name_box." + module_name)
-			.css("fill", "#594F4F");
-			
-		$("svg.right rect.module_bar." + module_name)
-			.css("fill", "#76B0D8");
-	});*/
 }
 
 function loadChartView() {
@@ -261,9 +309,11 @@ function loadNetworkView() {
 }
 
 function addModulesLegend() {
+	$("#modules_legend").empty();
+	
 	//add legend
 	for(var i=0; i < modules.length; i++) {
-		$("#modules_legend").append("<div style='background-color:rgb(" + module_colors[modules[i]] + ")'>" + modules[i] + "</div> ");
+		$("#modules_legend").append("<div id='" + modules[i] + "' style='background-color:rgb(" + module_colors[modules[i]] + ")'>" + modules[i] + "</div> ");
 	}
 }
 
@@ -677,7 +727,7 @@ function drawEachChart(data, container, format, humanify_numbers, custom_units, 
 							d3.select(which_metric + " svg")
 								.append("svg:rect")
 									.attr("width", 44)
-									.attr("height", 15)
+									.attr("height", 17)
 									.attr("x", xScale(i)-22)
 									.attr("y", yScale(d)-25)
 									.attr("class", "tooltip_box");
@@ -818,6 +868,37 @@ function drawCanvas(container) {
 	matrix_data_already_loaded = true;
 }
 
+//todo
+/*function addMatrixOverlays() {
+	//todo kruge
+	var max_file_v16 = 36512,
+		max_file_v17 = 37172;
+		
+	//add our scales
+	var scale_v16 = d3.scale.linear()
+    	    .domain([0, max_file_v16])
+        	.range([0, 500]);
+        	
+    var scale_v17 = d3.scale.linear()
+    	    .domain([0, max_file_v17])
+        	.range([0, 500]);
+    
+    
+    addMatrixOverlayForEach(matrix_v16_modules, scale_v16, "#canvas1");
+    addMatrixOverlayForEach(matrix_v17_modules, scale_v17, "#canvas2");
+}
+
+function addMatrixOverlayForEach(which_version, scale, container) {
+    for(var i=0; i < modules.length; i++) {console.log(scale(which_version[modules[i]][0]));
+    	//for each module, add a semitransparent div
+    	var html = "<div class='overlay' style='opacity:0.5;border-radius:8px;padding:4px;background-color:white;position:absolute;z-index:999999;"
+    			+ "margin-left:" + (Math.floor(scale(which_version[modules[i]][0]))) + "px;"
+    			+ "margin-top:" + Math.floor(scale(which_version[modules[i]][1]))+ "px'"
+    			+ ">" + modules[i] + "</div>";
+    			
+    	$(container).append(html);
+	}
+}*/
 
 function draw(data, which_canvas, last_one, which_version) {
 		var total_deps = 0,
@@ -825,7 +906,7 @@ function draw(data, which_canvas, last_one, which_version) {
 			max_from_file,
 			max_to_file,
 			max_file,
-			length = 650;
+			length = 500;
 			
 		max_from_file = d3.max(data, function(d) { return Number(d.from_file); });
 		max_to_file = d3.max(data, function(d) { return Number(d.to_file); });
@@ -878,7 +959,7 @@ function draw(data, which_canvas, last_one, which_version) {
 function getModuleColor(d, which_version) {
 	for(var i=0; i < modules.length; i++) {
 		if((d.from_file <= which_version[modules[i]][1] && d.from_file >= which_version[modules[i]][0])
-			|| (d.to_file <= which_version[modules[i]][1] && d.to_file >= which_version[modules[i]][0])
+			&& (d.to_file <= which_version[modules[i]][1] && d.to_file >= which_version[modules[i]][0])
 		) {
 			return "rgba(" + module_colors[modules[i]] + "," + alpha + ")";
 		}

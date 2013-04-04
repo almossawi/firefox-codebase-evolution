@@ -70,8 +70,22 @@
 				</div>-->
 				<div id="canvases">
 					<div id="loading_matrices">Generating matrices...</div>
+					
 					<canvas id="canvas1" width="500" height="500"></canvas>
 					<canvas id="canvas2" width="500" height="500"></canvas>
+					
+					<!--<div id="canvas1"><img src="images/matrix_v16_raster.png" /></div>
+					<div id="canvas2"><img src="images/matrix_v17_raster.png" /></div>-->
+					
+					<div class="left_overlay_accessible overlay" style='margin-left:115px;margin-top:15px;width:10px;height:10px'></div>
+					<div class="left_overlay_browser overlay" style='margin-left:123px;margin-top:23px;width:25px;height:25px'></div>
+					<div class="left_overlay_content overlay" style='margin-left:153px;margin-top:53px;width:50px;height:50px'></div>
+					<div class="left_overlay_dom overlay" style='margin-left:202px;margin-top:101px;width:62px;height:62px'></div>
+					<div class="left_overlay_gfx overlay" style='margin-left:273px;margin-top:170px;width:45px;height:45px'></div>
+					<div class="left_overlay_ipc overlay" style='margin-left:330px;margin-top:230px;width:15px;height:15px'></div>
+					<div class="left_overlay_js overlay" style='margin-left:345px;margin-top:243px;width:114px;height:114px'></div>
+					<div class="left_overlay_layout overlay" style='margin-left:453px;margin-top:352px;width:92px;height:92px'></div>
+					<div class="left_overlay_media overlay" style='margin-left:545px;margin-top:444px;width:51px;height:51px'></div>
 				</div>
 				
 				<div id="modules_legend"></div>
@@ -79,7 +93,7 @@
 					<input type="radio" name="matrix_showallcalls" value="1" checked> <label>color all dependencies</label> &nbsp; <input type="radio" name="matrix_showallcalls" value="0"> <label>color only inter-module dependencies</label>
 				</div>
 				<div id="matrix_description">
-					<p>These matrices show direct dependencies between files.  A dot represents one or more dependencies and is read <i>A depends on B</i>, where A is a file along the left edge and B is a file along the top edge.  A module's dependencies are colored distinctly.  A square-shaped cluster indicates the density of dependencies within a module.  An ideal system that affords modularity and hence ensures higher quality would have modules that have more dependencies between files within modules and fewer dependencies between files in different modules, or put differently, it would have low coupling.</p>
+					<p>These matrices show direct dependencies between files.  A dot represents one or more dependencies and is read <i>A depends on B</i>, where A is a file along the left edge and B is a file along the top edge.  A module's dependencies are colored distinctly.  A square-shaped cluster indicates the density of dependencies within a module.  In many paradigms, modularity (low coupling, high cohesion) is a desirable quality attribute.  Hence, an ideal system has modules that have more intra-module dependencies and fewer inter-module dependencies.</p>
 				</div>
 			</div>
 			<div id="network_view" class="view">
