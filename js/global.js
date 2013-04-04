@@ -159,6 +159,8 @@ function assignEventListeners() {
 			else
 				loadMatrixView();
 		}, matrix_load_delay);
+		
+		return false;
 	});
 	
 	$("#switch_to_chart").on("click", function() {
@@ -168,6 +170,8 @@ function assignEventListeners() {
 		$("#main_options a div div.selected_view").hide();
 		$("#main_options a#switch_to_chart div div.selected_view").show();
 		loadChartView();
+		
+		return false;
 	});
 	
 	$("#switch_to_network").on("click", function() {
@@ -177,6 +181,8 @@ function assignEventListeners() {
 		$("#main_options a div div.selected_view").hide();
 		$("#main_options a#switch_to_network div div.selected_view").show();
 		loadNetworkView();
+		
+		return false;
 	});
 	
 

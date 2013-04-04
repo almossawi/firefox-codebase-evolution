@@ -173,13 +173,13 @@ canvas {
 }
 
 #canvas1 {
-	float:left /* remove when raster is selected */ 
-	margin-left:101px;
+	float:left; /* remove when raster is selected */ 
+	margin-left:112px;
 }
 
 #canvas2 {
-	float:left /* remove when raster is selected */ 
-	margin-left:650px;
+	float:left; /* remove when raster is selected */ 
+	margin-left:10px;
 }
 
 #canvases {
@@ -716,9 +716,12 @@ label {
 }
 
 .overlay {
-	display:none;
-	opacity:0.4;
-	background-color:white;
+	position:absolute;
+	opacity:0.1;
+	background-color:#F09609;
 	position:absolute;
 	z-index:999999;
+	margin-left:108px;
+	top:4px;
+	left:9px;
 }
