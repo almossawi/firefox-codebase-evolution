@@ -173,10 +173,12 @@ canvas {
 }
 
 #canvas1 {
+	float:left /* remove when raster is selected */ 
 	margin-left:101px;
 }
 
 #canvas2 {
+	float:left /* remove when raster is selected */ 
 	margin-left:650px;
 }
 
@@ -660,7 +662,7 @@ sub { top: 0.4em; }
 	margin-left:5px;
 	margin-right:5px;
 	display:inline;
-	border-radius:10px;
+	border-radius:2px;
 	color:white;
 }
 
@@ -706,7 +708,7 @@ label {
 }
 
 .shadow {
-	text-shadow:0.03em 0.03em #000000;
+	text-shadow:0.03em 0.1em #000000;
 }
 
 #unsupported {

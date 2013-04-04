@@ -1,7 +1,7 @@
 "use strict";
 
 var point_size = 0.8,
-	alpha = 0.3,
+	alpha = 0.2,
 	max_version = 17,
 	pause = false,
 	matrix_load_delay = 0,
@@ -20,13 +20,13 @@ var module_colors = new Object();
 	module_colors["dom"] = "186,0,209";
 	module_colors["gfx"] = "0, 210, 255";
 	module_colors["ipc"] = "48, 255, 228";
-	module_colors["js"] = "255, 150, 48";
+	module_colors["js"] = "240,150,9";
 	module_colors["layout"] = "227, 50, 88";
-	module_colors["media"] = "145,177,123";
-	module_colors["modules"] = "26, 164, 4";
+	module_colors["media"] = "140,191,38";
+	module_colors["modules"] = "51,153,51";
 	module_colors["netwerk"] = "92, 100, 196";
-	module_colors["security"] = "140,102,113";
-	module_colors["toolkit"] = "255,133,52";
+	module_colors["security"] = "0,171,169";
+	module_colors["toolkit"] = "45,109,255";
 	module_colors["widget"] = "12,73,153";
 
 var matrix_v16_modules = new Object();
@@ -122,26 +122,22 @@ function assignEventListeners() {
 	
 	
 	$("#rhs_left").on("click", function() {
-		console.log("1");
-		//alert("Switching between releases is currently being worked on.");
+		alert("Switching between releases is currently being worked on.");
 		return false;
 	});
 	
 	$("#rhs_right").on("click", function() {
-		console.log("2");
-		//alert("Switching between releases is currently being worked on.");
+		alert("Switching between releases is currently being worked on.");
 		return false;
 	});
 	
 	$("#lhs_left").on("click", function() {
-		console.log("3");
-		//alert("Switching between releases is currently being worked on.");
+		alert("Switching between releases is currently being worked on.");
 		return false;
 	});
 	
 	$("#lhs_right").on("click", function() {
-		console.log("4");
-		//alert("Switching between releases is currently being worked on.");
+		alert("Switching between releases is currently being worked on.");
 		return false;
 	});
 	
