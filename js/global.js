@@ -96,8 +96,6 @@ $(document).ready(function () {
 });
 
 function assignEventListeners() {
-	$("#modules_legend div").off("mouseover");
-	$("#modules_legend div").off("mouseout");
 	$("#rhs_left").off("click");
 	$("#rhs_right").off("click");
 	$("#lhs_left").off("click");
@@ -107,19 +105,6 @@ function assignEventListeners() {
 	$("#switch_to_network").off("click");
 	$(".version_arrow").off("mouseenter");
 	$(".version_arrow").off("mouseleave");
-	
-	$("#modules_legend div").on("mouseover", function(d) {
-		var srcE = d.srcElement ? d.srcElement : d.target;
-		var id = $(srcE).attr("id");
-		$(".left_overlay_" + id).show();
-	});
-	
-	$("#modules_legend div").on("mouseout", function(d) {
-		var srcE = d.srcElement ? d.srcElement : d.target;
-		var id = $(srcE).attr("id");
-		$(".left_overlay_" + id).hide();
-	});
-	
 	
 	$("#rhs_left").on("click", function() {
 		alert("Switching between releases is currently being worked on.");
@@ -272,6 +257,23 @@ function assignEventListeners() {
 	});
 }
 
+function assignDynamicContentEventListeners() {
+	$("#modules_legend div").off("mouseover");
+	$("#modules_legend div").off("mouseout");
+	
+	$("#modules_legend div").on("mouseover", function(d) {
+		var srcE = d.srcElement ? d.srcElement : d.target;
+		var id = $(srcE).attr("id");
+		$(".overlay_" + id).show();
+	});
+	
+	$("#modules_legend div").on("mouseout", function(d) {
+		var srcE = d.srcElement ? d.srcElement : d.target;
+		var id = $(srcE).attr("id");console.log(".overlay_" + id);
+		$(".overlay_" + id).hide();
+	});
+}
+
 function loadChartView() {
 	if(chart_data_already_loaded) return;
 	
@@ -299,8 +301,8 @@ function loadChartView() {
 
 function loadMatrixView() {
 	if(matrix_data_already_loaded) return;
-	drawCanvas();
 	addModulesLegend();
+	drawCanvas();
 }
 
 function loadNetworkView() {
@@ -314,9 +316,14 @@ function addModulesLegend() {
 	$("#modules_legend").empty();
 	
 	//add legend
-	for(var i=0; i < modules.length; i++) {
+	var i=0;
+	for(i; i < modules.length; i++) {
 		$("#modules_legend").append("<div id='" + modules[i] + "' style='background-color:rgb(" + module_colors[modules[i]] + ")'>" + modules[i] + "</div> ");
 	}
+	
+	setTimeout(function() {
+		assignDynamicContentEventListeners();
+	}, 1000);
 }
 
 function getDataFiles() {

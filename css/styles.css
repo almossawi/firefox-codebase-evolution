@@ -721,7 +721,14 @@ label {
 	background-color:#F09609;
 	position:absolute;
 	z-index:999999;
-	margin-left:108px;
 	top:4px;
 	left:9px;
+}
+
+.left_overlay {
+	margin-left:108px;
+}
+
+.right_overlay {
+	margin-left:630px;
 }
