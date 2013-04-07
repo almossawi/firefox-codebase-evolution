@@ -258,6 +258,8 @@ function assignEventListeners() {
 }
 
 function assignDynamicContentEventListeners() {
+	$("#close_modal_matrix").off("click");
+	$("#what_mean_matrix").off("click");
 	$("#modules_legend div").off("mouseover");
 	$("#modules_legend div").off("mouseout");
 	
@@ -272,6 +274,25 @@ function assignDynamicContentEventListeners() {
 		var id = $(srcE).attr("id");console.log(".overlay_" + id);
 		$(".overlay_" + id).hide();
 	});
+	
+	$("#what_mean_matrix").on("click", function() {
+		$("#matrix_modal").show();
+		
+		return false;
+	});
+	
+	$("#close_modal").on("click", function() {
+		$("#matrix_modal").hide();
+		
+		return false;
+	});
+	
+	$(document).keyup(function(e) {
+		if (e.keyCode == 27) {
+			$("#matrix_modal").hide();
+		}
+	});
+	
 }
 
 function loadChartView() {

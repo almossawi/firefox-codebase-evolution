@@ -219,7 +219,7 @@ canvas {
 	margin-right:auto;
 	margin-top:20px;
 	margin-bottom:30px;
-	height:3400px;
+	height:3450px;
 }
 
 .axis g text {
@@ -473,7 +473,7 @@ svg rect.module_bar_transparent {
 	border-top:1px solid #cccccc;
 	background-color:white;
 	position:relative;
-	height:2450px;
+	height:2500px;
 	width:1300px;
 	margin-top:0px;
 	padding-left:30px;
@@ -731,4 +731,46 @@ label {
 
 .right_overlay {
 	margin-left:630px;
+}
+
+#what_mean_matrix {
+	position:absolute;
+	bottom:-150px;
+	z-index:999999;
+	left:430px;
+}
+
+#matrix_modal {
+	display:none;
+	width:1030px;
+	height:680px;
+	color:#3b3b3b;
+	font-family:'PT Serif';
+	font-size:16px;
+	background-color:white;
+	opacity:0.95;
+	position:absolute;
+	left:30px;
+	top:-30px;
+	padding:30px;
+	padding-left:80px;
+	padding-right:80px;
+	z-index:9999999;
+	background-image:url(../images/bg-sand.png);
+	background-repeat:repeat;
+}
+
+#matrix_modal h1 {
+	font-family:'PT Sans';
+	font-weight:300;
+	font-size:34px;
+	margin-bottom:0;
+	padding-bottom:0;
+}
+
+#matrix_modal a#close_modal img {
+	border:0;
+	position:absolute;
+	right:10px;
+	top:10px;
 }

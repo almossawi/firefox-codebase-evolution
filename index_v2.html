@@ -86,6 +86,21 @@
 					<div class="overlay_js right_overlay overlay horizontal" style='width:500px;height:80px;top:190px'></div>
 					<div class="overlay_js right_overlay overlay vertical" style='width:80px;height:500px;left:197px'></div>
 					
+					
+					<a href="#" id="what_mean_matrix"><img src="images/what_mean.png" /></a>
+					
+					<div id="matrix_modal">
+						<a href="#" id="close_modal"><img src="images/x.png" /></a>
+						<h1>What does this mean?</h1>
+						<p>These matrices show direct dependencies between files in a code-base.  A dot represents one or more dependencies and is read</p>
+						<p style="text-align:center"><span style="font-style:italic;font-family:Palatino, Georgia, 'PT Serif', Times">file A depends on file B</span></p>
+						<p>where A is a file along the left edge and B is a file along the top edge.  A module's dependencies are colored distinctly.  A square-shaped cluster indicates the density of dependencies within a module.</p>
+						<p>All the dots to the right and left of a cluster are files that the module depends on.  All files above and below it are files that depend on it.  In many paradigms, modularity (low coupling, high cohesion) is a desirable quality attribute.  Hence, an ideal system has modules that have more intra-module dependencies and fewer inter-module dependencies.</p>
+						<p>A matrix can show different types of files, which have varying impacts on quality.  <strong>Shared files</strong>, also know as utility files, are ones that a lot of other files depend on; a shared file that every other file in a codebase depends on would appear as a solid vertical line in a square matrix.  Shared files appear to be a positive predictor of quality.</p>
+						<p><strong>Control files</strong>, conversely, depend on a high number of files.  Such files appear to be a negative predictor of quality and are hence undesirable in high numbers.  They appear as horizontal lines in a square-matrix.</p>
+						<p>Two other types of files are <strong>core files</strong>, which depend on a lot of files and have a lot of files depend on them, and <strong>periphery files</strong>, which don't depend on a lot of files and don't have a lot of files depend on them.  These may be a bit more difficult to spot in a matrix.  The collective size of clusters can give a partial sense of the number of core files in a codebase.  Core files seem to be a negative predictor of quality whereas periphery files seem to be a positive predictor of quality.</p>
+						<p></p>
+					</div>
 				</div>
 				
 				<div id="modules_legend"></div>
@@ -93,7 +108,7 @@
 					<input type="radio" name="matrix_showallcalls" value="1" checked> <label>color all dependencies</label> &nbsp; <input type="radio" name="matrix_showallcalls" value="0"> <label>color only inter-module dependencies</label>
 				</div>
 				<div id="matrix_description">
-					<p>These matrices show direct dependencies between files.  A dot represents one or more dependencies and is read <span style="font-style:italic;font-family:Palatino, Georgia, 'PT Serif', Times">file A depends on file B</span>, where A is a file along the left edge and B is a file along the top edge.  A module's dependencies are colored distinctly.  A square-shaped cluster indicates the density of dependencies within a module.  All the dots to the right and left of a cluster are files that the module depends on.  All files above and below it are files that depend on it.  In many paradigms, modularity (low coupling, high cohesion) is a desirable quality attribute.  Hence, an ideal system has modules that have more intra-module dependencies and fewer inter-module dependencies.</p>
+					<!--<p>These matrices show direct dependencies between files.  A dot represents one or more dependencies and is read <span style="font-style:italic;font-family:Palatino, Georgia, 'PT Serif', Times">file A depends on file B</span>, where A is a file along the left edge and B is a file along the top edge.  A module's dependencies are colored distinctly.  A square-shaped cluster indicates the density of dependencies within a module.  All the dots to the right and left of a cluster are files that the module depends on.  All files above and below it are files that depend on it.  In many paradigms, modularity, which is to say, low coupling and high cohesion, is a desirable quality attribute.  Hence, an ideal system has modules that have more intra-module dependencies and fewer inter-module dependencies.</p>-->
 				</div>
 			</div>
 			<div id="network_view" class="view">
@@ -107,8 +122,8 @@
 		
 		<div id="container">
 			<div style="margin-top:40px;text-align:left">
-				<p>This work presents a set of metrics for all releases of Firefox for Desktop that are indicative of quality.  By looking at changes in these metrics, one can see the evolution of the Firefox codebase over time.  They can also be useful as a retrospective tool to help infer when, say, architectural issues may be the cause for unfavorable user sentiment following a release.</p>
-				<p>Metrics such as lines-of-code (LOC) and cyclomatic complexity are widely used in industry, whereas other metrics like propagation cost are based on some of the more recent research to come out of academia.  For the module breakdown view, <i>Chart</i>, only modules that have a reasonable level of complexity are shown, i.e. several hundred files.  Select an option from the top to change the view.  Descriptions of what each metric captures and how it is calculated are shown below, as are some additional measures of quality, such as speed and resident memory usage, both of which have improved in Firefox.</p>
+				<p>This work presents a set of metrics for all releases of Firefox that are indicative of quality.  By looking at changes in these metrics, one can see the evolution of the Firefox codebase over time.  They can also be useful as a retrospective tool to help infer when, say, architectural issues may be the cause for unfavorable user sentiment following a release.</p>
+				<p>Metrics such as lines-of-code (LOC) and cyclomatic complexity are widely used in industry, whereas other metrics like propagation cost are based on some of the more recent research to come out of academia.  For the module breakdown view, <i>Chart</i>, only modules that have a reasonable level of complexity, i.e. several hundred files, are shown.  Select an option from the top to change the view.  Descriptions of what each metric captures and how it is calculated are shown below, as are some additional measures of quality, such as speed and resident memory usage, both of which have improved in Firefox.</p>
 				<br />
 			</div>
 		
@@ -117,7 +132,7 @@
 			<div id="chart_container_container">
 				<div class="chart_description">
 					<h1>Defect density</h1>
-					<p>Defect density measures the number of confirmed bugs per release divided by the number of thousands of lines of code (not counting blanks and comments). The bug data is from Bugzilla.  A set of http queries are run against Mozilla's bug tracking system, Bugzilla, to get the counts per release. Since the version field in Bugzilla is optional, the defect counts currently don't include confirmed bugs that have not been assigned to particular releases. We have a relatively robust method for including unassigned defects that we may end up using in the future.  We start from version 5.0 since that is when the rapid release cycle began.</p>
+					<p>Defect density measures the number of confirmed bugs per release divided by the number of thousands of lines of code, not counting blanks and comments.  A set of http queries are run against Mozilla's bug tracking system, Bugzilla, to get the counts per release. Since the version field in Bugzilla is optional, the defect counts currently don't include confirmed bugs that have not been assigned to particular releases. We have a relatively robust method for including unassigned defects that we may end up using in the future.  We start from version 5.0 since that is when the rapid release cycle began.</p>
 				</div>
 				<div class="chart_container" id="allversions_defects_per_kloc">
 					<span class="container_title">Defect density</span>
@@ -127,7 +142,7 @@
 						
 				<div class="chart_description">
 					<h1>LOC</h1>
-					<p>LOC measures the number executable lines of code in each release, and so it ignores comments and blank lines.  Studies have shown that the measure tends to have an inverse relationship with defect density, that is to say, a larger system size has a smaller defect density, though other studies show it to be curvilinear relationship: defect density decreases linearly as system size increases only to then curve up at the tail<sup>1</sup>.  Here, unit tests are not included in the set of analyzed files, whereas in the matrices, charts and graphs above, they are.</p>
+					<p>LOC measures the number executable lines of code in each release, ignoring comments and blank lines, and is widely used as a baseline measure of quality.  Some studies have shown that LOC has an inverse relationship with defect density, which is to say, a larger system size would likely have a smaller defect density, though other studies show the relationship to be curvilinear, which is to say, defect density decreases linearly as system size increases only to then curve up at the tail<sup>1</sup>.  Here, unit tests are not included in the set of analyzed files, whereas in the matrices, charts and graphs above, they are.</p>
 					<p style='font-size:80%'><sup>1</sup> Kahn, S., Metrics and Models in Software Quality (2002).</p>
 				</div>
 				<div class="chart_container" id="allversions_loc_code">
@@ -138,7 +153,7 @@
 				<div class="chart_description">
 					<h1>Cyclomatic complexity</h1>
 					<p>Cyclomatic complexity, developed by Thomas McCabe in 1976, measures the number of linearly independent paths within a software system and can be applied either to the entire system or to a particular class or function. By viewing a block of code as a control graph, the nodes constitute indivisible lines of code that execute in sequence and the directed edges connect two nodes if one can occur after the other. So, for example, branching constructs like if-else statements would result in a node being connected to two output nodes, one for each branch.</p>
-					<p>The formula for the measure is defined as <i>v(G) = e – n + 2p</i> where v(G) is the cyclomatic number of a graph G, e is the number of edges, n is the number of nodes and p is the number of connected components, or exit nodes, in the graph. A block of code with a single if-else statement would have be calculated as follows: e = 6, n = 6 and p = 1, therefore, v(G) = 6 – 6 + 2 * 1 = 2. The additive nature of the metric means that the complexity of several graphs is equal to the sum of each graph.  In our measure of cyclomatic complexity, we control for size.</p>
+					<p>Cyclomatic complexity is defined as <i>v(G) = e – n + 2p</i> where v(G) is the cyclomatic number of a graph G, e is the number of edges, n is the number of nodes and p is the number of connected components, or exit nodes, in the graph. A block of code with a single set of if-else statements would be calculated as follows: e = 6, n = 6 and p = 1, therefore, v(G) = 6 – 6 + 2 * 1 = 2. The additive nature of the metric means that the complexity of several graphs is equal to the sum of each graph.  In our measure of cyclomatic complexity, we control for size.</p>
 				</div>
 				<div class="chart_container" id="allversions_mccabe_per_kloc">
 					<span class="container_title">Cyclomatic complexity</span>
@@ -148,9 +163,11 @@
 				
 				<div class="chart_description">
 					<h1>Propagation cost</h1>
-					<p>Propagation cost measures direct as well as indirect dependencies between the files in a code-base, which is a more vivid view of a system's interdependencies. A number of studies have shown that propagation cost is a significant positive predictor of software quality<sup>2</sup>.  Propagation cost is defined as <i>propagation cost = (&Sigma;rows)/m<sup>2</sup></i>, where m is the matrix height.</p>
-					<p>The process of transforming a first-order dependency matrix that captures only direct dependencies between files to a visibility matrix that captures indirect dependencies as well can be achieved through matrix multiplication. To obtain a visibility matrix, a matrix is raised to successive powers of n, where n represents path lengths. Put differently, that means that if the matrix is raised to the power of two, it would then show the indirect dependencies between elements that have a path length of two, i.e. calls from A to C, if A calls B and B calls C. Thereafter, by summing these matrices together one gets the visibility matrix, V. For this ripple effect to be useful for analysis, it is captured within a metric called propagation cost.</p>
-					<p style='font-size:80%'><sup>2</sup> MacCormack, A. et al, <i>Exploring the Structure of Complex Software Designs: An Empirical Study of Open Source and Proprietary Code</i> (2006).</p>
+					<p>Propagation cost measures direct as well as indirect dependencies between files in a code-base.  In practical terms, it gives a sense of the proportion of files that may be impacted when a change is made to some randomly chosen file<sup>2</sup>.  Some argue that such a measure gives a more vivid view of a system's interdependencies. Numerous studies have shown that propagation cost is a significant positive predictor of software quality<sup>3</sup>.
+					<p>The process of transforming a first-order dependency matrix that captures only direct dependencies between files to a visibility, also known as a reachability, matrix that captures indirect dependencies as well is achieved through matrix multiplication by raising the first-order dependency matrix to multiple successive powers until we achieve its transitive closure.  Put more plainly, that means that a matrix raised to the power of two would show the indirect dependencies between elements that have a path length of two, i.e. calls from A to C, if A calls B and B calls C.</p>
+					<p>Thereafter, by summing these matrices together one gets the visibility matrix, V. For this ripple effect to be usable in analysis, the density of the visibility matrix is captured within the metric that we call propagation cost, which we define as <i>propagation cost = (&Sigma;rows)/m<sup>2</sup></i>, where m is the matrix height.</p>
+					<p style='padding:0;margin:0;font-size:80%'><sup>2</sup> Steven D. Eppinger and Tyson R. Browning, Design Structure Matrix Methods and Applications (2012).</p>
+					<p style='padding:0;margin:0;font-size:80%'><sup>3</sup> Alan MacCormack, John Rusnak and Carliss Baldwin, <i>Exploring the Structure of Complex Software Designs: An Empirical Study of Open Source and Proprietary Code</i> (2006).</p>
 				</div>
 				<div class="chart_container" id="allversions_prop_cost">
 					<span class="container_title">Propagation cost</span>
@@ -160,12 +177,8 @@
 				<div class="chart_description">
 					<h1>Core size</h1>
 					<p>Core files are files that depend on a lot of files and have a lot of files depend on them, i.e. they have high fan-in and high fan-out. It is one of four types of files that one sees when plotting them along the axes of fan-in and fan-out, the intuition being that different directions and magnitudes of dependencies have varying impacts on software quality. A smaller core has been shown to result in fewer defects.</p>
-					<ul>
-					    <li>Peripheral files don’t depend on a lot of files and don't have a lot of files depend on them (low fan-in, low fan-out).</li>
-					    <li>Shared files don’t depend on a lot of files, but have a lot of files depend on them (high fan-in, low fan-out).</li>
-					    <li>Control files depend on a lot of files, but don’t have a lot of files depend on them (low fan-in, high fan-out).</li>
-    				</ul>
-					<p>The percentage of files that have a fan-in above the fan-in median and a fan-out above the fan-out median are divided by the total number files minus singletons, i.e. files that don't make any call-outs or call-ins gives us the core size.</p>
+					<p>Other types of files are peripheral files, which don’t depend on a lot of files and don't have a lot of files depend on them (low fan-in, low fan-out); shared files, which don’t depend on a lot of files, but have a lot of files depend on them (high fan-in, low fan-out) and control files, which depend on a lot of files, but don’t have a lot of files depend on them (low fan-in, high fan-out).</p>
+					<p>Core size, here, is the percentage of files with one or more dependencies that have a fan-in above the fan-in median and a fan-out above the fan-out median.</p>
 				</div>
 				<div class="chart_container" id="allversions_percent_in_core">
 					<span class="container_title">Core size</span>
@@ -175,9 +188,9 @@
 
 				<div class="chart_description">
 					<h1>Resident memory</h1>
-					<p>The resident memory usage of Firefox for Desktop after the TP5 test is left running for 30 seconds. Resident memory is the physical amount of memory used by the Firefox process. The TP5 test, run five times in sequence, loads a set of 100 popular webpages into the browser, with a ten-second delay between each page load.</p>
+					<p>This metric captures the amount of resident memory used after the TP5 test is left running for 30 seconds. Resident memory is the physical amount of memory used by the Firefox process. The TP5 test, run five times in sequence, loads a set of 100 popular webpages into the browser, with a ten-second delay between each page load.</p>
 					<p>We run our memory usage tests on builds from mozilla-central. The result for each release is based on the latest test that was done on the code in mozilla-central before it was branched off to its release-specific branch. There is a gap of a number of weeks between that codebase and the codebase of the final release, hence it is important to keep this caveat in mind when interpreting the data.</p>
-					<p>The data is provided by our colleagues at areweslimyet.com. See their <a href="https://areweslimyet.com/faq.htm">FAQ</a> for more info.</p>
+					<p>This data is provided by our colleagues at areweslimyet.com. See their <a href="https://areweslimyet.com/faq.htm">FAQ</a> for more info.</p>
 				</div>
 				<div class="chart_container" id="allversions_mem">
 					<span class="container_title">Resident memory</span>
