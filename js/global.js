@@ -266,12 +266,14 @@ function assignDynamicContentEventListeners() {
 	$("#modules_legend div").on("mouseover", function(d) {
 		var srcE = d.srcElement ? d.srcElement : d.target;
 		var id = $(srcE).attr("id");
-		$(".overlay_" + id).show();
+		$(".overlay_" + id)
+			.css("background-color", "rgb(" + module_colors[id] + ")")
+			.show();
 	});
 	
 	$("#modules_legend div").on("mouseout", function(d) {
 		var srcE = d.srcElement ? d.srcElement : d.target;
-		var id = $(srcE).attr("id");console.log(".overlay_" + id);
+		var id = $(srcE).attr("id");
 		$(".overlay_" + id).hide();
 	});
 	
@@ -572,7 +574,7 @@ function drawEachChart(data, container, format, humanify_numbers, custom_units, 
 	
 	//we always use the div within the container for placing the svg
 	container += " div";
-	console.log(container);
+	//console.log(container);
 	//for clarity, we reassign
 	var which_metric = container;
 	

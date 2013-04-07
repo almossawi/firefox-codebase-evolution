@@ -648,6 +648,7 @@ sub { top: 0.4em; }
 	text-align:center;
 	width:1260px;
 	font-size:18px;
+	margin-top:20px;
 	margin-left:auto;
 	margin-right:auto;
 	font-size:14px;
@@ -718,7 +719,6 @@ label {
 .overlay {
 	position:absolute;
 	opacity:0.1;
-	background-color:#F09609;
 	position:absolute;
 	z-index:999999;
 	top:4px;
@@ -773,4 +773,26 @@ label {
 	position:absolute;
 	right:10px;
 	top:10px;
+}
+
+.core_periph {
+	padding-top:0;
+	position:absolute;
+	height:10px;
+	width:508px;
+	color:white;
+	font-family:'Open Sans';
+	font-weight:200;
+	font-size:11px;
+	padding-top:4px;
+	text-align:center;
+	letter-spacing:2px;
+}
+
+#lhs_core_periph {
+	margin-left:112px;
+}
+
+#rhs_core_periph {
+	margin-left:635px;
 }

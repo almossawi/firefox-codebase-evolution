@@ -75,29 +75,37 @@
 					<canvas id="canvas1" width="500" height="500"></canvas>
 					<canvas id="canvas2" width="500" height="500"></canvas>
 					
+					<div style="clear:both"></div>
+					
+					<div id="lhs_core_periph" class="core_periph">CORE: 31% &nbsp; PERIPHERY: 36% &nbsp; CONTROL: 15% &nbsp; SHARED: 19%</div>
+					<div id="rhs_core_periph" class="core_periph">CORE: 40% &nbsp; PERIPHERY: 21% &nbsp; CONTROL: 12% &nbsp; SHARED: 44%</div>
+					
 					<!--<div id="canvas1"><img src="images/matrix_v16_raster.png" /></div>
 					<div id="canvas2"><img src="images/matrix_v17_raster.png" /></div>-->
 					
 					<!-- lhs -->
-					<div class="overlay_js left_overlay overlay horizontal" style='width:500px;height:80px;top:190px'></div>
-					<div class="overlay_js left_overlay overlay vertical" style='width:80px;height:500px;left:195px'></div>
+					<div class="overlay_js left_overlay overlay horizontal" style='width:500px;height:82px;top:188px'></div>
+					<div class="overlay_js left_overlay overlay vertical" style='height:500px;width:82px;left:193px'></div>
+					<div class="overlay_layout left_overlay overlay horizontal" style='width:500px;height:71px;top:273px'></div>
+					<div class="overlay_layout left_overlay overlay vertical" style='height:500px;width:70px;left:276px'></div>
 					
 					<!- rhs -->
-					<div class="overlay_js right_overlay overlay horizontal" style='width:500px;height:80px;top:190px'></div>
-					<div class="overlay_js right_overlay overlay vertical" style='width:80px;height:500px;left:197px'></div>
-					
+					<div class="overlay_js right_overlay overlay horizontal" style='width:500px;height:82px;top:190px'></div>
+					<div class="overlay_js right_overlay overlay vertical" style='height:500px;width:82px;left:197px'></div>
+					<div class="overlay_layout right_overlay overlay horizontal" style='width:500px;height:70px;top:273px'></div>
+					<div class="overlay_layout right_overlay overlay vertical" style='height:500px;width:73px;left:277px'></div>>
 					
 					<a href="#" id="what_mean_matrix"><img src="images/what_mean.png" /></a>
 					
 					<div id="matrix_modal">
 						<a href="#" id="close_modal"><img src="images/x.png" /></a>
 						<h1>What does this mean?</h1>
-						<p>These matrices show direct dependencies between files in a code-base.  A dot represents one or more dependencies and is read</p>
+						<p>These adjacency matrices, sometimes called Design Structure Matrices (DSMs), show direct dependencies between files in a code-base.  A dot represents one or more dependencies and is read</p>
 						<p style="text-align:center"><span style="font-style:italic;font-family:Palatino, Georgia, 'PT Serif', Times">file A depends on file B</span></p>
 						<p>where A is a file along the left edge and B is a file along the top edge.  A module's dependencies are colored distinctly.  A square-shaped cluster indicates the density of dependencies within a module.</p>
 						<p>All the dots to the right and left of a cluster are files that the module depends on.  All files above and below it are files that depend on it.  In many paradigms, modularity (low coupling, high cohesion) is a desirable quality attribute.  Hence, an ideal system has modules that have more intra-module dependencies and fewer inter-module dependencies.</p>
 						<p>A matrix can show different types of files, which have varying impacts on quality.  <strong>Shared files</strong>, also know as utility files, are ones that a lot of other files depend on; a shared file that every other file in a codebase depends on would appear as a solid vertical line in a square matrix.  Shared files appear to be a positive predictor of quality.</p>
-						<p><strong>Control files</strong>, conversely, depend on a high number of files.  Such files appear to be a negative predictor of quality and are hence undesirable in high numbers.  They appear as horizontal lines in a square-matrix.</p>
+						<p><strong>Control files</strong>, conversely, depend on a high number of files.  Such files appear to be a negative predictor of quality and are hence undesirable in high numbers.  They may appear as horizontal lines in a square-matrix.</p>
 						<p>Two other types of files are <strong>core files</strong>, which depend on a lot of files and have a lot of files depend on them, and <strong>periphery files</strong>, which don't depend on a lot of files and don't have a lot of files depend on them.  These may be a bit more difficult to spot in a matrix.  The collective size of clusters can give a partial sense of the number of core files in a codebase.  Core files seem to be a negative predictor of quality whereas periphery files seem to be a positive predictor of quality.</p>
 						<p></p>
 					</div>
@@ -123,7 +131,7 @@
 		<div id="container">
 			<div style="margin-top:40px;text-align:left">
 				<p>This work presents a set of metrics for all releases of Firefox that are indicative of quality.  By looking at changes in these metrics, one can see the evolution of the Firefox codebase over time.  They can also be useful as a retrospective tool to help infer when, say, architectural issues may be the cause for unfavorable user sentiment following a release.</p>
-				<p>Metrics such as lines-of-code (LOC) and cyclomatic complexity are widely used in industry, whereas other metrics like propagation cost are based on some of the more recent research to come out of academia.  For the module breakdown view, <i>Chart</i>, only modules that have a reasonable level of complexity, i.e. several hundred files, are shown.  Select an option from the top to change the view.  Descriptions of what each metric captures and how it is calculated are shown below, as are some additional measures of quality, such as speed and resident memory usage, both of which have improved in Firefox.</p>
+				<p>Metrics such as lines-of-code (LOC) and cyclomatic complexity are widely used in industry, whereas other ones like propagation cost are based on some of the more recent research to come out of academia.  For the module breakdown view, <i>Chart</i>, only modules that have a reasonable level of complexity, i.e. several hundred files, are shown.  Select an option from the top to change the view.  Descriptions of what each metric captures and how it is calculated are shown below, as are some additional measures of quality, such as speed and resident memory usage, both of which have improved in Firefox.</p>
 				<br />
 			</div>
 		
@@ -132,7 +140,7 @@
 			<div id="chart_container_container">
 				<div class="chart_description">
 					<h1>Defect density</h1>
-					<p>Defect density measures the number of confirmed bugs per release divided by the number of thousands of lines of code, not counting blanks and comments.  A set of http queries are run against Mozilla's bug tracking system, Bugzilla, to get the counts per release. Since the version field in Bugzilla is optional, the defect counts currently don't include confirmed bugs that have not been assigned to particular releases. We have a relatively robust method for including unassigned defects that we may end up using in the future.  We start from version 5.0 since that is when the rapid release cycle began.</p>
+					<p>Defect density measures the number of confirmed bugs per release divided by LOC (per thousand LOC).  A set of http queries are run against Mozilla's bug tracking system, Bugzilla, to get the counts per release. Since the <i>version</i> field in Bugzilla is an optional field, the defect counts currently don't include confirmed bugs that have not been assigned to particular releases. We have a relatively robust method for including unassigned defects that we may end up using in the future.  We start from version 5.0 since that is when the rapid release cycle began.</p>
 				</div>
 				<div class="chart_container" id="allversions_defects_per_kloc">
 					<span class="container_title">Defect density</span>
@@ -165,9 +173,9 @@
 					<h1>Propagation cost</h1>
 					<p>Propagation cost measures direct as well as indirect dependencies between files in a code-base.  In practical terms, it gives a sense of the proportion of files that may be impacted when a change is made to some randomly chosen file<sup>2</sup>.  Some argue that such a measure gives a more vivid view of a system's interdependencies. Numerous studies have shown that propagation cost is a significant positive predictor of software quality<sup>3</sup>.
 					<p>The process of transforming a first-order dependency matrix that captures only direct dependencies between files to a visibility, also known as a reachability, matrix that captures indirect dependencies as well is achieved through matrix multiplication by raising the first-order dependency matrix to multiple successive powers until we achieve its transitive closure.  Put more plainly, that means that a matrix raised to the power of two would show the indirect dependencies between elements that have a path length of two, i.e. calls from A to C, if A calls B and B calls C.</p>
-					<p>Thereafter, by summing these matrices together one gets the visibility matrix, V. For this ripple effect to be usable in analysis, the density of the visibility matrix is captured within the metric that we call propagation cost, which we define as <i>propagation cost = (&Sigma;rows)/m<sup>2</sup></i>, where m is the matrix height.</p>
+					<p>Thereafter, by summing these matrices together one gets the visibility matrix, V. For this ripple effect to be of use in analysis, the density of the visibility matrix is captured within the metric that we call propagation cost, which we define as <i>prop cost = (&Sigma;rows)/m<sup>2</sup></i>, where m is the matrix height.</p>
 					<p style='padding:0;margin:0;font-size:80%'><sup>2</sup> Steven D. Eppinger and Tyson R. Browning, Design Structure Matrix Methods and Applications (2012).</p>
-					<p style='padding:0;margin:0;font-size:80%'><sup>3</sup> Alan MacCormack, John Rusnak and Carliss Baldwin, <i>Exploring the Structure of Complex Software Designs: An Empirical Study of Open Source and Proprietary Code</i> (2006).</p>
+					<p style='padding:0;margin-top:0;font-size:80%'><sup>3</sup> Alan MacCormack, John Rusnak and Carliss Baldwin, <i>Exploring the Structure of Complex Software Designs: An Empirical Study of Open Source and Proprietary Code</i> (2006).</p>
 				</div>
 				<div class="chart_container" id="allversions_prop_cost">
 					<span class="container_title">Propagation cost</span>
@@ -176,7 +184,7 @@
 				
 				<div class="chart_description">
 					<h1>Core size</h1>
-					<p>Core files are files that depend on a lot of files and have a lot of files depend on them, i.e. they have high fan-in and high fan-out. It is one of four types of files that one sees when plotting them along the axes of fan-in and fan-out, the intuition being that different directions and magnitudes of dependencies have varying impacts on software quality. A smaller core has been shown to result in fewer defects.</p>
+					<p>Core files are files that depend on a lot of files and have a lot of files depend on them, i.e. they have high fan-in and high fan-out. They are one of four types of files that one sees when plotting files along the axes of fan-in and fan-out, the intuition being that different directions and magnitudes of dependencies have varying impacts on software quality. A smaller core has been shown to result in fewer defects.</p>
 					<p>Other types of files are peripheral files, which don’t depend on a lot of files and don't have a lot of files depend on them (low fan-in, low fan-out); shared files, which don’t depend on a lot of files, but have a lot of files depend on them (high fan-in, low fan-out) and control files, which depend on a lot of files, but don’t have a lot of files depend on them (low fan-in, high fan-out).</p>
 					<p>Core size, here, is the percentage of files with one or more dependencies that have a fan-in above the fan-in median and a fan-out above the fan-out median.</p>
 				</div>
@@ -188,7 +196,7 @@
 
 				<div class="chart_description">
 					<h1>Resident memory</h1>
-					<p>This metric captures the amount of resident memory used after the TP5 test is left running for 30 seconds. Resident memory is the physical amount of memory used by the Firefox process. The TP5 test, run five times in sequence, loads a set of 100 popular webpages into the browser, with a ten-second delay between each page load.</p>
+					<p>This metric captures the amount of resident memory used after Mozilla's TP5 test is left running for 30 seconds. Resident memory is the physical amount of memory used by the Firefox process. The TP5 test, run five times in sequence, loads a set of 100 popular webpages into the browser, with a ten-second delay between each page load.</p>
 					<p>We run our memory usage tests on builds from mozilla-central. The result for each release is based on the latest test that was done on the code in mozilla-central before it was branched off to its release-specific branch. There is a gap of a number of weeks between that codebase and the codebase of the final release, hence it is important to keep this caveat in mind when interpreting the data.</p>
 					<p>This data is provided by our colleagues at areweslimyet.com. See their <a href="https://areweslimyet.com/faq.htm">FAQ</a> for more info.</p>
 				</div>
