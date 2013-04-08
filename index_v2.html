@@ -77,8 +77,8 @@
 					
 					<div style="clear:both"></div>
 					
-					<div id="lhs_core_periph" class="core_periph">CORE: 31% &nbsp; PERIPHERY: 36% &nbsp; CONTROL: 15% &nbsp; SHARED: 19%</div>
-					<div id="rhs_core_periph" class="core_periph">CORE: 40% &nbsp; PERIPHERY: 21% &nbsp; CONTROL: 12% &nbsp; SHARED: 44%</div>
+					<div id="lhs_core_periph" class="core_periph">FILES: 29,072 &nbsp; DENSITY: 0.066%</div>
+					<div id="rhs_core_periph" class="core_periph">FILES: 28,654 &nbsp; DENSITY: 0.024%</div>
 					
 					<!--<div id="canvas1"><img src="images/matrix_v16_raster.png" /></div>
 					<div id="canvas2"><img src="images/matrix_v17_raster.png" /></div>-->
@@ -100,11 +100,11 @@
 					<div id="matrix_modal">
 						<a href="#" id="close_modal"><img src="images/x.png" /></a>
 						<h1>What does this mean?</h1>
-						<p>These adjacency matrices, sometimes called Design Structure Matrices (DSMs), show direct dependencies between files in a code-base.  A dot represents one or more dependencies and is read</p>
+						<p>These first-order adjacency matrices, sometimes called Design Structure Matrices (DSMs), show direct dependencies between files in a code-base.  A dot represents one or more dependencies and is read</p>
 						<p style="text-align:center"><span style="font-style:italic;font-family:Palatino, Georgia, 'PT Serif', Times">file A depends on file B</span></p>
 						<p>where A is a file along the left edge and B is a file along the top edge.  A module's dependencies are colored distinctly.  A square-shaped cluster indicates the density of dependencies within a module.</p>
 						<p>All the dots to the right and left of a cluster are files that the module depends on.  All files above and below it are files that depend on it.  In many paradigms, modularity (low coupling, high cohesion) is a desirable quality attribute.  Hence, an ideal system has modules that have more intra-module dependencies and fewer inter-module dependencies.</p>
-						<p>A matrix can show different types of files, which have varying impacts on quality.  <strong>Shared files</strong>, also know as utility files, are ones that a lot of other files depend on; a shared file that every other file in a codebase depends on would appear as a solid vertical line in a square matrix.  Shared files appear to be a positive predictor of quality.</p>
+						<p>A matrix can show different types of files, which have varying impacts on quality.  Although we calculate the values for these four types of files using the visibility matrix, it is still useful to look for them in a first-order matrix.  <strong>Shared files</strong>, also known as utility files, are ones that a lot of other files depend on; a shared file that every other file in a codebase depends on would appear as a solid vertical line in a square matrix.  Shared files appear to be a positive predictor of quality.</p>
 						<p><strong>Control files</strong>, conversely, depend on a high number of files.  Such files appear to be a negative predictor of quality and are hence undesirable in high numbers.  They may appear as horizontal lines in a square-matrix.</p>
 						<p>Two other types of files are <strong>core files</strong>, which depend on a lot of files and have a lot of files depend on them, and <strong>periphery files</strong>, which don't depend on a lot of files and don't have a lot of files depend on them.  These may be a bit more difficult to spot in a matrix.  The collective size of clusters can give a partial sense of the number of core files in a codebase.  Core files seem to be a negative predictor of quality whereas periphery files seem to be a positive predictor of quality.</p>
 						<p></p>
@@ -139,16 +139,6 @@
 		
 			<div id="chart_container_container">
 				<div class="chart_description">
-					<h1>Defect density</h1>
-					<p>Defect density measures the number of confirmed bugs per release divided by LOC (per thousand LOC).  A set of http queries are run against Mozilla's bug tracking system, Bugzilla, to get the counts per release. Since the <i>version</i> field in Bugzilla is an optional field, the defect counts currently don't include confirmed bugs that have not been assigned to particular releases. We have a relatively robust method for including unassigned defects that we may end up using in the future.  We start from version 5.0 since that is when the rapid release cycle began.</p>
-				</div>
-				<div class="chart_container" id="allversions_defects_per_kloc">
-					<span class="container_title">Defect density</span>
-					<div></div>
-				</div>
-				<div style="clear:both"></div>
-						
-				<div class="chart_description">
 					<h1>LOC</h1>
 					<p>LOC measures the number executable lines of code in each release, ignoring comments and blank lines, and is widely used as a baseline measure of quality.  Some studies have shown that LOC has an inverse relationship with defect density, which is to say, a larger system size would likely have a smaller defect density, though other studies show the relationship to be curvilinear, which is to say, defect density decreases linearly as system size increases only to then curve up at the tail<sup>1</sup>.  Here, unit tests are not included in the set of analyzed files, whereas in the matrices, charts and graphs above, they are.</p>
 					<p style='font-size:80%'><sup>1</sup> Kahn, S., Metrics and Models in Software Quality (2002).</p>
@@ -161,7 +151,7 @@
 				<div class="chart_description">
 					<h1>Cyclomatic complexity</h1>
 					<p>Cyclomatic complexity, developed by Thomas McCabe in 1976, measures the number of linearly independent paths within a software system and can be applied either to the entire system or to a particular class or function. By viewing a block of code as a control graph, the nodes constitute indivisible lines of code that execute in sequence and the directed edges connect two nodes if one can occur after the other. So, for example, branching constructs like if-else statements would result in a node being connected to two output nodes, one for each branch.</p>
-					<p>Cyclomatic complexity is defined as <i>v(G) = e – n + 2p</i> where v(G) is the cyclomatic number of a graph G, e is the number of edges, n is the number of nodes and p is the number of connected components, or exit nodes, in the graph. A block of code with a single set of if-else statements would be calculated as follows: e = 6, n = 6 and p = 1, therefore, v(G) = 6 – 6 + 2 * 1 = 2. The additive nature of the metric means that the complexity of several graphs is equal to the sum of each graph.  In our measure of cyclomatic complexity, we control for size.</p>
+					<p>Cyclomatic complexity is defined as <i>v(G) = e – n + 2p</i> where v(G) is the cyclomatic number of a graph G, e is the number of edges, n is the number of nodes and p is the number of connected components, or exit nodes, in the graph. A block of code with a single set of if-else statements would be calculated as follows: e = 6, n = 6 and p = 1, therefore, v(G) = 6 – 6 + 2 * 1 = 2. The additive nature of the metric means that the complexity of several graphs is equal to the sum of each graph.  In our measure of cyclomatic complexity, we control for size and hence, the value for each release is per 1,000 lines of code.</p>
 				</div>
 				<div class="chart_container" id="allversions_mccabe_per_kloc">
 					<span class="container_title">Cyclomatic complexity</span>
@@ -172,7 +162,7 @@
 				<div class="chart_description">
 					<h1>Propagation cost</h1>
 					<p>Propagation cost measures direct as well as indirect dependencies between files in a code-base.  In practical terms, it gives a sense of the proportion of files that may be impacted when a change is made to some randomly chosen file<sup>2</sup>.  Some argue that such a measure gives a more vivid view of a system's interdependencies. Numerous studies have shown that propagation cost is a significant positive predictor of software quality<sup>3</sup>.
-					<p>The process of transforming a first-order dependency matrix that captures only direct dependencies between files to a visibility, also known as a reachability, matrix that captures indirect dependencies as well is achieved through matrix multiplication by raising the first-order dependency matrix to multiple successive powers until we achieve its transitive closure.  Put more plainly, that means that a matrix raised to the power of two would show the indirect dependencies between elements that have a path length of two, i.e. calls from A to C, if A calls B and B calls C.</p>
+					<p>The process of transforming a first-order dependency matrix that captures only direct dependencies between files to a visibility, also known as a reachability, matrix that captures indirect dependencies as well is achieved through matrix multiplication by raising the first-order dependency matrix to multiple successive powers until we achieve its transitive closure.  Put plainly, that means that a matrix raised to the power of two would show the indirect dependencies between elements that have a path length of two, i.e. calls from A to C, if A calls B and B calls C.</p>
 					<p>Thereafter, by summing these matrices together one gets the visibility matrix, V. For this ripple effect to be of use in analysis, the density of the visibility matrix is captured within the metric that we call propagation cost, which we define as <i>prop cost = (&Sigma;rows)/m<sup>2</sup></i>, where m is the matrix height.</p>
 					<p style='padding:0;margin:0;font-size:80%'><sup>2</sup> Steven D. Eppinger and Tyson R. Browning, Design Structure Matrix Methods and Applications (2012).</p>
 					<p style='padding:0;margin-top:0;font-size:80%'><sup>3</sup> Alan MacCormack, John Rusnak and Carliss Baldwin, <i>Exploring the Structure of Complex Software Designs: An Empirical Study of Open Source and Proprietary Code</i> (2006).</p>
@@ -194,6 +184,16 @@
 				</div>
 				<div style="clear:both"></div>
 
+				<div class="chart_description">
+					<h1>Defect density</h1>
+					<p>Defect density measures the number of confirmed bugs in each release per 100,000 LOC.  A set of http queries are run against Mozilla's bug tracking system, Bugzilla, to get the counts per release. Since the <i>version</i> field in Bugzilla is an optional field, the defect counts currently don't include confirmed bugs that have not been assigned to particular releases. We have a relatively robust method for including unassigned defects that we may end up using in the future.  We start from version 5.0 since that is when the rapid release cycle began.</p>
+				</div>
+				<div class="chart_container" id="allversions_defects_per_hundred_thousand_loc_code">
+					<span class="container_title">Defect density</span>
+					<div></div>
+				</div>
+				<div style="clear:both"></div>
+				
 				<div class="chart_description">
 					<h1>Resident memory</h1>
 					<p>This metric captures the amount of resident memory used after Mozilla's TP5 test is left running for 30 seconds. Resident memory is the physical amount of memory used by the Firefox process. The TP5 test, run five times in sequence, loads a set of 100 popular webpages into the browser, with a ten-second delay between each page load.</p>

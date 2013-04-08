@@ -35,6 +35,7 @@ p {
 	padding-left:0px;
 	line-height:1.4;
 	font-size:18px;
+	text-align:justify;
 }
 
 ul, li {
@@ -111,6 +112,10 @@ text {
     text-antialiasing:true;
     font-weight:600;
     kerning:0.5;
+}
+
+text.y_label {
+	fill:#5d5d5d;
 }
 
 text.module_name {
@@ -502,6 +507,7 @@ svg rect.module_bar_transparent {
 
 #page #container #chart_container_container .chart_description p {
 	font-size:14px;
+	text-align:justify;
 }
 
 #page .chart_container {
@@ -744,9 +750,6 @@ label {
 	display:none;
 	width:1030px;
 	height:680px;
-	color:#3b3b3b;
-	font-family:'PT Serif';
-	font-size:16px;
 	background-color:white;
 	opacity:0.95;
 	position:absolute;
@@ -758,6 +761,13 @@ label {
 	z-index:9999999;
 	background-image:url(../images/bg-sand.png);
 	background-repeat:repeat;
+}
+
+#matrix_modal p {
+	font-size:15px;
+	color:#3b3b3b;
+	font-family:'PT Serif';
+	text-align:justify;
 }
 
 #matrix_modal h1 {

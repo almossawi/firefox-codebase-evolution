@@ -556,7 +556,7 @@ function drawCharts() {
 				
 			if(id == "allversions_crashes") splice_from = 8;
 			if(id == "allversions_mem" || id == "allversions_speed") splice_from = 6;
-			if(id == "allversions_defects_per_kloc") splice_from = 7;
+			if(id == "allversions_defects_per_hundred_thousand_loc_code") splice_from = 7;
 			
 			drawEachChart(eval("data."+id), "#chart_container_container #" + id, format, humanify_numbers, custom_units, splice_from);
 		});
@@ -567,7 +567,7 @@ function drawCharts() {
 
 function drawEachChart(data, container, format, humanify_numbers, custom_units, splice_from) {
 	var w = 570,
-		h = 150,
+		h = 180,
 		xPadding = 22,
 		yPadding = 30,
 		enter_animation_duration = 600;
@@ -597,7 +597,7 @@ function drawEachChart(data, container, format, humanify_numbers, custom_units, 
             
     var yScale = d3.scale.linear()
         .domain([0, yMax])
-        .range([h-yPadding+2, yPadding-6]);
+        .range([h-yPadding+2-30, yPadding-6]);
             
     var xAxis = d3.svg.axis()
         .scale(xScale)
@@ -637,7 +637,7 @@ function drawEachChart(data, container, format, humanify_numbers, custom_units, 
 	//draw x axis
 	var xAxis = svg.append("g")
     	.attr("class", "axis x")
-	    .attr("transform", "translate(-10," + (h-xPadding-3) + ")")
+	    .attr("transform", "translate(-10," + (h-xPadding-3-30) + ")")
     	.call(xAxis);
     	    	
 	//draw y axis
@@ -665,21 +665,18 @@ function drawEachChart(data, container, format, humanify_numbers, custom_units, 
 	
 	//draw y ticks
     ticks.append('svg:line')
-    	.attr('y1', h-xPadding)
+    	.attr('y1', h-xPadding-30)
     	.attr('y2', xPadding)
     	.attr('x1', 0)
     	.attr('x2', 0);
 
     //y labels
-    /*ticks
-    	.append('svg:text')
-    		.text(function(d) {
-				return d;
-			})
-		.attr('text-anchor', 'bottom')
-		.attr('dy', 125)
-		.attr('dx', -4);
-	*/
+    svg.append('svg:text')
+			.text("Firefox release")
+			.attr('class', 'y_label')
+    		.attr('text-anchor', 'bottom')
+			.attr('dy', 160)
+			.attr('dx', 260)
 
 	//draw the line
 	var spliced_data;
