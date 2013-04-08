@@ -29,39 +29,41 @@ var module_colors = new Object();
 	module_colors["toolkit"] = "45,109,255";
 	module_colors["widget"] = "12,73,153";
 
+//0 = start in .files, 1 = end in .files, 
+//2 = matrix highlight coords [width, height, left, top]
 var matrix_v16_modules = new Object();
-	matrix_v16_modules["-"] = [0,637];
-	matrix_v16_modules["accessible"] = [638,1073];
-	matrix_v16_modules["browser"] = [1094,2507];
-	matrix_v16_modules["content"] = [2721,5361];
-	matrix_v16_modules["dom"] = [5544,8825];
-	matrix_v16_modules["gfx"] = [9520,11713];
-	matrix_v16_modules["ipc"] = [12665,13479];
-	matrix_v16_modules["js"] = [13480,19593];
-	matrix_v16_modules["layout"] = [19594,24684];
-	matrix_v16_modules["media"] = [24695,27484];
-	matrix_v16_modules["modules"] = [28591,29187];
-	matrix_v16_modules["netwerk"] = [29212,29860];
-	matrix_v16_modules["security"] = [30926,32117];
-	matrix_v16_modules["toolkit"] = [32842,34754];
-	matrix_v16_modules["widget"] = [35372,35845];
+	matrix_v16_modules["-"] = [0,637, [0,0,0,0]];
+	matrix_v16_modules["accessible"] = [638,1073, [6,8,16,12]];
+	matrix_v16_modules["browser"] = [1094,2507, [20,20,22,19]];
+	matrix_v16_modules["content"] = [2721,5361, [37,35,46,42]];
+	matrix_v16_modules["dom"] = [5544,8825, [47,45,84,80]];
+	matrix_v16_modules["gfx"] = [9520,11713, [54,55,139,135]];
+	matrix_v16_modules["ipc"] = [12665,13479, [11,10,180,178]];
+	matrix_v16_modules["js"] = [13480,19593, [81,85,193,188]];
+	matrix_v16_modules["layout"] = [19594,24684, [70,71,276,273]];
+	matrix_v16_modules["media"] = [24695,27484, [0,0,0,0]];
+	matrix_v16_modules["modules"] = [28591,29187, [0,0,0,0]];
+	matrix_v16_modules["netwerk"] = [29212,29860, [0,0,0,0]];
+	matrix_v16_modules["security"] = [30926,32117, [0,0,0,0]];
+	matrix_v16_modules["toolkit"] = [32842,34754, [0,0,0,0]];
+	matrix_v16_modules["widget"] = [35372,35845, [0,0,0,0]];
 	
 var matrix_v17_modules = new Object();
-	matrix_v17_modules["-"] = [0,667];
-	matrix_v17_modules["accessible"] = [668,1105];
-	matrix_v17_modules["browser"] = [1128,2592];
-	matrix_v17_modules["content"] = [2818,5516];
-	matrix_v17_modules["dom"] = [5704,9188];
-	matrix_v17_modules["gfx"] = [9891,12162];
-	matrix_v17_modules["ipc"] = [13115,13936];
-	matrix_v17_modules["js"] = [13937,20057];
-	matrix_v17_modules["layout"] = [20058,25209];
-	matrix_v17_modules["media"] = [25210,28056];
-	matrix_v17_modules["modules"] = [29181,29776];
-	matrix_v17_modules["netwerk"] = [29802,30451];
-	matrix_v17_modules["security"] = [31525,32720];
-	matrix_v17_modules["toolkit"] = [33457,35414];
-	matrix_v17_modules["widget"] = [36031,36511];
+	matrix_v17_modules["-"] = [0,667, [0,0,0,0]];
+	matrix_v17_modules["accessible"] = [668,1105, [6,8,18,12]];
+	matrix_v17_modules["browser"] = [1128,2592, [20,20,22,19]];
+	matrix_v17_modules["content"] = [2818,5516, [36,35,47,43]];
+	matrix_v17_modules["dom"] = [5704,9188, [47,46,84,80]];
+	matrix_v17_modules["gfx"] = [9891,12162, [54,54,142,138]];
+	matrix_v17_modules["ipc"] = [13115,13936, [11,11,184,180]];
+	matrix_v17_modules["js"] = [13937,20057, [83,85,197,190]];
+	matrix_v17_modules["layout"] = [20058,25209, [73,70,277,273]];
+	matrix_v17_modules["media"] = [25210,28056, [0,0,0,0]];
+	matrix_v17_modules["modules"] = [29181,29776, [0,0,0,0]];
+	matrix_v17_modules["netwerk"] = [29802,30451, [0,0,0,0]];
+	matrix_v17_modules["security"] = [31525,32720, [0,0,0,0]];
+	matrix_v17_modules["toolkit"] = [33457,35414, [0,0,0,0]];
+	matrix_v17_modules["widget"] = [36031,36511, [0,0,0,0]];
 		
 var chart_data_already_loaded = false,
 	matrix_data_already_loaded = false,
@@ -87,8 +89,10 @@ $(document).ready(function () {
 	$("#chart_view").show();
 	loadChartView();
 	
-	//add legend on page load to save time
+	//add legend and matrix highlighters on page load to save time
 	addModulesLegend();
+	addMatrixHighlighters("lhs");
+	addMatrixHighlighters("rhs");
 	
 	$(".version_arrow").delay(1500).fadeIn("slow");
 	
@@ -254,6 +258,60 @@ function assignEventListeners() {
 		$("svg.right rect.module_bar." + module_name)
 			.css("fill", "#4898ff");
 			
+	});
+}
+
+function addMatrixHighlighters(which_one) {
+	//add our highlighters to the dom
+	$.each(modules, function(i, module) {
+		$("#canvases").append("<div class='overlay_" + module + " left_overlay overlay horizontal'></div>");
+		$("#canvases").append("<div class='overlay_" + module + " left_overlay overlay vertical'></div>");
+		$("#canvases").append("<div class='overlay_" + module + " right_overlay overlay horizontal'></div>");
+		$("#canvases").append("<div class='overlay_" + module + " right_overlay overlay vertical'></div>");
+	});
+                        
+
+	//set their coords
+	var which_side_selector = (which_one == "lhs") ? ".left_overlay" : ".right_overlay";
+	
+	//do the horizontal ones
+	$(which_side_selector + ".horizontal").each(function(i) {
+		var which_module = $(this).attr("class").split(" ")[0].split("_")[1];
+		
+		$(this)
+			.css("width", 500)
+			.css("height", function() {
+				if(which_one == "lhs")
+					return matrix_v16_modules[which_module][2][1];
+				else if(which_one == "rhs")
+					return matrix_v17_modules[which_module][2][1];
+			})
+			.css("top", function() {
+				if(which_one == "lhs")
+					return matrix_v16_modules[which_module][2][3];
+				else if(which_one == "rhs")
+					return matrix_v17_modules[which_module][2][3];
+			});
+	});
+	
+	//do the vertical ones
+	$(which_side_selector + ".vertical").each(function(i) {
+		var which_module = $(this).attr("class").split(" ")[0].split("_")[1];
+		
+		$(this)
+			.css("height", 500)
+			.css("width", function() {
+				if(which_one == "lhs")
+					return matrix_v16_modules[which_module][2][0];
+				else if(which_one == "rhs")
+					return matrix_v17_modules[which_module][2][0];
+			})
+			.css("left", function() {
+				if(which_one == "lhs")
+					return matrix_v16_modules[which_module][2][2];
+				else if(which_one == "rhs")
+					return matrix_v17_modules[which_module][2][2];
+			});
 	});
 }
 

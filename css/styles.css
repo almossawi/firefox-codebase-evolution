@@ -291,6 +291,8 @@ canvas {
 h1 {
 	font-family: 'Old Standard TT', serif;
 	font-weight:300;
+	margin-bottom:0;
+	padding-bottom:0;
 }
 
 .metric_value {
@@ -546,6 +548,10 @@ svg rect.module_bar_transparent {
 	height:160px
 }
 
+#page .chart_container div svg {
+	margin-top:10px;
+}
+
 .tick line {
 	opacity:0;
 }
@@ -724,7 +730,6 @@ label {
 
 .overlay {
 	position:absolute;
-	opacity:0.1;
 	position:absolute;
 	z-index:999999;
 	top:4px;
@@ -733,10 +738,12 @@ label {
 
 .left_overlay {
 	margin-left:108px;
+	opacity:0.2;
 }
 
 .right_overlay {
 	margin-left:630px;
+	opacity:0.1; /* why does the opacity for the rhs increase? XD */
 }
 
 #what_mean_matrix {
