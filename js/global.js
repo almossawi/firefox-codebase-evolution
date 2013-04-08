@@ -5,10 +5,12 @@ var point_size = 0.8,
 	max_version = 17,
 	pause = false,
 	matrix_load_delay = 1000,
-	use_raster_for_matrix = true;
+	use_raster_for_matrix = true,
+	what_is_lhs = 16,
+	what_is_rhs = 17;
 	
-var data_v16,
-	data_v17;
+var data_lhs,
+	data_rhs;
 
 var modules = ["accessible", "browser", "content", "dom", "gfx", "ipc", "js", "layout", "media", "modules", "netwerk", "security", "toolkit", "widget"];
 
@@ -141,8 +143,8 @@ function assignEventListeners() {
 		setTimeout(function() {
 			//png
 			if(use_raster_for_matrix) {
-				$("#canvas1").attr("src", "images/matrix_v16_raster.png");
-				$("#canvas2").attr("src", "images/matrix_v17_raster.png");
+				$("#canvas1").attr("src", "images/matrix_v" + what_is_lhs + "_raster.png");
+				$("#canvas2").attr("src", "images/matrix_v" + what_is_rhs + "_raster.png");
 				
 				$("#loading_matrices").delay(400).fadeOut();
 				matrix_data_already_loaded = true;
@@ -285,15 +287,15 @@ function addMatrixHighlighters(which_one) {
 			.css("width", 500)
 			.css("height", function() {
 				if(which_one == "lhs")
-					return matrix_v16_modules[which_module][2][1];
+					return eval("matrix_v" + what_is_lhs + "_modules[which_module][2][1]");
 				else if(which_one == "rhs")
-					return matrix_v17_modules[which_module][2][1];
+					return eval("matrix_v" + what_is_rhs + "_modules[which_module][2][1]");
 			})
 			.css("top", function() {
 				if(which_one == "lhs")
-					return matrix_v16_modules[which_module][2][3];
+					return eval("matrix_v" + what_is_lhs + "_modules[which_module][2][3]");
 				else if(which_one == "rhs")
-					return matrix_v17_modules[which_module][2][3];
+					return eval("matrix_v" + what_is_rhs + "_modules[which_module][2][3]");
 			});
 	});
 	
@@ -305,15 +307,15 @@ function addMatrixHighlighters(which_one) {
 			.css("height", 500)
 			.css("width", function() {
 				if(which_one == "lhs")
-					return matrix_v16_modules[which_module][2][0];
+					return eval("matrix_v" + what_is_lhs + "_modules[which_module][2][0]");
 				else if(which_one == "rhs")
-					return matrix_v17_modules[which_module][2][0];
+					return eval("matrix_v" + what_is_rhs + "_modules[which_module][2][0]");
 			})
 			.css("left", function() {
 				if(which_one == "lhs")
-					return matrix_v16_modules[which_module][2][2];
+					return eval("matrix_v" + what_is_lhs + "_modules[which_module][2][2]");
 				else if(which_one == "rhs")
-					return matrix_v17_modules[which_module][2][2];
+					return eval("matrix_v" + what_is_rhs + "_modules[which_module][2][2]");
 			});
 	});
 }
@@ -322,9 +324,12 @@ function assignDynamicContentEventListeners() {
 	$("#close_modal_matrix").off("click");
 	$("#what_mean_matrix").off("click");
 	$("#modules_legend div").off("mouseover");
-	$("#modules_legend div").off("mouseout");
+	$("#matrix_view").off("click");
+	//$("#modules_legend div").off("mouseout");
 	
 	$("#modules_legend div").on("mouseover", function(d) {
+		$(".overlay").hide();
+		
 		var srcE = d.srcElement ? d.srcElement : d.target;
 		var id = $(srcE).attr("id");
 		$(".overlay_" + id)
@@ -332,11 +337,15 @@ function assignDynamicContentEventListeners() {
 			.show();
 	});
 	
-	$("#modules_legend div").on("mouseout", function(d) {
+	$("#matrix_view").on("click", function(d) {
+		$(".overlay").fadeOut();
+	});
+	
+	/*$("#modules_legend div").on("mouseout", function(d) {
 		var srcE = d.srcElement ? d.srcElement : d.target;
 		var id = $(srcE).attr("id");
 		$(".overlay_" + id).hide();
-	});
+	});*/
 	
 	$("#what_mean_matrix").on("click", function() {
 		$("#matrix_modal").show();
@@ -411,12 +420,12 @@ function addModulesLegend() {
 }
 
 function getDataFiles() {
-	d3.json("data/firefox16_module_breakdown.json", function(d_v16) {
-	 	d3.json("data/firefox17_module_breakdown.json", function(d_v17) {
-	 		data_v16 = d_v16;
-	 		data_v17 = d_v17;
-	 		data_v16.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
-	 		data_v17.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
+	d3.json("data/firefox" + what_is_lhs + "_module_breakdown.json", function(d_lhs) {
+	 	d3.json("data/firefox" + what_is_rhs + "_module_breakdown.json", function(d_rhs) {
+	 		data_lhs = d_lhs;
+	 		data_rhs = d_rhs;
+	 		data_lhs.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
+	 		data_rhs.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
 	 		
 			drawMetric("#metric #chart_view #loc_code", ["loc_code", "loc_code"], "", 0);
 			drawMetric("#metric #chart_view #mccabe_per_kloc_code", ["mccabe_per_kloc_code", "mccabe_per_kloc_code"], "", 0);
@@ -469,8 +478,10 @@ function drawMetric(container, metrics, max_value, is_percent) {
 			
 				//show data for each metric (there will always be two), each in its own svg
 				var data;
-				if(metric_i == 0) data = data_v16;
-				else data = data_v17;
+				if(metric_i == 0)
+					data = data_lhs;
+				else
+					data = data_rhs;
 				
 				$.each(data.json_data, function(i, d) {
 					var xMax = (max_value != "") ? max_value : d3.max(data.json_data, function(d) { return eval("d.data[0]."+metric);});
@@ -937,8 +948,8 @@ function startRotate() {
 
 //draw the arcs
 function drawCanvas(container) {
- 	var data_file_a = "data/firefox16_file_dependencies.csv.deps",
-	 	data_file_b = "data/firefox17_file_dependencies.csv.deps";
+ 	var data_file_a = "data/firefox" + what_is_lhs + "_file_dependencies.csv.deps",
+	 	data_file_b = "data/firefox" + what_is_rhs + "_file_dependencies.csv.deps";
  		//data_file_b = "data/firefox17_file_dependencies.csv";
  		//data_file_b = "data/firefox16_visibility.csv";
  		
@@ -948,11 +959,11 @@ function drawCanvas(container) {
 		
 
 	d3.csv(data_file_a, function(data) {
-		draw(data, ctx_a, false, matrix_v16_modules);
+		draw(data, ctx_a, false, eval("matrix_v" + what_is_lhs + "_modules"));
 	});
 	
 	d3.csv(data_file_b, function(data) {
-		draw(data, ctx_b, true, matrix_v17_modules);
+		draw(data, ctx_b, true, eval("matrix_v" + what_is_rhs + "_modules"));
 	});
 	
 	matrix_data_already_loaded = true;

@@ -724,7 +724,7 @@ label {
 }
 
 .right_overlay {
-	margin-left:630px;
+	margin-left:625px;
 	opacity:0.1; /* why does the opacity for the rhs increase? XD */
 }
 

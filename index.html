@@ -4,7 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
         <meta property="og:title" content="Evolution of the Firefox Codebase" />
-        <meta property="og:description" content="This work presents a set of metrics for all releases of Firefox that are indicative of quality with the ability to view them through one of several views. By looking at changes in these metrics, one can see the evolution of the Firefox codebase over time. They can also be useful as a retrospective, investigative tool to help infer when, say, architectural issues may be the cause for unfavorable user sentiment following a release."
+        <meta property="og:description" content="This work presents a set of metrics for all releases of Firefox that are indicative of quality and allows one to inspect them through one of several views. By looking at changes in these metrics, one can see the evolution of the Firefox codebase over time. This work is also be useful as a retrospective, investigative tool to help infer when, say, architectural issues may be the cause for unfavorable user sentiment following a release."
         />
         <meta property="og:image" content="http://almossawi.com/firefox/thumb.png" />
         <meta property="og:type" content="website" />
@@ -96,15 +96,15 @@
                             </a>
                             	<h1>What does this mean?</h1>
 
-                            <p>These first-order adjacency matrices, sometimes called Design Structure Matrices (DSMs), show direct dependencies between files in a code-base. A dot represents one or more dependencies and is read</p>
+                            <p>These adjacency matrices, sometimes called Design Structure Matrices (DSMs), show direct dependencies between files in a code-base. A dot represents one or more dependencies and is read</p>
                             <p style="text-align:center"><span style="font-style:italic;font-family:Palatino, Georgia, 'PT Serif', Times">file A depends on file B</span>
                             </p>
                             <p>where A is a file along the left edge and B is a file along the top edge. A module's dependencies are colored distinctly. A square-shaped cluster indicates the density of dependencies within a module.</p>
                             <p>All the dots to the right and left of a cluster are files that the module depends on. All files above and below it are files that depend on it. In many paradigms, modularity (low coupling, high cohesion) is a desirable quality attribute. Hence, an ideal
                                 system has modules that have more intra-module dependencies and fewer inter-module dependencies.</p>
                             <p>A matrix can show different types of files, which have varying impacts on quality. Although we calculate the values for these four types of files using the visibility matrix, it is still useful to look for them in a first-order matrix. <span style="font-weight:600">Shared files</span>,
-                                also known as utility files, are ones that a lot of other files depend on; a shared file that every other file in a codebase depends on would appear as a solid vertical line in a square matrix. Shared files appear to be a positive predictor of quality.</p>
-                            <p><span style="font-weight:600">Control files</span>, conversely, depend on a high number of files. Such files appear to be a negative predictor of quality and are hence undesirable in high numbers. They may appear as horizontal lines in a square-matrix.</p>
+                                also known as utility files, are ones that a lot of other files depend on; a shared file that every other file in a codebase depends on would appear as a solid vertical line in an adjacency matrix. Shared files appear to be a positive predictor of quality.</p>
+                            <p><span style="font-weight:600">Control files</span>, conversely, depend on a high number of files. Such files appear to be a negative predictor of quality and are hence undesirable in high numbers. They may appear as horizontal lines in an adjacency matrix.</p>
                             <p>Two other types of files are <span style="font-weight:600">core files</span>, which depend on a lot of files and have a lot of files depend on them, and <span style="font-weight:600">periphery files</span>, which don't depend on a lot of files and don't have a lot of files depend on them. These
                                 may be a bit more difficult to spot in a matrix. The collective size of clusters can give a partial sense of the number of core files in a codebase. Core files seem to be a negative predictor of quality whereas periphery files seem to be a positive predictor
                                 of quality.</p>
@@ -131,8 +131,8 @@
             <div style="clear:both"></div>
             <div id="container">
                 <div style="margin-top:40px;text-align:left">
-                    <p><span style="font-weight:600;font-style:italic">Evolution of the Firefox Codebase</span> presents a set of metrics for all releases of Firefox that are indicative of quality with the ability to view them through one of several views. By looking at changes in these metrics, one can see the evolution of the Firefox codebase over
-                        time. They can also be useful as a retrospective, investigative tool to help infer when, say, architectural issues may be the cause for unfavorable user sentiment following a release.</p>
+                    <p><span style="font-weight:600;font-style:italic">Evolution of the Firefox Codebase</span> presents a set of metrics for all releases of Firefox that are indicative of quality and allows one to inspect them through one of several views. By looking at changes in these metrics, one can see the evolution of the Firefox codebase over
+                        time. This work is also be useful as a retrospective, investigative tool to help infer when, say, architectural issues may be the cause for unfavorable user sentiment following a release.</p>
                     <p>Metrics such as lines-of-code (LOC) and cyclomatic complexity are widely used in industry, whereas others like propagation cost are based on some of the more recent research to come out of academia. For the module breakdown view, <i>Chart</i>, only
                         modules that have a reasonable level of complexity, i.e. several hundred files, are shown. Select an option from the top to change the view. Descriptions of what each metric captures and how it is calculated are shown below, as are some additional measures
                         of quality, such as speed and resident memory usage, both of which have improved in Firefox.</p>
@@ -256,9 +256,14 @@
                         </div>
                         <div id="fb_block" class="fb-like" data-href="http://almossawi.com/firefox" data-send="false" data-layout="box_count" data-width="150" data-show-faces="false" data-font="arial"></div>
                         <div id="credits_block">
-                        	<a href="http://almossawi.com" style="border-bottom:0">ALI ALMOSSAWI</a> &middot; ali@mozilla.com &middot; This is an early preview of a work-in-progress; please contact me for all thoughts and comments &middot;
+                        	<a href="http://almossawi.com" style="border-bottom:0">ALI ALMOSSAWI</a> &middot; ali@mozilla.com &middot; This is an early preview of a work-in-progress; please get in touch for all thoughts and comments &middot;
                             <!--<a href="https://twitter.com/alialmossawi">Follow me on Twitter</a> &middot;-->April 2013
-                            <br />Background image courtesy of <a href="https://twitter.com/tyronflanagan">Ty Flanagan</a>. This work is being released under a Creative Commons Attribution-NonCommercial license (<a href="http://creativecommons.org/licenses/by-nc/3.0/">CC BY-NC</a>).</div>
+                            <br />Background image courtesy of <a href="https://twitter.com/tyronflanagan">Ty Flanagan</a>. This work is being released under a Creative Commons Attribution-NonCommercial license (<a href="http://creativecommons.org/licenses/by-nc/3.0/">CC BY-NC</a>).
+                        </div>
+                        <div style="float:right;padding-top:17px">
+	                        <iframe src="http://ghbtns.com/github-btn.html?user=almossawi&repo=Firefox-Codebase-Evolution&type=watch&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="30" style="float:right"></iframe>
+                            <!--<iframe src="http://ghbtns.com/github-btn.html?user=almossawi&type=follow&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="200" height="30" style="float:right"></iframe>-->
+                        </div>
                     </div>
                 </div>
             </div>
