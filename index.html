@@ -3,14 +3,14 @@
     
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-        <meta property="og:title" content="Evolution of the Firefox codebase" />
+        <meta property="og:title" content="Evolution of the Firefox Codebase" />
         <meta property="og:description" content="This work presents a set of metrics for all releases of Firefox that are indicative of quality with the ability to view them through one of several views. By looking at changes in these metrics, one can see the evolution of the Firefox codebase over time. They can also be useful as a retrospective, investigative tool to help infer when, say, architectural issues may be the cause for unfavorable user sentiment following a release."
         />
         <meta property="og:image" content="http://almossawi.com/firefox/thumb.png" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="http://almossawi.com/fx-logo.png" />
-        <meta property="og:site_name" content="Evolution of the Firefox codebase" />
-        <title>Evolution of the Firefox codebase</title>
+        <meta property="og:site_name" content="Evolution of the Firefox Codebase" />
+        <title>Evolution of the Firefox Codebase</title>
         <link href='https://fonts.googleapis.com/css?family=Cardo' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Signika:400,300' rel='stylesheet' type='text/css'>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600" rel="stylesheet" type="text/css" />
@@ -76,14 +76,16 @@
 					</div>-->
                     <div id="canvases">
                         <div id="loading_matrices">Generating matrices...</div>
-                        <canvas id="canvas1" width="500" height="500"></canvas>
-                        <canvas id="canvas2" width="500" height="500"></canvas>
+                        
+                        <img src="images/matrix_blank.png" id="canvas1" />
+						<img src="images/matrix_blank.png" id="canvas2" />
+						
+                        <!--<canvas id="canvas1" width="500" height="500"></canvas>
+                        <canvas id="canvas2" width="500" height="500"></canvas>-->
+                        
                         <div style="clear:both"></div>
-                        <div id="lhs_core_periph" class="core_periph">FILES: 29,072 &nbsp; DENSITY: 0.066%</div>
-                        <div id="rhs_core_periph" class="core_periph">FILES: 28,654 &nbsp; DENSITY: 0.024%</div>
-        
-                        <!--<div id="canvas1"><img src="images/matrix_v16_raster.png" /></div>
-						<div id="canvas2"><img src="images/matrix_v17_raster.png" /></div>-->
+                        <div id="lhs_core_periph" class="core_periph">FILES: 29,072 &nbsp; DENSITY: 0.0239%</div>
+                        <div id="rhs_core_periph" class="core_periph">FILES: 29,739 &nbsp; DENSITY: 0.0235%</div>
 
                         <a href="#" id="what_mean_matrix">
                             <img src="images/what_mean.png" />
@@ -100,10 +102,10 @@
                             <p>where A is a file along the left edge and B is a file along the top edge. A module's dependencies are colored distinctly. A square-shaped cluster indicates the density of dependencies within a module.</p>
                             <p>All the dots to the right and left of a cluster are files that the module depends on. All files above and below it are files that depend on it. In many paradigms, modularity (low coupling, high cohesion) is a desirable quality attribute. Hence, an ideal
                                 system has modules that have more intra-module dependencies and fewer inter-module dependencies.</p>
-                            <p>A matrix can show different types of files, which have varying impacts on quality. Although we calculate the values for these four types of files using the visibility matrix, it is still useful to look for them in a first-order matrix. <strong>Shared files</strong>,
+                            <p>A matrix can show different types of files, which have varying impacts on quality. Although we calculate the values for these four types of files using the visibility matrix, it is still useful to look for them in a first-order matrix. <span style="font-weight:600">Shared files</span>,
                                 also known as utility files, are ones that a lot of other files depend on; a shared file that every other file in a codebase depends on would appear as a solid vertical line in a square matrix. Shared files appear to be a positive predictor of quality.</p>
-                            <p><strong>Control files</strong>, conversely, depend on a high number of files. Such files appear to be a negative predictor of quality and are hence undesirable in high numbers. They may appear as horizontal lines in a square-matrix.</p>
-                            <p>Two other types of files are <strong>core files</strong>, which depend on a lot of files and have a lot of files depend on them, and <strong>periphery files</strong>, which don't depend on a lot of files and don't have a lot of files depend on them. These
+                            <p><span style="font-weight:600">Control files</span>, conversely, depend on a high number of files. Such files appear to be a negative predictor of quality and are hence undesirable in high numbers. They may appear as horizontal lines in a square-matrix.</p>
+                            <p>Two other types of files are <span style="font-weight:600">core files</span>, which depend on a lot of files and have a lot of files depend on them, and <span style="font-weight:600">periphery files</span>, which don't depend on a lot of files and don't have a lot of files depend on them. These
                                 may be a bit more difficult to spot in a matrix. The collective size of clusters can give a partial sense of the number of core files in a codebase. Core files seem to be a negative predictor of quality whereas periphery files seem to be a positive predictor
                                 of quality.</p>
                         </div>
@@ -131,7 +133,7 @@
                 <div style="margin-top:40px;text-align:left">
                     <p><span style="font-weight:600;font-style:italic">Evolution of the Firefox Codebase</span> presents a set of metrics for all releases of Firefox that are indicative of quality with the ability to view them through one of several views. By looking at changes in these metrics, one can see the evolution of the Firefox codebase over
                         time. They can also be useful as a retrospective, investigative tool to help infer when, say, architectural issues may be the cause for unfavorable user sentiment following a release.</p>
-                    <p>Metrics such as lines-of-code (LOC) and cyclomatic complexity are widely used in industry, whereas other ones like propagation cost are based on some of the more recent research to come out of academia. For the module breakdown view, <i>Chart</i>, only
+                    <p>Metrics such as lines-of-code (LOC) and cyclomatic complexity are widely used in industry, whereas others like propagation cost are based on some of the more recent research to come out of academia. For the module breakdown view, <i>Chart</i>, only
                         modules that have a reasonable level of complexity, i.e. several hundred files, are shown. Select an option from the top to change the view. Descriptions of what each metric captures and how it is calculated are shown below, as are some additional measures
                         of quality, such as speed and resident memory usage, both of which have improved in Firefox.</p>
                     <br />
@@ -178,8 +180,9 @@
                             <p style='padding:0;margin:0;font-size:80%'><sup>2</sup> Steven D. Eppinger and Tyson R. Browning, Design Structure Matrix Methods and Applications (2012).</p>
                             <p style='padding:0;margin-top:0;font-size:80%'><sup>3</sup> Alan MacCormack, John Rusnak and Carliss Baldwin, <i>Exploring the Structure of Complex Software Designs: An Empirical Study of Open Source and Proprietary Code</i> (2006).</p>
                     </div>
-                    <div class="chart_container" id="allversions_prop_cost">	<span class="container_title">Propagation cost</span>
-                    
+                    <div class="chart_container" id="allversions_prop_cost">
+                    	<span class="container_title">Propagation cost</span>
+                    	<div></div>
                     </div>
                     <div class="chart_description">
                         <h1>Core size</h1>
@@ -190,8 +193,8 @@
                             low fan-out) and control files, which depend on a lot of files, but don’t have a lot of files depend on them (low fan-in, high fan-out).</p>
                         <p>Core size, here, is the percentage of files with one or more dependencies that have a fan-in above the fan-in median and a fan-out above the fan-out median.</p>
                     </div>
-                    <div class="chart_container" id="allversions_percent_in_core">	<span class="container_title">Core size</span>
-
+                    <div class="chart_container" id="allversions_percent_in_core">
+                    	<span class="container_title">Core size</span>
                         <div></div>
                     </div>
                     <div style="clear:both"></div>
@@ -202,8 +205,8 @@
                             field, the defect counts currently don't include confirmed bugs that have not been assigned to particular releases. We have a relatively robust method for including unassigned defects that we may end up using in the future. We start from version 5.0 since
                             that is when the rapid release cycle began.</p>
                     </div>
-                    <div class="chart_container" id="allversions_defects_per_hundred_thousand_loc_code">	<span class="container_title">Defect density</span>
-
+                    <div class="chart_container" id="allversions_defects_per_hundred_thousand_loc_code">
+                    	<span class="container_title">Defect density</span>
                         <div></div>
                     </div>
                     <div style="clear:both"></div>
@@ -216,8 +219,8 @@
                             weeks between that codebase and the codebase of the final release, hence it is important to keep this caveat in mind when interpreting the data.</p>
                         <p>This data is provided by our colleagues at areweslimyet.com. See their <a href="https://areweslimyet.com/faq.htm">FAQ</a> for more info.</p>
                     </div>
-                    <div class="chart_container" id="allversions_mem">	<span class="container_title">Resident memory</span>
-
+                    <div class="chart_container" id="allversions_mem">
+                    	<span class="container_title">Resident memory</span>
                         <div></div>
                     </div>
                     <div class="chart_description">
@@ -227,8 +230,8 @@
                             is a gap of a number of weeks between that codebase and the codebase of the final release, hence it is important to keep this caveat in mind when interpreting the data.</p>
                         <p>The data is provided by our colleagues at arewefastyet.com.</p>
                     </div>
-                    <div class="chart_container" id="allversions_speed">	<span class="container_title">Speed</span>
-
+                    <div class="chart_container" id="allversions_speed">
+                    	<span class="container_title">Speed</span>
                         <div></div>
                     </div>
                 </div>
@@ -237,7 +240,7 @@
                 <div id="wide_pane">
                     <div id="logo_container">
                         <div id="twitter_block">
-<a href="https://twitter.com/share" data-size="large" class="twitter-share-button">Tweet</a>
+<a href="https://twitter.com/share" data-size="large" class="twitter-share-button" data-via="alialmossawi">Tweet</a>
 
                             <script>
                                 ! function (d, s, id) {
@@ -252,7 +255,8 @@
                             </script>
                         </div>
                         <div id="fb_block" class="fb-like" data-href="http://almossawi.com/firefox" data-send="false" data-layout="box_count" data-width="150" data-show-faces="false" data-font="arial"></div>
-                        <div id="credits_block">	<a href="http://almossawi.com">ALI ALMOSSAWI</a> &middot; ali@mozilla.com &middot; This is a work-in-progress; please contact me for all thoughts and comments &middot;
+                        <div id="credits_block">
+                        	<a href="http://almossawi.com" style="border-bottom:0">ALI ALMOSSAWI</a> &middot; ali@mozilla.com &middot; This is an early preview of a work-in-progress; please contact me for all thoughts and comments &middot;
                             <!--<a href="https://twitter.com/alialmossawi">Follow me on Twitter</a> &middot;-->April 2013
                             <br />Background image courtesy of <a href="https://twitter.com/tyronflanagan">Ty Flanagan</a>. This work is being released under a Creative Commons Attribution-NonCommercial license (<a href="http://creativecommons.org/licenses/by-nc/3.0/">CC BY-NC</a>).</div>
                     </div>
@@ -265,6 +269,8 @@
                     'images/lhs_right.png',
                     'images/rhs_left.png',
                     'images/rhs_right.png',
+                    'images/bg-sand.png',
+                    'images/matrix_blank.png'
             ];
 
             $(images).each(function () {

@@ -349,24 +349,6 @@ svg rect.module_bar_transparent {
 	width:440px;
 }
 
-@-moz-document url-prefix() { 
-	#main_options a div div.selected_view,
-	#main_options a div div.unselected_view {
-		margin-top:9px;
-		width:450px;
-		display:none;
-	}
-	
-	#main_options a#switch_to_matrix div div.selected_view {
-		margin-left:20px;
-		width:429px;
-	}
-	
-	svg.right {
-		margin-left:1px;
-	}
-}
-
 #wide_pane {
 	position:absolute;
 	background-color:#fff;
@@ -812,4 +794,30 @@ label {
 
 #rhs_core_periph {
 	margin-left:635px;
+}
+
+@-moz-document url-prefix() { 
+	#main_options a div div.selected_view,
+	#main_options a div div.unselected_view {
+		margin-top:9px;
+		width:450px;
+		display:none;
+	}
+	
+	#main_options a#switch_to_matrix div div.selected_view {
+		margin-left:20px;
+		width:429px;
+	}
+	
+	svg.right {
+		margin-left:0.5px;
+	}
+	
+	#page #container {
+		height:2550px;
+	}
+	
+	#page {
+		height:3525px;
+	}
 }

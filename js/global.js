@@ -4,8 +4,8 @@ var point_size = 0.8,
 	alpha = 0.2,
 	max_version = 17,
 	pause = false,
-	matrix_load_delay = 0,
-	use_raster_for_matrix = false;
+	matrix_load_delay = 1000,
+	use_raster_for_matrix = true;
 	
 var data_v16,
 	data_v17;
@@ -37,16 +37,16 @@ var matrix_v16_modules = new Object();
 	matrix_v16_modules["browser"] = [1094,2507, [20,20,22,19]];
 	matrix_v16_modules["content"] = [2721,5361, [37,35,46,42]];
 	matrix_v16_modules["dom"] = [5544,8825, [47,45,84,80]];
-	matrix_v16_modules["gfx"] = [9520,11713, [54,55,139,135]];
+	matrix_v16_modules["gfx"] = [9520,11713, [30,30,139,135]];
 	matrix_v16_modules["ipc"] = [12665,13479, [11,10,180,178]];
 	matrix_v16_modules["js"] = [13480,19593, [81,85,193,188]];
 	matrix_v16_modules["layout"] = [19594,24684, [70,71,276,273]];
-	matrix_v16_modules["media"] = [24695,27484, [0,0,0,0]];
-	matrix_v16_modules["modules"] = [28591,29187, [0,0,0,0]];
-	matrix_v16_modules["netwerk"] = [29212,29860, [0,0,0,0]];
-	matrix_v16_modules["security"] = [30926,32117, [0,0,0,0]];
-	matrix_v16_modules["toolkit"] = [32842,34754, [0,0,0,0]];
-	matrix_v16_modules["widget"] = [35372,35845, [0,0,0,0]];
+	matrix_v16_modules["media"] = [24695,27484, [38,38,346,343]];
+	matrix_v16_modules["modules"] = [28591,29187, [8,8,399,395]];
+	matrix_v16_modules["netwerk"] = [29212,29860, [10,10,408,404]];
+	matrix_v16_modules["security"] = [30926,32117, [17,17,431,428]];
+	matrix_v16_modules["toolkit"] = [32842,34754, [25,26,458,454]];
+	matrix_v16_modules["widget"] = [35372,35845, [7,7,493,488]];
 	
 var matrix_v17_modules = new Object();
 	matrix_v17_modules["-"] = [0,667, [0,0,0,0]];
@@ -54,16 +54,16 @@ var matrix_v17_modules = new Object();
 	matrix_v17_modules["browser"] = [1128,2592, [20,20,22,19]];
 	matrix_v17_modules["content"] = [2818,5516, [36,35,47,43]];
 	matrix_v17_modules["dom"] = [5704,9188, [47,46,84,80]];
-	matrix_v17_modules["gfx"] = [9891,12162, [54,54,142,138]];
+	matrix_v17_modules["gfx"] = [9891,12162, [31,30,142,138]];
 	matrix_v17_modules["ipc"] = [13115,13936, [11,11,184,180]];
 	matrix_v17_modules["js"] = [13937,20057, [83,85,197,190]];
 	matrix_v17_modules["layout"] = [20058,25209, [73,70,277,273]];
-	matrix_v17_modules["media"] = [25210,28056, [0,0,0,0]];
-	matrix_v17_modules["modules"] = [29181,29776, [0,0,0,0]];
-	matrix_v17_modules["netwerk"] = [29802,30451, [0,0,0,0]];
-	matrix_v17_modules["security"] = [31525,32720, [0,0,0,0]];
-	matrix_v17_modules["toolkit"] = [33457,35414, [0,0,0,0]];
-	matrix_v17_modules["widget"] = [36031,36511, [0,0,0,0]];
+	matrix_v17_modules["media"] = [25210,28056, [37,38,348,343]];
+	matrix_v17_modules["modules"] = [29181,29776, [8,8,401,396]];
+	matrix_v17_modules["netwerk"] = [29802,30451, [9,9,409,405]];
+	matrix_v17_modules["security"] = [31525,32720, [17,15,433,429]];
+	matrix_v17_modules["toolkit"] = [33457,35414, [25,26,461,454]];
+	matrix_v17_modules["widget"] = [36031,36511, [7,7,493,488]];
 		
 var chart_data_already_loaded = false,
 	matrix_data_already_loaded = false,
@@ -141,7 +141,10 @@ function assignEventListeners() {
 		setTimeout(function() {
 			//png
 			if(use_raster_for_matrix) {
-				$("#loading_matrices").hide();
+				$("#canvas1").attr("src", "images/matrix_v16_raster.png");
+				$("#canvas2").attr("src", "images/matrix_v17_raster.png");
+				
+				$("#loading_matrices").delay(400).fadeOut();
 				matrix_data_already_loaded = true;
 			}
 			//canvas
