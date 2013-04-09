@@ -2,6 +2,7 @@
 
 var point_size = 0.8,
 	alpha = 0.2,
+	min_version = 16,
 	max_version = 17,
 	pause = false,
 	matrix_load_delay = 1000,
@@ -29,7 +30,7 @@ var module_colors = new Object();
 	module_colors["netwerk"] = "92, 100, 196";
 	module_colors["security"] = "0,171,169";
 	module_colors["toolkit"] = "45,109,255";
-	module_colors["widget"] = "12,73,153";
+	module_colors["widget"] = "230,113,184";
 
 //0 = start in .files, 1 = end in .files, 
 //2 = matrix highlight coords [width, height, left, top]
@@ -101,6 +102,12 @@ $(document).ready(function () {
 	assignEventListeners();
 });
 
+function resetLoadedDataFlags() {
+	chart_data_already_loaded=false;
+	matrix_data_already_loaded=false;
+	network_data_already_loaded=false;		
+}
+
 function assignEventListeners() {
 	$("#rhs_left").off("click");
 	$("#rhs_right").off("click");
@@ -113,22 +120,72 @@ function assignEventListeners() {
 	$(".version_arrow").off("mouseleave");
 	
 	$("#rhs_left").on("click", function() {
-		alert("Switching between releases is currently being worked on.");
+		if(what_is_rhs-1 < min_version) {
+			console.log(what_is_rhs);
+			return  what_is_rhs;
+		}
+		else {
+			resetLoadedDataFlags();
+			//todo redraw the rhs svgs in chart or the rhs matrix in matrix
+			
+			console.log(what_is_rhs-1);
+			return what_is_rhs--;
+		}
+		
 		return false;
 	});
 	
 	$("#rhs_right").on("click", function() {
-		alert("Switching between releases is currently being worked on.");
+		if(what_is_rhs+1 > max_version) {
+			//todo shake the element so the user knows
+			
+			console.log(what_is_rhs);
+			return  what_is_rhs;
+		}
+		else {
+			resetLoadedDataFlags();
+			//todo redraw the rhs svgs in chart or the rhs matrix in matrix
+			
+			console.log(what_is_rhs+1);
+			return what_is_rhs++;
+		}
+		
 		return false;
 	});
 	
 	$("#lhs_left").on("click", function() {
-		alert("Switching between releases is currently being worked on.");
+		if(what_is_lhs-1 < min_version) {
+			//todo shake the element so the user knows
+			
+			console.log(what_is_lhs);
+			return  what_is_lhs;
+		}
+		else {
+			resetLoadedDataFlags();
+			//todo redraw the lhs svgs in chart or the rhs matrix in matrix
+			
+			console.log(what_is_lhs-1);
+			return what_is_lhs--;
+		}
+		
 		return false;
 	});
 	
 	$("#lhs_right").on("click", function() {
-		alert("Switching between releases is currently being worked on.");
+		if(what_is_lhs+1 > max_version) {
+			//todo shake the element so the user knows
+			
+			console.log(what_is_lhs);
+			return  what_is_lhs;
+		}
+		else {
+			resetLoadedDataFlags();
+			//todo redraw the lhs svgs in chart or the rhs matrix in matrix
+			
+			console.log(what_is_lhs+1);
+			return what_is_lhs++;
+		}
+		
 		return false;
 	});
 	
