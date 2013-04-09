@@ -149,7 +149,7 @@ function assignEventListeners() {
 		else {
 			//redraw using the new data
 			what_is_rhs--;
-			resetLoadedDataFlags();
+			
 			redrawCurrentView();
 			console.log(what_is_rhs);
 		}
@@ -167,7 +167,7 @@ function assignEventListeners() {
 		else {
 			//redraw using the new data
 			what_is_rhs++
-			resetLoadedDataFlags();
+
 			redrawCurrentView();
 			console.log(what_is_rhs);
 		}
@@ -185,7 +185,7 @@ function assignEventListeners() {
 		else {
 			//redraw using the new data
 			what_is_lhs--;
-			resetLoadedDataFlags();
+
 			redrawCurrentView();
 			console.log(what_is_lhs);
 		}
@@ -203,7 +203,7 @@ function assignEventListeners() {
 		else {
 			//redraw using the new data
 			what_is_lhs++;
-			resetLoadedDataFlags();
+
 			redrawCurrentView();
 			console.log(what_is_lhs);
 		}
@@ -347,6 +347,12 @@ function assignEventListeners() {
 }
 
 function redrawCurrentView() {
+	resetLoadedDataFlags();
+	console.log("dasdsa");
+	//update the version headers
+	$("#lhs_version_header").html("Firefox " + what_is_lhs);
+	$("#rhs_version_header").html("Firefox " + what_is_rhs);
+			
 	//todo determine which the current view is
 	//right now, ill just assume it's the default chart view
 	loadChartView();
