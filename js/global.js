@@ -87,10 +87,32 @@ $(document).ready(function () {
 	//other initializations
 	$("select, input, a.button, button").uniform();
 
+	//load the charts in the belo-the-fold container
+	drawCharts();
+	
 	//show chart view by default
 	$("#main_options a#switch_to_chart div div.selected_view").show();
 	$("#chart_view").show();
 	loadChartView();
+	
+	//set the chart titles only once
+	$("#loc_code")
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["loc_code"] + "</div>");
+		
+	$("#mccabe_per_kloc_code")
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["mccabe_per_kloc_code"] + "</div>");
+		
+	$("#prop_cost")
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["prop_cost"] + "</div>");
+		
+	$("#percent_in_core")
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["percent_in_core"] + "</div>");
+		
+	$("#sum_fanin")
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["sum_fanin"] + "</div>");
+		
+	$("#sum_vfanin")
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["sum_vfanin"] + "</div>");
 	
 	//add legend and matrix highlighters on page load to save time
 	addModulesLegend();
@@ -125,11 +147,11 @@ function assignEventListeners() {
 			return  what_is_rhs;
 		}
 		else {
+			//redraw using the new data
+			what_is_rhs--;
 			resetLoadedDataFlags();
-			//todo redraw the rhs svgs in chart or the rhs matrix in matrix
-			
-			console.log(what_is_rhs-1);
-			return what_is_rhs--;
+			redrawCurrentView();
+			console.log(what_is_rhs);
 		}
 		
 		return false;
@@ -143,11 +165,11 @@ function assignEventListeners() {
 			return  what_is_rhs;
 		}
 		else {
+			//redraw using the new data
+			what_is_rhs++
 			resetLoadedDataFlags();
-			//todo redraw the rhs svgs in chart or the rhs matrix in matrix
-			
-			console.log(what_is_rhs+1);
-			return what_is_rhs++;
+			redrawCurrentView();
+			console.log(what_is_rhs);
 		}
 		
 		return false;
@@ -161,11 +183,11 @@ function assignEventListeners() {
 			return  what_is_lhs;
 		}
 		else {
+			//redraw using the new data
+			what_is_lhs--;
 			resetLoadedDataFlags();
-			//todo redraw the lhs svgs in chart or the rhs matrix in matrix
-			
-			console.log(what_is_lhs-1);
-			return what_is_lhs--;
+			redrawCurrentView();
+			console.log(what_is_lhs);
 		}
 		
 		return false;
@@ -179,11 +201,11 @@ function assignEventListeners() {
 			return  what_is_lhs;
 		}
 		else {
+			//redraw using the new data
+			what_is_lhs++;
 			resetLoadedDataFlags();
-			//todo redraw the lhs svgs in chart or the rhs matrix in matrix
-			
-			console.log(what_is_lhs+1);
-			return what_is_lhs++;
+			redrawCurrentView();
+			console.log(what_is_lhs);
 		}
 		
 		return false;
@@ -220,6 +242,7 @@ function assignEventListeners() {
 		
 		$("#main_options a div div.selected_view").hide();
 		$("#main_options a#switch_to_chart div div.selected_view").show();
+		
 		loadChartView();
 		
 		return false;
@@ -321,6 +344,12 @@ function assignEventListeners() {
 			.css("fill", "#4898ff");
 			
 	});
+}
+
+function redrawCurrentView() {
+	//todo determine which the current view is
+	//right now, ill just assume it's the default chart view
+	loadChartView();
 }
 
 function addMatrixHighlighters(which_one) {
@@ -426,27 +455,8 @@ function assignDynamicContentEventListeners() {
 
 function loadChartView() {
 	if(chart_data_already_loaded) return;
-	
-	getDataFiles();
-	drawCharts();
-	
-	$("#loc_code")
-		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["loc_code"] + "</div>");
-		
-	$("#mccabe_per_kloc_code")
-		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["mccabe_per_kloc_code"] + "</div>");
-		
-	$("#prop_cost")
-		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["prop_cost"] + "</div>");
-		
-	$("#percent_in_core")
-		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["percent_in_core"] + "</div>");
-		
-	$("#sum_fanin")
-		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["sum_fanin"] + "</div>");
-		
-	$("#sum_vfanin")
-		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["sum_vfanin"] + "</div>");
+	console.log("about to draw");
+	getDataFilesAndDrawChartsInChartView();
 }
 
 function loadMatrixView() {
@@ -476,7 +486,10 @@ function addModulesLegend() {
 	}, 1000);
 }
 
-function getDataFiles() {
+function getDataFilesAndDrawChartsInChartView() {
+	//make idempotent
+	$(".topmetric svg").remove();
+	
 	d3.json("data/firefox" + what_is_lhs + "_module_breakdown.json", function(d_lhs) {
 	 	d3.json("data/firefox" + what_is_rhs + "_module_breakdown.json", function(d_rhs) {
 	 		data_lhs = d_lhs;
@@ -491,6 +504,9 @@ function getDataFiles() {
 			drawMetric("#metric #chart_view #percent_in_core", ["percent_in_core", "percent_in_core"], "", 1);
 			drawMetric("#metric #chart_view #sum_fanin", ["sum_fanin", "sum_fanin"], "", 0);
 			drawMetric("#metric #chart_view #sum_vfanin", ["sum_vfanin", "sum_vfanin"], "", 0);	 
+			
+			
+			chart_data_already_loaded = true;
 	 	})	
 	 });
 }
@@ -663,8 +679,6 @@ function drawMetric(container, metrics, max_value, is_percent) {
 }
 
 function drawCharts() {
-	//$(".chart_container div").empty();
-
 	//draw the charts
 	d3.json("data/architectural_by_chart.json", function(data) {
 		$.each($(".chart_container"), function(index, value) {
@@ -687,14 +701,12 @@ function drawCharts() {
 			if(id == "allversions_mem" || id == "allversions_speed") splice_from = 6;
 			if(id == "allversions_defects_per_hundred_thousand_loc_code") splice_from = 7;
 			
-			drawEachChart(eval("data."+id), "#chart_container_container #" + id, format, humanify_numbers, custom_units, splice_from);
+			drawEachBelowTheFoldChart(eval("data."+id), "#chart_container_container #" + id, format, humanify_numbers, custom_units, splice_from);
 		});
 	});
-	
-	chart_data_already_loaded = true;
 }
 
-function drawEachChart(data, container, format, humanify_numbers, custom_units, splice_from) {
+function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, custom_units, splice_from) {
 	var w = 570,
 		h = 180,
 		xPadding = 22,
@@ -918,65 +930,7 @@ function drawEachChart(data, container, format, humanify_numbers, custom_units, 
 										.remove();
 								});
 				});
-   			
-	/*svg.selectAll("circle")
-		.on('mouseover.tooltip', function(d,i) {
-			d3.selectAll(".tooltip").remove(); //timestamp is used as id
-			d3.select(which_metric + " svg")
-				.append("svg:rect")
-					.attr("width", 40)
-					.attr("height", 15)
-					.attr("x", function() { return xScale(i)-22; })
-					.attr("y", function() { return yScale(d)-25; })
-					.attr("class", "tooltip_box");
-						
-			d3.select(which_metric + " svg")
-				.append("text")
-					.text(function() {
-						if(humanify_numbers == false)
-							return d;
-							
-						if(custom_units != "")
-							return d + custom_units;
-							
-						return (format == "%") ? (d*100).toFixed(2) + "%" : getHumanSize(d);
-					})
-					.attr("x", function() { return xScale(i); })
-					.attr("y", function() { return yScale(d)-13; })
-					.attr("id", function() { return i; })
-					.attr("dy", "0.35m")
-					.attr("text-anchor", "middle")
-					.attr("class", "tooltip");
-		})
-		.on('mouseout.tooltip', function(d) {
-			d3.select(".tooltip_box").remove();
-			d3.select(".tooltip")
-				.transition()
-				.duration(200)
-				.style("opacity", 0)
-				.attr("transform", "translate(0,-10)")
-				.remove();
-		})
-		.on('mouseover', function(d) {				
-			d3.select(this)
-				.transition()
-		    	.attr('r', 6);
-		}).on('mouseout', function() {
-      		d3.select(this)
-				.transition()
-			   	.attr('r', 4);
-      	})
-		.append("text")
-			.text(function(d) {
-		    	return d;
-		})
-		.attr('class', 'line_label')
-		.attr("x", function(d,i) {
-   			return xScale(i)-5;
-		})
-		.attr("y", function(d) { return yScale(d); });
-		*/
-		
+
 		//hide points that are 0
 		d3.selectAll("circle").each(function(d, i) {
 			if(d == 0) d3.select(this).attr("display", "none");
@@ -1026,38 +980,6 @@ function drawCanvas(container) {
 	matrix_data_already_loaded = true;
 }
 
-//todo
-/*function addMatrixOverlays() {
-	//todo kruge
-	var max_file_v16 = 36512,
-		max_file_v17 = 37172;
-		
-	//add our scales
-	var scale_v16 = d3.scale.linear()
-    	    .domain([0, max_file_v16])
-        	.range([0, 500]);
-        	
-    var scale_v17 = d3.scale.linear()
-    	    .domain([0, max_file_v17])
-        	.range([0, 500]);
-    
-    
-    addMatrixOverlayForEach(matrix_v16_modules, scale_v16, "#canvas1");
-    addMatrixOverlayForEach(matrix_v17_modules, scale_v17, "#canvas2");
-}
-
-function addMatrixOverlayForEach(which_version, scale, container) {
-    for(var i=0; i < modules.length; i++) {console.log(scale(which_version[modules[i]][0]));
-    	//for each module, add a semitransparent div
-    	var html = "<div class='overlay' style='opacity:0.5;border-radius:8px;padding:4px;background-color:white;position:absolute;z-index:999999;"
-    			+ "margin-left:" + (Math.floor(scale(which_version[modules[i]][0]))) + "px;"
-    			+ "margin-top:" + Math.floor(scale(which_version[modules[i]][1]))+ "px'"
-    			+ ">" + modules[i] + "</div>";
-    			
-    	$(container).append(html);
-	}
-}*/
-
 function draw(data, which_canvas, last_one, which_version) {
 		var total_deps = 0,
 			nnz = data.length,
@@ -1098,13 +1020,6 @@ function draw(data, which_canvas, last_one, which_version) {
 			which_canvas.rect(xScale(d.to_file), yScale(d.from_file), point_size, point_size)
 			which_canvas.closePath();
 			which_canvas.fill();
-			
-			//add the module name here
-			/*which_canvas.lineWidth=1;
-			which_canvas.fillStyle = "rgba(235, 235, 235, " + 0.1 + ")";
-			//which_canvas.lineStyle="#ffffff";
-			which_canvas.font="8px sans-serif";
-			which_canvas.fillText(d.from_file, xScale(d.to_file), yScale(d.from_file));*/
 		});		
 		
 		
@@ -1125,93 +1040,6 @@ function getModuleColor(d, which_version) {
 	
 	//return white
 	return "rgba(236, 235, 235," + alpha + ")";
-	
-	/*if((d.from_file <= which_version["accessible"][1] && d.from_file >= which_version["accessible"][0])
-			&& (d.to_file <= which_version["accessible"][1] && d.to_file >= which_version["accessible"][0])
-		) {
-		return "rgba(" + module_colors["accessible"][0] + "," + alpha + ")";
-	}
-	//browser
-	else if((d.from_file <= which_version["browser"][1] && d.from_file >= which_version["browser"][0])
-			&& (d.to_file <= which_version["browser"][1] && d.to_file >= which_version["browser"][0])
-		) {
-		return "rgba(" + module_colors["browser"][0] + "," + alpha + ")";
-	}
-	//content
-	else if((d.from_file <= which_version["content"][1] && d.from_file >= which_version["content"][0])
-			&& (d.to_file <= which_version["content"][1] && d.to_file >= which_version["content"][0])
-		) {
-		return "rgba(" + module_colors["content"][0] + "," + alpha + ")";
-	}	
-	//dom
-	else if((d.from_file <= which_version["dom"][1] && d.from_file >= which_version["dom"][0])
-			&& (d.to_file <= which_version["dom"][1] && d.to_file >= which_version["dom"][0])
-		) {
-		return "rgba(" + module_colors["dom"][0] + "," + alpha + ")";
-	}
-	//gfx
-	else if((d.from_file <= which_version["gfx"][1] && d.from_file >= which_version["gfx"][0])
-			&& (d.to_file <= which_version["gfx"][1] && d.to_file >= which_version["gfx"][0])
-		) {
-		return "rgba(" + module_colors["gfx"][0] + "," + alpha + ")";
-	}	
-	//js
-	else if((d.from_file <= which_version["js"][1] && d.from_file >= which_version["js"][0])
-			&& (d.to_file <= which_version["js"][1] && d.to_file >= which_version["js"][0])
-		) {
-		return "rgba(" + module_colors["js"][0] + "," + alpha + ")";
-	}		
-	//ipc
-	else if((d.from_file <= which_version["ipc"][1] && d.from_file >= which_version["ipc"][0])
-			&& (d.to_file <= which_version["ipc"][1] && d.to_file >= which_version["ipc"][0])
-		) {
-		return "rgba(" + module_colors["ipc"][0] + "," + alpha + ")";
-	}			
-	//layout
-	else if((d.from_file <= which_version["layout"][1] && d.from_file >= which_version["layout"][0])
-			&& (d.to_file <= which_version["layout"][1] && d.to_file >= which_version["layout"][0])
-		) {
-		return "rgba(" + module_colors["layout"][0] + "," + alpha + ")";
-	}			
-	//media
-	else if((d.from_file <= which_version["media"][1] && d.from_file >= which_version["media"][0])
-			&& (d.to_file <= which_version["media"][1] && d.to_file >= which_version["media"][0])
-		) {
-		return "rgba(" + module_colors["media"][0] + "," + alpha + ")";
-	}				
-	//modules
-	else if((d.from_file <= which_version["modules"][1] && d.from_file >= which_version["modules"][0])
-			&& (d.to_file <= which_version["modules"][1] && d.to_file >= which_version["modules"][0])
-		) {
-		return "rgba(" + module_colors["modules"][0] + "," + alpha + ")";
-	}				
-	//netwerk
-	else if((d.from_file <= which_version["netwerk"][1] && d.from_file >= which_version["netwerk"][0])
-			&& (d.to_file <= which_version["netwerk"][1] && d.to_file >= which_version["netwerk"][0])
-		) {
-		return "rgba(" + module_colors["netwerk"][0] + "," + alpha + ")";
-	}	
-	//security
-	else if((d.from_file <= which_version["security"][1] && d.from_file >= which_version["security"][0])
-			&& (d.to_file <= which_version["security"][1] && d.to_file >= which_version["security"][0])
-		) {
-		return "rgba(" + module_colors["security"][0] + "," + alpha + ")";
-	}
-	//toolkit
-	else if((d.from_file <= which_version["toolkit"][1] && d.from_file >= which_version["toolkit"][0])
-			&& (d.to_file <= which_version["toolkit"][1] && d.to_file >= which_version["toolkit"][0])
-		) {
-		return "rgba(" + module_colors["toolkit"][0] + "," + alpha + ")";
-	}	
-	//widget
-	else if((d.from_file <= which_version["widget"][1] && d.from_file >= which_version["widget"][0])
-			&& (d.to_file <= which_version["widget"][1] && d.to_file >= which_version["widget"][0])
-		) {
-		return "rgba(" + module_colors["widget"][0] + "," + alpha + ")";
-	}		
-	else {
-		return "rgba(236, 235, 235," + alpha + ")";
-	}*/
 }
 
 function addCommas(nStr) {
