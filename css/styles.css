@@ -294,7 +294,7 @@ h1 {
 	padding-bottom:0;
 }
 
-.metric_value {
+.module_value {
 	opacity:0.8;
 	font-size:9px;
 	font-weight:600;
@@ -838,6 +838,7 @@ label {
 }
 
 #versions_lhs_and_rhs {
+	width:430px;
 	position:absolute;
 	margin-left:472px;
 	font-weight:600;

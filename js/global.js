@@ -93,7 +93,7 @@ $(document).ready(function () {
 	//show chart view by default
 	$("#main_options a#switch_to_chart div div.selected_view").show();
 	$("#chart_view").show();
-	loadChartView();
+	loadChartView(false);
 	
 	//set the chart titles only once
 	$("#loc_code")
@@ -243,7 +243,7 @@ function assignEventListeners() {
 		$("#main_options a div div.selected_view").hide();
 		$("#main_options a#switch_to_chart div div.selected_view").show();
 		
-		loadChartView();
+		loadChartView(false);
 		
 		return false;
 	});
@@ -348,14 +348,14 @@ function assignEventListeners() {
 
 function redrawCurrentView() {
 	resetLoadedDataFlags();
-	console.log("dasdsa");
+
 	//update the version headers
 	$("#lhs_version_header").html("Firefox " + what_is_lhs);
 	$("#rhs_version_header").html("Firefox " + what_is_rhs);
 			
 	//todo determine which the current view is
 	//right now, ill just assume it's the default chart view
-	loadChartView();
+	loadChartView(true);
 }
 
 function addMatrixHighlighters(which_one) {
@@ -459,10 +459,17 @@ function assignDynamicContentEventListeners() {
 	
 }
 
-function loadChartView() {
+function loadChartView(are_we_updating) {
 	if(chart_data_already_loaded) return;
-	console.log("about to draw");
-	getDataFilesAndDrawChartsInChartView();
+	
+	//if(!are_we_updating) {
+		console.log("about to draw");
+		getDataFilesAndDrawChartsInChartView(are_we_updating);
+	/*}
+	else
+		console.log("about to update");
+		getDataFilesAndUpdateChartsInChartView();
+	}*/
 }
 
 function loadMatrixView() {
@@ -492,9 +499,9 @@ function addModulesLegend() {
 	}, 1000);
 }
 
-function getDataFilesAndDrawChartsInChartView() {
+function getDataFilesAndDrawChartsInChartView(are_we_updating) {
 	//make idempotent
-	$(".topmetric svg").remove();
+	//$(".topmetric svg").remove();
 	
 	d3.json("data/firefox" + what_is_lhs + "_module_breakdown.json", function(d_lhs) {
 	 	d3.json("data/firefox" + what_is_rhs + "_module_breakdown.json", function(d_rhs) {
@@ -503,13 +510,13 @@ function getDataFilesAndDrawChartsInChartView() {
 	 		data_lhs.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
 	 		data_rhs.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
 	 		
-			drawMetric("#metric #chart_view #loc_code", ["loc_code", "loc_code"], "", 0);
-			drawMetric("#metric #chart_view #mccabe_per_kloc_code", ["mccabe_per_kloc_code", "mccabe_per_kloc_code"], "", 0);
-			//drawMetric("#metric", ["loc_code", "dependencies_density"], "", 1);
-			drawMetric("#metric #chart_view #prop_cost", ["prop_cost", "prop_cost"], "", 1);
-			drawMetric("#metric #chart_view #percent_in_core", ["percent_in_core", "percent_in_core"], "", 1);
-			drawMetric("#metric #chart_view #sum_fanin", ["sum_fanin", "sum_fanin"], "", 0);
-			drawMetric("#metric #chart_view #sum_vfanin", ["sum_vfanin", "sum_vfanin"], "", 0);	 
+			drawMetric("#metric #chart_view #loc_code", ["loc_code", "loc_code"], "", 0, are_we_updating);
+			drawMetric("#metric #chart_view #mccabe_per_kloc_code", ["mccabe_per_kloc_code", "mccabe_per_kloc_code"], "", 0, are_we_updating);
+			//drawMetric("#metric", ["loc_code", "dependencies_density"], "", 1, are_we_updating);
+			drawMetric("#metric #chart_view #prop_cost", ["prop_cost", "prop_cost"], "", 1, are_we_updating);
+			drawMetric("#metric #chart_view #percent_in_core", ["percent_in_core", "percent_in_core"], "", 1, are_we_updating);
+			drawMetric("#metric #chart_view #sum_fanin", ["sum_fanin", "sum_fanin"], "", 0, are_we_updating);
+			drawMetric("#metric #chart_view #sum_vfanin", ["sum_vfanin", "sum_vfanin"], "", 0, are_we_updating);	 
 			
 			
 			chart_data_already_loaded = true;
@@ -517,20 +524,94 @@ function getDataFilesAndDrawChartsInChartView() {
 	 });
 }
 
-function drawMetric(container, metrics, max_value, is_percent) {
+function drawMetric(container, metrics, max_value, is_percent, are_we_updating) {
+	//make idempotent if redrawing, otherwise, we'll just update the data
+	if(!are_we_updating)
+		$(container + " svg").remove();
+	
 	setTimeout(function() {
-	 		//console.log(data.json_data);
-	 		//data.json_data.map(function(d, i) { console.log(d.data[0].mccabe/(d.data[0].loc_code/1000)); });
-	 	
-			//draw a set of bars for each module
-			//data.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
-		
-			var h = 340,
+		var h = 340,
 				w = 200,
 				rect_height = 15,
 				rect_padding = 5,
 				svgPaddingTop = 30,
 				svgPaddingRight = 40;
+				
+				
+		//if we're updating, just update the data, don't add anything
+		if(are_we_updating) {
+			console.log("updating...");
+			$.each(metrics, function(metric_i, metric) {
+				//depending on whether we're on the first metric or the second, choose the appropriate svg container
+				var svg = (metric_i == 0) ? container + " svg.left" : container + " svg.right";
+			
+				//show data for each metric (there will always be two), each in its own svg
+				var data;
+				if(metric_i == 0)
+					data = data_lhs;
+				else
+					data = data_rhs;
+				
+				var xMax = (max_value != "") ? max_value : d3.max(data.json_data, function(d) { return eval("d.data[0]."+metric);});
+				var xScale = d3.scale.linear()
+			    	.domain([0, xMax])
+    			    	.range([0, w-svgPaddingRight]);
+    			console.log(xMax);
+    			
+				//for each of the modules in our "new" data file, update its corresponding .module_bar's x and width values
+				$.each(data.json_data, function(module_i, module_d) {
+					d3.selectAll(svg + " ." + module_d.module + ".module_bar")
+						.transition()
+						.duration(1000)	
+						.attr("x", function() {
+								if(metric_i == 0) { //lhs metric
+									return w-xScale(eval("module_d.data[0]."+metric));
+								}
+								else { //rhs metric
+									return 0;
+								}
+						})
+						.attr("width", function() {
+							return xScale(eval("module_d.data[0]."+metric));
+						});
+						
+					//show value for rhs metric
+					if(metric_i == 1) {
+						d3.selectAll(svg + " ." + module_d.module + ".module_value")
+							.transition()
+							.duration(1000)
+			    			.text(function() {
+			    				if(is_percent)
+			    					return (eval("module_d.data[0]."+metric)*100).toFixed(2) + "%";
+			    				else
+									return getHumanSize(eval("module_d.data[0]."+metric));
+							})
+							.attr('x', xScale(eval("module_d.data[0]."+metric))+3);
+					}
+					else {
+						d3.selectAll(svg + " ." + module_d.module + ".module_value")
+							.transition()
+							.duration(1000)
+			    			.text(function() {
+			    				if(is_percent)
+			    					return (eval("module_d.data[0]."+metric)*100).toFixed(2) + "%";
+			    				else
+									return getHumanSize(eval("module_d.data[0]."+metric));
+							})
+							.attr("text-anchor", "end")
+							.attr('x', w-xScale(eval("module_d.data[0]."+metric))-3);
+					}
+				});
+			});
+			
+			return;
+		}
+	
+	 		//console.log(data.json_data);
+	 		//data.json_data.map(function(d, i) { console.log(d.data[0].mccabe/(d.data[0].loc_code/1000)); });
+	 	
+			//draw a set of bars for each module
+			//data.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
 		
 			$.each(metrics, function(metric_i, metric) {
 				var svg = d3.select(container)
@@ -628,7 +709,7 @@ function drawMetric(container, metrics, max_value, is_percent) {
 			    				else
 									return getHumanSize(eval("d.data[0]."+metric));
 							})
-							.attr("class", "metric_value")
+							.attr("class", d.module + " module_value")
 							.attr('y', function() {
 								return Math.floor(svgPaddingTop + ((rect_height+rect_padding) * i) + (rect_height/2+4));
 							})
@@ -643,7 +724,7 @@ function drawMetric(container, metrics, max_value, is_percent) {
 									return getHumanSize(eval("d.data[0]."+metric));
 							})
 							.attr("text-anchor", "end")
-							.attr("class", "metric_value")
+							.attr("class", d.module + " module_value")
 							.attr('y', function() {
 								return Math.floor(svgPaddingTop + ((rect_height+rect_padding) * i) + (rect_height/2+4));
 							})
