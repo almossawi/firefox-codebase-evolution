@@ -9,6 +9,7 @@ a.active, a.visited, a {
 body {
 	margin:0;
 	padding:0;
+	min-width:1400px;
 	background: url(../images/bg2.jpg) no-repeat center 30% fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -220,11 +221,11 @@ canvas {
 
 #page {
 	width:1360px;
+	height:100%;
 	margin-left:auto;
 	margin-right:auto;
 	margin-top:20px;
 	margin-bottom:30px;
-	height:3450px;
 }
 
 .axis g text {
@@ -349,18 +350,17 @@ svg rect.module_bar_transparent {
 }
 
 #wide_pane {
-	position:absolute;
 	background-color:#fff;
-	height:100px;
+	height:70px;
 	width:1300px;
-	margin-bottom:100px;
+	margin-bottom:0px;
 	margin-left:33px;
 	margin-top:30px;
 	z-index:1;
 	border-top:1px solid #cccccc;
 }
 
-#logo_container {
+/*#logo_container {
 	position:absolute;
 	right:0;
 	bottom:15px;
@@ -370,7 +370,7 @@ svg rect.module_bar_transparent {
 	font-size:13px;
 	font-weight:400;
 	font-family:'Open Sans';
-}
+}*/
 
 #logo_container a {
 	border-bottom:1px dotted #a3a3a3;
@@ -462,7 +462,7 @@ svg rect.module_bar_transparent {
 	border-top:1px solid #cccccc;
 	background-color:white;
 	position:relative;
-	height:2500px;
+	height:100%;
 	margin-top:0px;
 	width:100%;
 	padding-top:30px;
@@ -808,14 +808,6 @@ label {
 	
 	svg.right {
 		margin-left:0.5px;
-	}
-	
-	#page #container {
-		height:2590px;
-	}
-	
-	#page {
-		height:3525px;
 	}
 }
 

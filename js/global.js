@@ -86,6 +86,12 @@ metrics_nice["sum_fanin"] = "Direct dependencies";
 metrics_nice["sum_vfanin"] = "Indirect dependencies";
 
 $(document).ready(function () {
+	//if the user has a small resolution, zoom out
+	if(window.screen.availWidth <= 1024) {
+		document.body.style.zoom=0.75;
+		$("body").blur();
+	}
+
 	//other initializations
 	$("select, input, a.button, button").uniform();
 
