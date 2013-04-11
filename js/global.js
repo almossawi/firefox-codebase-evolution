@@ -11,7 +11,8 @@ var point_size = 0.8,
 	what_is_rhs = 17;
 	
 var data_lhs,
-	data_rhs;
+	data_rhs,
+	architectural_data_full;
 
 var modules = ["accessible", "browser", "content", "dom", "gfx", "ipc", "js", "layout", "media", "modules", "netwerk", "security", "toolkit", "widget"];
 
@@ -70,7 +71,8 @@ var matrix_v17_modules = new Object();
 		
 var chart_data_already_loaded = false,
 	matrix_data_already_loaded = false,
-	network_data_already_loaded = false;
+	network_data_already_loaded = false,
+	active_view = "chart";
 	
 var version = ["1", "1.5", "2", "3", "3.5", "3.6", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"];
 
@@ -116,6 +118,16 @@ $(document).ready(function () {
 	
 	//add legend and matrix highlighters on page load to save time
 	addModulesLegend();
+	
+
+	//add our highlighters to the dom
+	$.each(modules, function(i, module) {
+		$("#canvases").append("<div class='overlay_" + module + " left_overlay overlay horizontal'></div>");
+		$("#canvases").append("<div class='overlay_" + module + " left_overlay overlay vertical'></div>");
+		$("#canvases").append("<div class='overlay_" + module + " right_overlay overlay horizontal'></div>");
+		$("#canvases").append("<div class='overlay_" + module + " right_overlay overlay vertical'></div>");
+	});
+
 	addMatrixHighlighters("lhs");
 	addMatrixHighlighters("rhs");
 	
@@ -216,22 +228,11 @@ function assignEventListeners() {
 		$(".view").hide();
 		$("#matrix_view").show();
 		
+		active_view = "matrix";
 		$("#main_options a div div.selected_view").hide();
 		$("#main_options a#switch_to_matrix div div.selected_view").show();
 		
-		setTimeout(function() {
-			//png
-			if(use_raster_for_matrix) {
-				$("#canvas1").attr("src", "images/matrix_v" + what_is_lhs + "_raster.png");
-				$("#canvas2").attr("src", "images/matrix_v" + what_is_rhs + "_raster.png");
-				
-				$("#loading_matrices").delay(400).fadeOut();
-				matrix_data_already_loaded = true;
-			}
-			//canvas
-			else
-				loadMatrixView();
-		}, matrix_load_delay);
+		loadMatrixView();
 		
 		return false;
 	});
@@ -240,10 +241,11 @@ function assignEventListeners() {
 		$(".view").hide();
 		$("#chart_view").show();
 		
+		active_view = "chart";
 		$("#main_options a div div.selected_view").hide();
 		$("#main_options a#switch_to_chart div div.selected_view").show();
 		
-		loadChartView(false);
+		loadChartView(true);
 		
 		return false;
 	});
@@ -252,6 +254,7 @@ function assignEventListeners() {
 		$(".view").hide();
 		$("#network_view").show();
 		
+		active_view = "network";
 		$("#main_options a div div.selected_view").hide();
 		$("#main_options a#switch_to_network div div.selected_view").show();
 		loadNetworkView();
@@ -347,27 +350,25 @@ function assignEventListeners() {
 }
 
 function redrawCurrentView() {
+	//called when we switch the version of either the lhs or rhs
 	resetLoadedDataFlags();
 
 	//update the version headers
 	$("#lhs_version_header").html("Firefox " + what_is_lhs);
 	$("#rhs_version_header").html("Firefox " + what_is_rhs);
-			
+
 	//todo determine which the current view is
 	//right now, ill just assume it's the default chart view
-	loadChartView(true);
+
+	if(active_view == "chart")
+		loadChartView(true);
+	else if(active_view == "matrix")
+		loadMatrixView();
+	else if(active_view == "network")
+		loadNetworkView();
 }
 
 function addMatrixHighlighters(which_one) {
-	//add our highlighters to the dom
-	$.each(modules, function(i, module) {
-		$("#canvases").append("<div class='overlay_" + module + " left_overlay overlay horizontal'></div>");
-		$("#canvases").append("<div class='overlay_" + module + " left_overlay overlay vertical'></div>");
-		$("#canvases").append("<div class='overlay_" + module + " right_overlay overlay horizontal'></div>");
-		$("#canvases").append("<div class='overlay_" + module + " right_overlay overlay vertical'></div>");
-	});
-                        
-
 	//set their coords
 	var which_side_selector = (which_one == "lhs") ? ".left_overlay" : ".right_overlay";
 	
@@ -461,48 +462,9 @@ function assignDynamicContentEventListeners() {
 
 function loadChartView(are_we_updating) {
 	if(chart_data_already_loaded) return;
-	
-	//if(!are_we_updating) {
-		console.log("about to draw");
-		getDataFilesAndDrawChartsInChartView(are_we_updating);
-	/*}
-	else
-		console.log("about to update");
-		getDataFilesAndUpdateChartsInChartView();
-	}*/
-}
 
-function loadMatrixView() {
-	if(matrix_data_already_loaded) return;
-	addModulesLegend();
-	drawCanvas();
-}
+	console.log("about to draw");
 
-function loadNetworkView() {
-	if(network_data_already_loaded) return;
-	//todo
-	
-	network_data_already_loaded = true;
-}
-
-function addModulesLegend() {
-	$("#modules_legend").empty();
-	
-	//add legend
-	var i=0;
-	for(i; i < modules.length; i++) {
-		$("#modules_legend").append("<div id='" + modules[i] + "' style='background-color:rgb(" + module_colors[modules[i]] + ")'>" + modules[i] + "</div> ");
-	}
-	
-	setTimeout(function() {
-		assignDynamicContentEventListeners();
-	}, 1000);
-}
-
-function getDataFilesAndDrawChartsInChartView(are_we_updating) {
-	//make idempotent
-	//$(".topmetric svg").remove();
-	
 	d3.json("data/firefox" + what_is_lhs + "_module_breakdown.json", function(d_lhs) {
 	 	d3.json("data/firefox" + what_is_rhs + "_module_breakdown.json", function(d_rhs) {
 	 		data_lhs = d_lhs;
@@ -522,6 +484,60 @@ function getDataFilesAndDrawChartsInChartView(are_we_updating) {
 			chart_data_already_loaded = true;
 	 	})	
 	 });
+}
+
+function loadMatrixView() {
+	if(matrix_data_already_loaded) return;
+	
+	$("#loading_matrices").show();
+	
+	setTimeout(function() {
+		//update the {files, density} metrics if necessary
+		//ok to add trailing .0 since we're only going from 16 onwards for module breakdown and matrix views
+		$("#lhs_files").text(addCommas(architectural_data_full.allversions_files_with_dependencies[what_is_lhs + ".0"]));
+		$("#rhs_files").text(addCommas(architectural_data_full.allversions_files_with_dependencies[what_is_rhs + ".0"]));
+		$("#lhs_density").text((architectural_data_full.allversions_dependencies_density[what_is_lhs + ".0"] * 100).toFixed(4) + "%");
+		$("#rhs_density").text((architectural_data_full.allversions_dependencies_density[what_is_rhs + ".0"] * 100).toFixed(4) + "%");
+		
+		addMatrixHighlighters("lhs");
+		addMatrixHighlighters("rhs");
+	
+		//png
+		if(use_raster_for_matrix) {
+			$("#canvas1").attr("src", "images/matrix_v" + what_is_lhs + "_raster.png");
+			$("#canvas2").attr("src", "images/matrix_v" + what_is_rhs + "_raster.png");
+		
+			$("#loading_matrices").delay(400).fadeOut();
+			matrix_data_already_loaded = true;
+		}
+		//canvas
+		else {
+			addModulesLegend();
+			drawMatrixCanvas();
+		}
+	}, matrix_load_delay);
+}
+
+function loadNetworkView() {
+	if(network_data_already_loaded) return;
+	//todo
+	
+	network_data_already_loaded = true;
+}
+
+function addModulesLegend() {
+	//make idempotent
+	$("#modules_legend").empty();
+	
+	//add legend
+	var i=0;
+	for(i; i < modules.length; i++) {
+		$("#modules_legend").append("<div id='" + modules[i] + "' style='background-color:rgb(" + module_colors[modules[i]] + ")'>" + modules[i] + "</div> ");
+	}
+	
+	setTimeout(function() {
+		assignDynamicContentEventListeners();
+	}, 1000);
 }
 
 function drawMetric(container, metrics, max_value, is_percent, are_we_updating) {
@@ -552,11 +568,10 @@ function drawMetric(container, metrics, max_value, is_percent, are_we_updating) 
 				else
 					data = data_rhs;
 				
-				var xMax = (max_value != "") ? max_value : d3.max(data.json_data, function(d) { return eval("d.data[0]."+metric);});
+				var xMax = (max_value != "") ? max_value : d3.max(data.json_data, function(d) { return eval("d.data[0]."+metric); });
 				var xScale = d3.scale.linear()
 			    	.domain([0, xMax])
-    			    	.range([0, w-svgPaddingRight]);
-    			console.log(xMax);
+    			    .range([0, w-svgPaddingRight]);
     			
 				//for each of the modules in our "new" data file, update its corresponding .module_bar's x and width values
 				$.each(data.json_data, function(module_i, module_d) {
@@ -768,6 +783,8 @@ function drawMetric(container, metrics, max_value, is_percent, are_we_updating) 
 function drawCharts() {
 	//draw the charts
 	d3.json("data/architectural_by_chart.json", function(data) {
+		architectural_data_full = data;
+		
 		$.each($(".chart_container"), function(index, value) {
 			var id= $(value).attr("id"); //console.log("id is " + id);
 			var format = "s",
@@ -1044,8 +1061,7 @@ function startRotate() {
 	}, 100);
 }
 
-//draw the arcs
-function drawCanvas(container) {
+function drawMatrixCanvas(container) {
  	var data_file_a = "data/firefox" + what_is_lhs + "_file_dependencies.csv.deps",
 	 	data_file_b = "data/firefox" + what_is_rhs + "_file_dependencies.csv.deps";
  		//data_file_b = "data/firefox17_file_dependencies.csv";
@@ -1057,17 +1073,17 @@ function drawCanvas(container) {
 		
 
 	d3.csv(data_file_a, function(data) {
-		draw(data, ctx_a, false, eval("matrix_v" + what_is_lhs + "_modules"));
+		drawEachMatrixCanvas(data, ctx_a, false, eval("matrix_v" + what_is_lhs + "_modules"));
 	});
 	
 	d3.csv(data_file_b, function(data) {
-		draw(data, ctx_b, true, eval("matrix_v" + what_is_rhs + "_modules"));
+		drawEachMatrixCanvas(data, ctx_b, true, eval("matrix_v" + what_is_rhs + "_modules"));
 	});
 	
 	matrix_data_already_loaded = true;
 }
 
-function draw(data, which_canvas, last_one, which_version) {
+function drawEachMatrixCanvas(data, which_canvas, last_one, which_version) {
 		var total_deps = 0,
 			nnz = data.length,
 			max_from_file,
