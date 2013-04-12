@@ -418,7 +418,7 @@ svg rect.module_bar_transparent {
 }
 
 #lhs_left {
-	margin-left:10px;
+	margin-left:15px;
 	margin-top:0px;
 	position:absolute;
 	opacity:0.4;
@@ -426,7 +426,7 @@ svg rect.module_bar_transparent {
 }
 
 #lhs_right {
-	margin-left:45px;
+	margin-left:50px;
 	margin-top:0px;
 	position:absolute;
 	opacity:0.4;

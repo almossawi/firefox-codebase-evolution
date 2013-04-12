@@ -4,7 +4,6 @@ var point_size = 0.8,
 	alpha = 0.2,
 	min_version = 16,
 	max_version = 17,
-	pause = false,
 	matrix_load_delay = 1000,
 	use_raster_for_matrix = true,
 	what_is_lhs = 16,
@@ -74,6 +73,12 @@ var chart_data_already_loaded = false,
 	network_data_already_loaded = false,
 	active_view = "chart";
 	
+	
+var screenWidthScale = d3.scale.linear()
+	.domain([0, 1660])
+    .range([0, 1]);
+
+	
 var version = ["1", "1.5", "2", "3", "3.5", "3.6", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17"];
 
 var metrics_nice = new Object();
@@ -86,12 +91,6 @@ metrics_nice["sum_fanin"] = "Direct dependencies";
 metrics_nice["sum_vfanin"] = "Indirect dependencies";
 
 $(document).ready(function () {
-	//if the user has a small resolution, zoom out
-	if(window.screen.availWidth <= 1024) {
-		document.body.style.zoom=0.75;
-		$("body").blur();
-	}
-
 	//other initializations
 	$("select, input, a.button, button").uniform();
 
@@ -124,7 +123,6 @@ $(document).ready(function () {
 	
 	//add legend and matrix highlighters on page load to save time
 	addModulesLegend();
-	
 
 	//add our highlighters to the dom
 	$.each(modules, function(i, module) {
@@ -140,7 +138,27 @@ $(document).ready(function () {
 	$(".version_arrow").delay(1500).fadeIn("slow");
 	
 	assignEventListeners();
+	
+	checkResolution();
+	
+	$(window).resize(function() {
+		checkResolution();
+	});
 });
+
+function checkResolution() {
+	var width = $(window).width(),
+		scaled_width = screenWidthScale(width);
+
+    if(width < 1024)
+    	document.body.style.zoom = 0.6;
+    else if(width > 1600)
+    	document.body.style.zoom = 1;
+    else
+    	document.body.style.zoom = scaled_width;
+    	
+	$("body").blur();
+}
 
 function resetLoadedDataFlags() {
 	chart_data_already_loaded=false;
@@ -162,7 +180,7 @@ function assignEventListeners() {
 	$("#rhs_left").on("click", function() {
 		if(what_is_rhs-1 < min_version) {
 			console.log(what_is_rhs);
-			return  what_is_rhs;
+			return  false;
 		}
 		else {
 			//redraw using the new data
@@ -180,7 +198,7 @@ function assignEventListeners() {
 			//todo shake the element so the user knows
 			
 			console.log(what_is_rhs);
-			return  what_is_rhs;
+			return  false;
 		}
 		else {
 			//redraw using the new data
@@ -198,7 +216,7 @@ function assignEventListeners() {
 			//todo shake the element so the user knows
 			
 			console.log(what_is_lhs);
-			return  what_is_lhs;
+			return  false;
 		}
 		else {
 			//redraw using the new data
@@ -216,7 +234,7 @@ function assignEventListeners() {
 			//todo shake the element so the user knows
 			
 			console.log(what_is_lhs);
-			return  what_is_lhs;
+			return  false;
 		}
 		else {
 			//redraw using the new data
@@ -1045,26 +1063,6 @@ function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, cu
 		d3.selectAll("circle").each(function(d, i) {
 			if(d == 0) d3.select(this).attr("display", "none");
 		});
-}
-
-function startRotate() {
-	var i = 0;
-	var interval = setInterval(function() {
-		console.log(version[i]);
-		$("#rotate img")
-			.attr("src", "images/" + version[i]);
-			//.fadeOut().html("<img src='images/" + version[i] + ".png' />").fadeIn();
-		
-		i++;
-		if(i == version.length) {
-			pause = true;
-		}
-		
-		if(pause) {
-			console.log("pausing");
-			clearInterval(interval);
-		}
-	}, 100);
 }
 
 function drawMatrixCanvas(container) {
