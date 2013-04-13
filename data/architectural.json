@@ -1,14 +1,37 @@
 {
   "json_data": [
   	{
+    	"version": "20",
+    	"data": [{
+    		"mccabe": 884877,
+    		"wmc_sum_cyclomatic": 1019576,
+    		"loc": 9527146,
+    		"loc_code": 5407382,
+    		"files": 49210,
+    		"files_with_dependencies": 40322,
+    		"dependencies_density": 0.00016522,
+    		"prop_cost": 0.067643,
+    		"core_size": 16432,
+    		"periphery_size": 6152,
+    		"shared_size": 12226,
+    		"control_size": 5508,
+    		"percent_in_core": 0.4075194683,
+    		"speed": 8804xxx,
+    		"mem": 390,
+    		"defects": 92,
+    		"defects_per_kloc": 0.017013,
+    		"crashes": 0
+		}]
+    },
+    {
     	"version": "19",
     	"data": [{
-    		"mccabe": 607663,
-    		"wmc_sum_cyclomatic": 771152,
-    		"loc": 6631986,
-    		"loc_code": 3795771,
-    		"files": 18148,
-    		"files_with_dependencies": 17095,
+    		"mccabe": 883256,
+    		"wmc_sum_cyclomatic": 1008850,
+    		"loc": 9393010,
+    		"loc_code": 5336576,
+    		"files": 48739,
+    		"files_with_dependencies": 17095xxx,
     		"dependencies_density": 0.00023452xxx,
     		"prop_cost": 0.072526xxx,
     		"core_size": 13237xxx,
@@ -17,33 +40,33 @@
     		"control_size": 3455xxx,
     		"percent_in_core": 0.4451057534xxx,
     		"speed": 8804xxx,
-    		"mem": 323xxx,
-    		"defects": 121xxx,
-    		"defects_per_kloc": 0.028179xxx,
-    		"crashes": 3624920xxx
+    		"mem": 336,
+    		"defects": 134,
+    		"defects_per_kloc": 0.025109,
+    		"crashes": 0
 		}]
     },
   	{
     	"version": "18",
     	"data": [{
-    		"mccabe": 612617,
-    		"wmc_sum_cyclomatic": 764556,
-    		"loc": 6596743,
-    		"loc_code": 3771209,
-    		"files": 48045,
-    		"files_with_dependencies": 16967,
-    		"dependencies_density": 0.00023452xxx,
-    		"prop_cost": 0.072526xxx,
-    		"core_size": 13237xxx,
-    		"periphery_size": 4353xxx,
-    		"shared_size": 8692xxx,
-    		"control_size": 3455xxx,
-    		"percent_in_core": 0.4451057534xxx,
+    		"mccabe": 881354,
+    		"wmc_sum_cyclomatic": 999222,
+    		"loc": 9323005,
+    		"loc_code": 5289983,
+    		"files": 48060,
+    		"files_with_dependencies": 39368,
+    		"dependencies_density": 0.0001699,
+    		"prop_cost": 0.064512,
+    		"core_size": 15255,
+    		"periphery_size": 6244,
+    		"shared_size": 12791,
+    		"control_size": 5073,
+    		"percent_in_core": 0.3874974599,
     		"speed": 8804xxx,
-    		"mem": 323xxx,
-    		"defects": 121xxx,
-    		"defects_per_kloc": 0.028179xxx,
-    		"crashes": 3624920xxx
+    		"mem": 328,
+    		"defects": 131,
+    		"defects_per_kloc": 0.02476,
+    		"crashes": 0
 		}]
     },
   	{
@@ -54,41 +77,41 @@
     		"loc": 8754800,
     		"loc_code": 4955132,
     		"files": 45542,
-    		"files_with_dependencies": 29739,
-    		"dependencies_density": 0.00023452xxx,
-    		"prop_cost": 0.072526xxx,
-    		"core_size": 13237xxx,
-    		"periphery_size": 4353xxx,
-    		"shared_size": 8692xxx,
-    		"control_size": 3455xxx,
-    		"percent_in_core": 0.4451057534xxx,
-    		"speed": 8804xxx,
-    		"mem": 323xxx,
-    		"defects": 121xxx,
-    		"defects_per_kloc": 0.028179xxx,
-    		"crashes": 3624920xxx
+    		"files_with_dependencies": 37144,
+    		"dependencies_density": 0.00017932,
+    		"prop_cost": 0.069308,
+    		"core_size": 16237,
+    		"periphery_size": 5326,
+    		"shared_size": 10097,
+    		"control_size": 5480,
+    		"percent_in_core": 0.4371365496,
+    		"speed": 8804,
+    		"mem": 323,
+    		"defects": 143,
+    		"defects_per_kloc": 0.0289,
+    		"crashes": 3624920
 		}]
     },
 	{
     	"version": "16",
     	"data": [{
-    		"mccabe": 709002,
-    		"wmc_sum_cyclomatic": 792762,
-    		"loc": 7533426,
-    		"loc_code": 4222772,
-    		"files": 37174,
-    		"files_with_dependencies": 28654,
-    		"dependencies_density": 0.00023921,
-    		"prop_cost": 0.065214,
-    		"core_size": 12898,
-    		"periphery_size": 4618,
-    		"shared_size": 8675,
-    		"control_size": 3097,
-    		"percent_in_core": 0.4501291268,
+    		"mccabe": 825188,
+    		"wmc_sum_cyclomatic": 914873,
+    		"loc": 8611485,
+    		"loc_code": 4866476,
+    		"files": 44769,
+    		"files_with_dependencies": 36320,
+    		"dependencies_density": 0.00018289,
+    		"prop_cost": 0.046876,
+    		"core_size": 13304,
+    		"periphery_size": 7310,
+    		"shared_size": 12541,
+    		"control_size": 3161,
+    		"percent_in_core": 0.3662995595,
     		"speed": 9145,
     		"mem": 341,
-    		"defects": 98,
-    		"defects_per_kloc": 0.0232,
+    		"defects": 95,
+    		"defects_per_kloc": 0.0195213128,
     		"crashes": 86094814
 		}]
     },
@@ -110,7 +133,7 @@
     		"percent_in_core": 0.23536264181,
     		"speed": 9178,
     		"mem": 327,
-    		"defects": 144,
+    		"defects": 136,
     		"defects_per_kloc": 0.0431,
     		"crashes": 82832111
 		}]
@@ -156,7 +179,7 @@
     		"percent_in_core": 0.40083206327,
     		"speed": 4447,
     		"mem": 312,
-    		"defects": 124,
+    		"defects": 136,
     		"defects_per_kloc": 0.0337,
     		"crashes": 67732644
 		}]
@@ -179,7 +202,7 @@
     		"percent_in_core": 0.40704468076,
     		"speed": 4437,
     		"mem": 302,
-    		"defects": 127,
+    		"defects": 131,
     		"defects_per_kloc": 0.0349,
     		"crashes": 55904339
 		}]
@@ -202,7 +225,7 @@
     		"percent_in_core": 0.24381709741,
     		"speed": 4361,
     		"mem": 304,
-    		"defects": 74,
+    		"defects": 77,
     		"defects_per_kloc": 0.0258,
     		"crashes": 54993130
 		}]
@@ -225,7 +248,7 @@
     		"percent_in_core": 0.2796041308,
     		"speed": 4476,
     		"mem": 327,
-    		"defects": 107,
+    		"defects": 105,
     		"defects_per_kloc": 0.0385,
     		"crashes": 6262689
 		}]
@@ -248,7 +271,7 @@
     		"percent_in_core": 0.20070322151,
     		"speed": 4506,
     		"mem": 319,
-    		"defects": 72,
+    		"defects": 75,
     		"defects_per_kloc": 0.0275,
     		"crashes": 1053308
 		}]
@@ -271,7 +294,7 @@
     		"percent_in_core": 0.26299635526,
     		"speed": 4272,
     		"mem": 323,
-    		"defects": 76,
+    		"defects": 74,
     		"defects_per_kloc": 0.0294,
     		"crashes": 15293324
 		}]
@@ -294,7 +317,7 @@
     		"percent_in_core": 0.26395648439,
     		"speed": 4095,
     		"mem": 338,
-    		"defects": 37,
+    		"defects": 47,
     		"defects_per_kloc": 0.0143,
     		"crashes": 23263
 		}]
@@ -317,7 +340,7 @@
     		"percent_in_core": 0.2655593738,
     		"speed": 4150,
     		"mem": 409,
-    		"defects": 44,
+    		"defects": 51,
     		"defects_per_kloc": 0.0171,
     		"crashes": 150979
 		}]
@@ -340,7 +363,7 @@
     		"percent_in_core": 0.27123236475,
     		"speed": 3427,
     		"mem": 415,
-    		"defects": 46,
+    		"defects": 48,
     		"defects_per_kloc": 0.0178,
     		"crashes": -1
 		}]

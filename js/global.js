@@ -3,7 +3,7 @@
 var point_size = 0.8,
 	alpha = 0.2,
 	min_version = 16,
-	max_version = 17,
+	max_version = 20,
 	matrix_load_delay = 1000,
 	use_raster_for_matrix = true,
 	what_is_lhs = 16,
@@ -859,7 +859,7 @@ function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, cu
     }
 
 	//console.log(d3.keys(data));
-	
+	//console.log(d3.keys(data).sort(function(a,b) { return a-b; }));
    	var xScale = d3.scale.ordinal()
         .domain(d3.keys(data))
 		.rangeBands([xPadding+16, w]); 
@@ -908,6 +908,12 @@ function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, cu
     	.attr("class", "axis x")
 	    .attr("transform", "translate(-10," + (h-xPadding-3-30) + ")")
     	.call(xAxis);
+    	
+    //remove .0 in labels
+    $(".x .tick text")
+    	.text(function(i, d) {
+    		if(d.split(".")[1] == 0) return d.split(".")[0];
+    	});
     	    	
 	//draw y axis
 	svg.append("g")
