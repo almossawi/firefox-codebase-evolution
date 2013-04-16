@@ -33,7 +33,9 @@ body {
 
 p {
 	font-family: 'PT Serif', Cardo, serif;
-	padding-left:0px;
+	padding-left:0;
+	padding-top:0;
+	margin-top:0;
 	line-height:1.4;
 	font-size:18px;
 	text-align:justify;
