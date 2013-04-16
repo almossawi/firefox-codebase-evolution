@@ -149,8 +149,8 @@
                         <p>LOC measures the number executable lines of code in each release, ignoring comments and blank lines, and is widely used as a baseline measure of quality. Some studies have shown that LOC has an inverse relationship with defect density, which is to say,
                             a larger system size would likely have a smaller defect density, though other studies show the relationship to be curvilinear, which is to say, defect density decreases linearly as system size increases only to then curve up at the tail<sup>1</sup>. 
                         </p>
-                        <p>The set of analyzed files includes all files that meet our file-type filter<sup>2</sup>, including unit tests, which in some versions constitute up to 20% of all files and up to several hundreds of thousands of LOC.  A lot of these unit tests are thrown out during a later stage for being singletons, i.e. having no dependencies to or from any other file in the codebase.</p>
-                        <p class='footy'><sup>1</sup> Kahn, S., Metrics and Models in Software Quality (2002).</p>
+                        <p>The set of analyzed files includes all files that meet our file-type filter<sup>2</sup>, including unit tests, which in some versions constitute over 50% of all files and up to several hundreds of thousands of LOC.  A lot of these unit tests are thrown out during a later stage for being singletons, i.e. having no dependencies to or from any other file in the codebase.</p>
+                        <p class='footy'><sup>1</sup> Stephen Kan, S., Metrics and Models in Software Quality (2002).</p>
                         <p class='footy'><sup>2</sup> .c, .C, .cc, .cpp, .css, .cxx, .h, .H, .hh, .hpp, .htm, .html, .hxx, .inl, .java, .js, .php, .py, .s, .xml</p>
                     </div>
                     <div class="chart_container" id="allversions_loc_code">	<span class="container_title">LOC</span>
@@ -179,7 +179,7 @@
                             argue that such a measure gives a more vivid view of a system's interdependencies. Numerous studies have shown that propagation cost is a significant positive predictor of software quality<sup>4</sup>.
                             <p>The process of transforming a first-order dependency matrix that captures only direct dependencies between files to a visibility, also known as a reachability, matrix that captures indirect dependencies as well is achieved through matrix multiplication
                                 by raising the first-order dependency matrix to multiple successive powers until we achieve its transitive closure. Put plainly, that means that a matrix raised to the power of two would show the indirect dependencies between elements that have a path
-                                length of two, i.e. calls from A to C, if A calls B and B calls C. Thereafter, by summing these matrices together one gets the visibility matrix, V. For this ripple effect to be of use in analysis, the density of the visibility matrix is captured within the metric that we call propagation cost, which we define as <i>prop cost = (&Sigma;rows)/m<sup>2</sup></i>,
+                                length of two, i.e. calls from A to C, if A calls B and B calls C. Thereafter, by summing these matrices together one gets the visibility matrix, V. For this ripple effect to be of use in analysis, the density of the visibility matrix is captured within the metric that we call propagation cost, which we define as <br /><i>prop cost = (&Sigma;rows)/m<sup>2</sup></i>,
                                 where m is the matrix height.</p>
                             <p class="footy"><sup>3</sup> Steven D. Eppinger and Tyson R. Browning, Design Structure Matrix Methods and Applications (2012).</p>
                             <p class="footy"><sup>4</sup> Alan MacCormack, John Rusnak and Carliss Baldwin, <i>Exploring the Structure of Complex Software Designs: An Empirical Study of Open Source and Proprietary Code</i> (2006).</p>
@@ -230,9 +230,10 @@
                     <div class="chart_description">
                         	<h1>Speed</h1>
 
-                        <p>The V8 score of each release. We run our speed tests on builds from mozilla-central. The score for each release is based on the latest test that was done on the code in mozilla-central before it was branched off to its release-specific branch. There
-                            is a gap of a number of weeks between that codebase and the codebase of the final release, hence it is important to keep this caveat in mind when interpreting the data.</p>
+                        <p>Up until version 19, this metric shows the V8 score of each release.  From version 20 onwards, it shows the Octane score, which succeeded the V8 benchmark suite. We run our speed tests on builds from mozilla-central. As before, the score for each release is based on the latest test that was done on the code in mozilla-central before it was branched off to its release-specific branch. There
+                            is a gap of a number of weeks between that codebase and the codebase of the final release.  Also worth noting is that the IonMonkey JavasScript engine was introduced in version 18, which noticeably improved Firefox's score<sup>5</sup> and accounts for the increase in speed performance from then on.  A higher score indicates better performance.</p>
                         <p>The data is provided by our colleagues at arewefastyet.com.</p>
+                        <p class='footy'><sup>5</sup> David Anderson, IonMonkey in Firefox 18, https://blog.mozilla.org/javascript/2012/09/12/ionmonkey-in-firefox-18</p>
                     </div>
                     <div class="chart_container" id="allversions_speed">
                     	<span class="container_title">Speed</span>

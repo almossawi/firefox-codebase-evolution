@@ -3,7 +3,7 @@
 var point_size = 0.8,
 	alpha = 0.2,
 	min_version = 16,
-	max_version = 20,
+	max_version = 17,
 	matrix_load_delay = 1000,
 	use_raster_for_matrix = true,
 	what_is_lhs = 16,
@@ -814,27 +814,34 @@ function drawCharts() {
 			var format = "s",
 				humanify_numbers = true,
 				custom_units = "",
-				splice_from = 0;
+				splice_from = 0,
+				max_y_value = "";
 			
 			if(id == "allversions_prop_cost" || id == "allversions_dependencies_density" || id == "allversions_percent_in_core")
 				format = "%";
 			
-			if(id == "speed" || id == "defects_per_kloc")
+			if(id == "allversions_speed" || id == "allversions_defects_per_hundred_thousand_loc_code")
 				humanify_numbers = false;
 				
-			if(id == "mem")
+			if(id == "allversions_mem")
 				custom_units = "MB";
 				
 			if(id == "allversions_crashes") splice_from = 8;
 			if(id == "allversions_mem" || id == "allversions_speed") splice_from = 6;
 			if(id == "allversions_defects_per_hundred_thousand_loc_code") splice_from = 7;
 			
-			drawEachBelowTheFoldChart(eval("data."+id), "#chart_container_container #" + id, format, humanify_numbers, custom_units, splice_from);
+			if(id == "allversions_prop_cost")
+				max_y_value = 0.25;
+				
+			if(id == "allversions_percent_in_core")
+				max_y_value = 1;
+			
+			drawEachBelowTheFoldChart(eval("data."+id), "#chart_container_container #" + id, format, humanify_numbers, custom_units, splice_from, max_y_value);
 		});
 	});
 }
 
-function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, custom_units, splice_from) {
+function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, custom_units, splice_from, max_y_value) {
 	var w = 570,
 		h = 180,
 		xPadding = 22,
@@ -851,12 +858,12 @@ function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, cu
     var xMax = Object.keys(data).length,
 	    xMin = 1,
 	    yMin = d3.min(d3.values(data)),
-        yMax = d3.max(d3.values(data));
-
+        yMax = (max_y_value == "") ? d3.max(d3.values(data)) : max_y_value;
+   
     //scale exceptions
-    if(format == "%") {
-    	yMax = 1; //0 to 100%
-    }
+    //if(format == "%") {
+    //	yMax = 1; //0 to 100%
+    //}
 
 	//console.log(d3.keys(data));
 	//console.log(d3.keys(data).sort(function(a,b) { return a-b; }));
