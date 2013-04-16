@@ -722,7 +722,7 @@ label {
 
 .right_overlay {
 	margin-left:625px;
-	opacity:0.1; /* why does the opacity for the rhs increase? XD */
+	opacity:0.2; /* why does the opacity for the rhs increase? XD */
 }
 
 #what_mean_matrix {
@@ -859,4 +859,16 @@ label {
 	text-align:left;
 	padding-top:10px;
 	padding-left:10px;
+}
+
+.key {
+	font-style:italic;
+	font-family:Palatino, Georgia, Times, 'PT Serif';
+	color:white;
+	background-color:#3b3b3b;
+	border-radius:5px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-top:1px;
+	padding-bottom:1px;
 }

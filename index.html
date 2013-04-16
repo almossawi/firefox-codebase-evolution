@@ -138,7 +138,7 @@
                 <div style="margin-top:40px;text-align:left">
                     <p><span style="font-weight:600;font-style:italic">Evolution of the Firefox Codebase</span> presents a set of metrics for all releases of Firefox that are indicative of quality and allows one to inspect them through one of several views. By looking at changes in these metrics, one can see the evolution of the Firefox codebase over
                         time. This work is also be useful as a retrospective, investigative tool to help infer when, say, architectural issues may be the cause for unfavorable user sentiment following a release.  Metrics such as lines-of-code (LOC) and cyclomatic complexity are widely used in industry, whereas others like propagation cost are based on some of the more recent research to come out of academia.</p>
-                    <p>Only modules that have a reasonable level of complexity, i.e. several hundred files, are shown.  Select an option from the top to change the view.  In the <i>Chart</i> view, to see how much a metric has changed between two releases on the same axis, use <i>ctrl</i> and the left and right arrow keys to cycle through versions on the left-hand side and <i>alt</i> and the arrow keys to cycle through versions on the right-hand side.  Descriptions of what each metric captures and how it is calculated are shown below, as are some additional measures of quality, such as speed and resident memory usage, both of which have improved in Firefox.</p>
+                    <p>Only modules that have a reasonable level of complexity, i.e. several hundred files, are shown.  Select an option from the top to change the view.  In the <i>Chart</i> view, to see how much a metric has changed between two releases on the same axis, use <span class="key">z</span> and the <span class="key">left</span> and <span class="key">right</span> arrow keys to cycle through versions on the left-hand side and <span class="key">x</span> and the arrow keys to cycle through versions on the right-hand side.  Descriptions of what each metric captures and how it is calculated are shown below, as are some additional measures of quality, such as speed and resident memory usage, both of which have improved in Firefox.</p>
                     <br />
                 </div>
                 <div style="clear:both"></div>
@@ -151,7 +151,7 @@
                         </p>
                         <p>The set of analyzed files includes all files that meet our file-type filter<sup>2</sup>, including unit tests, which in some versions constitute over 50% of all files and up to several hundreds of thousands of LOC.  A lot of these unit tests are thrown out during a later stage for being singletons, i.e. having no dependencies to or from any other file in the codebase.</p>
                         <p class='footy'><sup>1</sup> Stephen Kan, S., Metrics and Models in Software Quality (2002).</p>
-                        <p class='footy'><sup>2</sup> .c, .C, .cc, .cpp, .css, .cxx, .h, .H, .hh, .hpp, .htm, .html, .hxx, .inl, .java, .js, .php, .py, .s, .xml</p>
+                        <p class='footy'><sup>2</sup> .c, .C, .cc, .cpp, .css, .cxx, .h, .H, .hh, .hpp, .htm, .html, .hxx, .inl, .java, .js, .py, .s, .xml</p>
                     </div>
                     <div class="chart_container" id="allversions_loc_code">	<span class="container_title">LOC</span>
 
@@ -261,7 +261,7 @@
                         <div id="fb_block" class="fb-like" data-href="http://almossawi.com/firefox" data-send="false" data-layout="box_count" data-width="150" data-show-faces="false" data-font="arial"></div>
                         <div id="credits_block">
                         	<a href="http://almossawi.com" style="border-bottom:0">ALI ALMOSSAWI</a> &middot; ali@mozilla.com &middot; This is an early preview of a work-in-progress; please get in touch for all thoughts and comments &middot;
-                            <!--<a href="https://twitter.com/alialmossawi">Follow me on Twitter</a> &middot;-->April 2013
+                            <!--<a href="https://twitter.com/alialmossawi">Follow me on Twitter</a> &middot;-->May 2013
                             <br />Background image courtesy of <a href="https://twitter.com/tyronflanagan">Ty Flanagan</a>. This work is being released under a Creative Commons Attribution-NonCommercial license (<a href="http://creativecommons.org/licenses/by-nc/3.0/">CC BY-NC</a>).
                         </div>
                         <div style="float:right;padding-top:17px">

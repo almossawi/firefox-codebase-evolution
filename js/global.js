@@ -11,7 +11,12 @@ var point_size = 0.8,
 	
 var data_lhs,
 	data_rhs,
-	architectural_data_full;
+	architectural_data_full,
+	shaky_shaky_done = true,
+	z_pressed = false,
+	x_pressed = false,
+	left_pressed = false,
+	right_pressed = false;
 
 var modules = ["accessible", "browser", "content", "dom", "gfx", "ipc", "js", "layout", "media", "modules", "netwerk", "security", "toolkit", "widget"];
 
@@ -166,6 +171,19 @@ function resetLoadedDataFlags() {
 	network_data_already_loaded=false;		
 }
 
+function shake(element) {
+	//shake the element so the user knows
+			if (shaky_shaky_done) {
+				shaky_shaky_done = false;
+				element.effect("shake", {
+		    	    times: 2,
+        			distance: 3
+		        }, 80, function () {
+			    	shaky_shaky_done = true
+    			})
+    		}
+}
+
 function assignEventListeners() {
 	$("#rhs_left").off("click");
 	$("#rhs_right").off("click");
@@ -176,76 +194,26 @@ function assignEventListeners() {
 	$("#switch_to_network").off("click");
 	$(".version_arrow").off("mouseenter");
 	$(".version_arrow").off("mouseleave");
-	
-	$("#rhs_left").on("click", function() {
-		if(what_is_rhs-1 < min_version) {
-			console.log(what_is_rhs);
-			return  false;
-		}
-		else {
-			//redraw using the new data
-			what_is_rhs--;
-			
-			redrawCurrentView();
-			console.log(what_is_rhs);
-		}
-		
-		return false;
-	});
-	
-	$("#rhs_right").on("click", function() {
-		if(what_is_rhs+1 > max_version) {
-			//todo shake the element so the user knows
-			
-			console.log(what_is_rhs);
-			return  false;
-		}
-		else {
-			//redraw using the new data
-			what_is_rhs++
-
-			redrawCurrentView();
-			console.log(what_is_rhs);
-		}
-		
-		return false;
-	});
+	$("body").off("keydown");
+	$("body").off("keyup");
 	
 	$("#lhs_left").on("click", function() {
-		if(what_is_lhs-1 < min_version) {
-			//todo shake the element so the user knows
-			
-			console.log(what_is_lhs);
-			return  false;
-		}
-		else {
-			//redraw using the new data
-			what_is_lhs--;
-
-			redrawCurrentView();
-			console.log(what_is_lhs);
-		}
-		
-		return false;
+		lhs_left($(this));
 	});
 	
 	$("#lhs_right").on("click", function() {
-		if(what_is_lhs+1 > max_version) {
-			//todo shake the element so the user knows
-			
-			console.log(what_is_lhs);
-			return  false;
-		}
-		else {
-			//redraw using the new data
-			what_is_lhs++;
-
-			redrawCurrentView();
-			console.log(what_is_lhs);
-		}
-		
-		return false;
+		lhs_right($(this));
 	});
+	
+	$("#rhs_left").on("click", function() {
+		rhs_left($(this));
+	});
+	
+	$("#rhs_right").on("click", function() {
+		rhs_right($(this));
+	});
+	
+	
 	
 	$("#switch_to_matrix").on("click", function() {
 		//$("#metric").html($("#matrix_view").html());
@@ -369,8 +337,129 @@ function assignEventListeners() {
 			
 		$("svg.right rect.module_bar." + module_name)
 			.css("fill", "#4898ff");
-			
 	});
+	
+		
+	$("body").bind("keydown", function (h) {
+		var g = (h.keyCode ? h.keyCode : h.which);
+		//console.log(z_pressed, x_pressed, left_pressed, right_pressed);
+		
+		if (g == 90) z_pressed = true;
+    	if (g == 88) x_pressed = true;
+    	if (g == 37) left_pressed = true;
+    	if (g == 39) right_pressed = true;
+    	
+    	if(z_pressed && left_pressed) {
+    		d3.select("#lhs_left").transition().duration(300).style("opacity", 1);
+    		lhs_left($("#lhs_left"));
+    		setTimeout(function() {
+	    		d3.select("#lhs_left").style("opacity", 0.4);
+	    	}, 1000);
+    	}
+    	else if(z_pressed && right_pressed) {
+    		d3.select("#lhs_right").transition().duration(300).style("opacity", 1);
+    		lhs_right($("#lhs_right"));
+    		setTimeout(function() {
+	    		d3.select("#lhs_right").style("opacity", 0.4);
+	    	}, 1000);
+    	}
+    	else if(x_pressed && left_pressed) {    		
+    		d3.select("#rhs_left").transition().duration(300).style("opacity", 1);
+    		rhs_left($("#rhs_left"));
+    		setTimeout(function() {
+	    		d3.select("#rhs_left").style("opacity", 0.4);
+	    	}, 1000);
+    	}
+    	else if(x_pressed && right_pressed) {
+    		d3.select("#rhs_right").transition().duration(300).style("opacity", 1);
+    		rhs_right($("#rhs_right"));
+    		setTimeout(function() {
+	    		d3.select("#rhs_right").style("opacity", 0.4);
+	    	}, 1000);
+    	}
+	});
+	
+	$("body").bind("keyup", function (h) {
+		var g = (h.keyCode ? h.keyCode : h.which);
+		//console.log(z_pressed, x_pressed, left_pressed, right_pressed);
+		
+		if (g == 90) z_pressed = false;
+    	if (g == 88) x_pressed = false;
+    	if (g == 37) left_pressed = false;
+    	if (g == 39) right_pressed = false;
+	});
+}
+
+function lhs_left(element) {
+	if(what_is_lhs-1 < min_version) {
+		shake(element);
+			
+		console.log(what_is_lhs);
+		return  false;
+	}
+	else {
+		//redraw using the new data
+		what_is_lhs--;
+
+		redrawCurrentView();
+		console.log(what_is_lhs);
+	}
+		
+	return false;
+}
+
+function lhs_right(element) {
+	if(what_is_lhs+1 > max_version) {
+		shake(element);
+			
+		console.log(what_is_lhs);
+		return  false;
+	}
+	else {
+			//redraw using the new data
+		what_is_lhs++;
+
+		redrawCurrentView();
+		console.log(what_is_lhs);
+	}
+		
+	return false;
+}
+
+function rhs_left(element) {
+	if(what_is_rhs-1 < min_version) {
+		shake(element);
+    					
+		console.log(what_is_rhs);
+		return  false;
+	}
+	else {
+		//redraw using the new data
+		what_is_rhs--;
+			
+		redrawCurrentView();
+		console.log(what_is_rhs);
+	}
+		
+	return false;
+}
+
+function rhs_right(element) {
+	if(what_is_rhs+1 > max_version) {
+		shake(element);
+			
+		console.log(what_is_rhs);
+		return  false;
+	}
+	else {
+		//redraw using the new data
+		what_is_rhs++
+
+		redrawCurrentView();
+		console.log(what_is_rhs);
+	}
+		
+	return false;
 }
 
 function redrawCurrentView() {
@@ -820,7 +909,7 @@ function drawCharts() {
 			if(id == "allversions_prop_cost" || id == "allversions_dependencies_density" || id == "allversions_percent_in_core")
 				format = "%";
 			
-			if(id == "allversions_speed" || id == "allversions_defects_per_hundred_thousand_loc_code")
+			if(id == "allversions_speed")
 				humanify_numbers = false;
 				
 			if(id == "allversions_mem")
@@ -1034,7 +1123,7 @@ function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, cu
 			    		})
 				    	.attr('height', 120) //height of transparent bar
 				    	.on('mouseover.tooltip', function() {
-							d3.selectAll(".tooltip").remove(); //timestamp is used as id
+							d3.selectAll(".tooltip, .tooltip_box").remove(); //timestamp is used as id
 							d3.select(which_metric + " svg")
 								.append("svg:rect")
 									.attr("width", 44)
@@ -1060,8 +1149,8 @@ function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, cu
 									.attr("dy", "0.35m")
 									.attr("text-anchor", "middle")
 									.attr("class", "tooltip");
-								})
-								.on('mouseout.tooltip', function() {
+								});
+								/*.on('mouseout.tooltip', function() {
 									d3.select(".tooltip_box").remove();
 									d3.select(".tooltip")
 										.transition()
@@ -1069,7 +1158,7 @@ function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, cu
 										.style("opacity", 0)
 										.attr("transform", "translate(0,-10)")
 										.remove();
-								});
+								});*/
 				});
 
 		//hide points that are 0
