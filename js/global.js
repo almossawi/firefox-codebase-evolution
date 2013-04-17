@@ -3,9 +3,9 @@
 var point_size = 0.8,
 	alpha = 0.2,
 	min_version = 16,
-	max_version = 17,
+	max_version = 20,
 	matrix_load_delay = 1000,
-	use_raster_for_matrix = true,
+	use_raster_for_matrix = false,
 	what_is_lhs = 16,
 	what_is_rhs = 17;
 	
