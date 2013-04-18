@@ -4,10 +4,18 @@ var point_size = 0.8,
 	alpha = 0.2,
 	min_version = 16,
 	max_version = 20,
-	matrix_load_delay = 500,
+	matrix_load_delay = 250,
 	use_raster_for_matrix = true,
-	what_is_lhs = 19,
-	what_is_rhs = 20;
+	what_is_lhs = 17,
+	what_is_rhs = 18;
+
+//overrides
+var loc_code_max_value_override = 650000,
+	mccabe_per_kloc_code_override = 220,
+	sum_fanin_override = 27000,
+	sum_vfanin_override = 1000000,
+	prop_cost_override = 0.26;
+
 	
 var data_lhs,
 	data_rhs,
@@ -544,6 +552,9 @@ function assignDynamicContentEventListeners() {
 function loadChartView(are_we_updating) {
 	if(chart_data_already_loaded) return;
 
+	$("#lhs_version_header").html("Firefox " + what_is_lhs);
+	$("#rhs_version_header").html("Firefox " + what_is_rhs);
+	
 	console.log("about to draw");
 
 	d3.json("data/firefox" + what_is_lhs + "_module_breakdown.json", function(d_lhs) {
@@ -553,13 +564,13 @@ function loadChartView(are_we_updating) {
 	 		data_lhs.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
 	 		data_rhs.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
 	 		
-			drawMetric("#metric #chart_view #loc_code", ["loc_code", "loc_code"], "", 0, are_we_updating);
-			drawMetric("#metric #chart_view #mccabe_per_kloc_code", ["mccabe_per_kloc_code", "mccabe_per_kloc_code"], "", 0, are_we_updating);
+			drawMetric("#metric #chart_view #loc_code", ["loc_code", "loc_code"], loc_code_max_value_override, 0, are_we_updating);
+			drawMetric("#metric #chart_view #mccabe_per_kloc_code", ["mccabe_per_kloc_code", "mccabe_per_kloc_code"], mccabe_per_kloc_code_override, 0, are_we_updating);
 			//drawMetric("#metric", ["loc_code", "dependencies_density"], "", 1, are_we_updating);
-			drawMetric("#metric #chart_view #prop_cost", ["prop_cost", "prop_cost"], "", 1, are_we_updating);
+			drawMetric("#metric #chart_view #prop_cost", ["prop_cost", "prop_cost"], prop_cost_override, 1, are_we_updating);
 			drawMetric("#metric #chart_view #percent_in_core", ["percent_in_core", "percent_in_core"], "", 1, are_we_updating);
-			drawMetric("#metric #chart_view #sum_fanin", ["sum_fanin", "sum_fanin"], "", 0, are_we_updating);
-			drawMetric("#metric #chart_view #sum_vfanin", ["sum_vfanin", "sum_vfanin"], "", 0, are_we_updating);	 
+			drawMetric("#metric #chart_view #sum_fanin", ["sum_fanin", "sum_fanin"], sum_fanin_override, 0, are_we_updating);
+			drawMetric("#metric #chart_view #sum_vfanin", ["sum_vfanin", "sum_vfanin"], sum_vfanin_override, 0, are_we_updating);	 
 			
 			
 			chart_data_already_loaded = true;
@@ -1240,7 +1251,7 @@ function getHumanSize(size) {
 	var sizePrefixes = ' kmbtpezyxwvu';
 	if(size <= 0) return '0';
 	var t2 = Math.min(Math.floor(Math.log(size)/Math.log(1000)), 12);
-	return (Math.round(size * 100 / Math.pow(1000, t2)) / 100) +
+	return (Math.round(size * 100 / Math.pow(1000, t2)) / 100).toFixed(2) +
 	//return (Math.round(size * 10 / Math.pow(1000, t2)) / 10) +
 		sizePrefixes.charAt(t2).replace(' ', '');
 }
