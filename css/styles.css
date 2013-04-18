@@ -868,7 +868,8 @@ label {
 	font-style:italic;
 	font-size:14px;
 	font-family:Palatino, Georgia, Times, 'PT Serif';
-	background-color:#cccccc;
+	background-color:#e5e5e5;
+	border:1px solid #cccccc;
 	border-radius:5px;
 	padding-left:5px;
 	padding-right:5px;
