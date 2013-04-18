@@ -407,6 +407,7 @@ svg rect.module_bar_transparent {
 	z-index:1;
 	position:absolute;
 	font-size:12px;
+	font-weight:400;
 }
 
 #count_hider {

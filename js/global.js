@@ -561,8 +561,22 @@ function loadChartView(are_we_updating) {
 	 	d3.json("data/firefox" + what_is_rhs + "_module_breakdown.json", function(d_rhs) {
 	 		data_lhs = d_lhs;
 	 		data_rhs = d_rhs;
-	 		data_lhs.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
-	 		data_rhs.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code;});
+	 		
+	 		//sort lhs on loc_code descending
+	 		data_lhs.json_data.sort(function(a,b) { return b.data[0].loc_code - a.data[0].loc_code; });
+	 		
+	 		//and the rhs based on the order of the lhs
+	 		var desired_order = new Object();
+	 		$.each(data_lhs.json_data, function(i, d) { desired_order[d.module] = []; });		 	
+	 		
+	 		var rhs_modules = new Object();
+	 		$.each(data_rhs.json_data, function(i, d) { rhs_modules[d.module] = d.data; });
+			$.each(desired_order, function(module_name, d) { desired_order[module_name] = rhs_modules[module_name];});
+
+	 		var desired_order_arr = [];
+	 		$.each(desired_order, function(key, elem) { desired_order_arr.push({"module": key, "data": elem}); });
+			data_rhs.json_data = desired_order_arr;
+	 		
 	 		
 			drawMetric("#metric #chart_view #loc_code", ["loc_code", "loc_code"], loc_code_max_value_override, 0, are_we_updating);
 			drawMetric("#metric #chart_view #mccabe_per_kloc_code", ["mccabe_per_kloc_code", "mccabe_per_kloc_code"], mccabe_per_kloc_code_override, 0, are_we_updating);
