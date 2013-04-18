@@ -4,10 +4,10 @@ var point_size = 0.8,
 	alpha = 0.2,
 	min_version = 16,
 	max_version = 20,
-	matrix_load_delay = 1000,
-	use_raster_for_matrix = false,
-	what_is_lhs = 16,
-	what_is_rhs = 17;
+	matrix_load_delay = 500,
+	use_raster_for_matrix = true,
+	what_is_lhs = 19,
+	what_is_rhs = 20;
 	
 var data_lhs,
 	data_rhs,
@@ -36,42 +36,6 @@ var module_colors = new Object();
 	module_colors["security"] = "0,171,169";
 	module_colors["toolkit"] = "45,109,255";
 	module_colors["widget"] = "230,113,184";
-
-//0 = start in .files, 1 = end in .files, 
-//2 = matrix highlight coords [width, height, left, top]
-var matrix_v16_modules = new Object();
-	matrix_v16_modules["-"] = [0,637, [0,0,0,0]];
-	matrix_v16_modules["accessible"] = [638,1073, [6,8,16,12]];
-	matrix_v16_modules["browser"] = [1094,2507, [20,20,22,19]];
-	matrix_v16_modules["content"] = [2721,5361, [37,35,46,42]];
-	matrix_v16_modules["dom"] = [5544,8825, [47,45,84,80]];
-	matrix_v16_modules["gfx"] = [9520,11713, [30,30,139,135]];
-	matrix_v16_modules["ipc"] = [12665,13479, [11,10,180,178]];
-	matrix_v16_modules["js"] = [13480,19593, [81,85,193,188]];
-	matrix_v16_modules["layout"] = [19594,24684, [70,71,276,273]];
-	matrix_v16_modules["media"] = [24695,27484, [38,38,346,343]];
-	matrix_v16_modules["modules"] = [28591,29187, [8,8,399,395]];
-	matrix_v16_modules["netwerk"] = [29212,29860, [10,10,408,404]];
-	matrix_v16_modules["security"] = [30926,32117, [17,17,431,428]];
-	matrix_v16_modules["toolkit"] = [32842,34754, [25,26,458,454]];
-	matrix_v16_modules["widget"] = [35372,35845, [7,7,493,488]];
-	
-var matrix_v17_modules = new Object();
-	matrix_v17_modules["-"] = [0,667, [0,0,0,0]];
-	matrix_v17_modules["accessible"] = [668,1105, [6,8,18,12]];
-	matrix_v17_modules["browser"] = [1128,2592, [20,20,22,19]];
-	matrix_v17_modules["content"] = [2818,5516, [36,35,47,43]];
-	matrix_v17_modules["dom"] = [5704,9188, [47,46,84,80]];
-	matrix_v17_modules["gfx"] = [9891,12162, [31,30,142,138]];
-	matrix_v17_modules["ipc"] = [13115,13936, [11,11,184,180]];
-	matrix_v17_modules["js"] = [13937,20057, [83,85,197,190]];
-	matrix_v17_modules["layout"] = [20058,25209, [73,70,277,273]];
-	matrix_v17_modules["media"] = [25210,28056, [37,38,348,343]];
-	matrix_v17_modules["modules"] = [29181,29776, [8,8,401,396]];
-	matrix_v17_modules["netwerk"] = [29802,30451, [9,9,409,405]];
-	matrix_v17_modules["security"] = [31525,32720, [17,15,433,429]];
-	matrix_v17_modules["toolkit"] = [33457,35414, [25,26,461,454]];
-	matrix_v17_modules["widget"] = [36031,36511, [7,7,493,488]];
 		
 var chart_data_already_loaded = false,
 	matrix_data_already_loaded = false,
@@ -199,18 +163,22 @@ function assignEventListeners() {
 	
 	$("#lhs_left").on("click", function() {
 		lhs_left($(this));
+		return false;
 	});
 	
 	$("#lhs_right").on("click", function() {
 		lhs_right($(this));
+		return false;
 	});
 	
 	$("#rhs_left").on("click", function() {
 		rhs_left($(this));
+		return false;
 	});
 	
 	$("#rhs_right").on("click", function() {
 		rhs_right($(this));
+		return false;
 	});
 	
 	
@@ -1177,6 +1145,10 @@ function drawMatrixCanvas(container) {
 	var ctx_a = $('#canvas1')[0].getContext("2d"),
 		ctx_b = $('#canvas2')[0].getContext("2d");
 		
+	//clear canvases
+	ctx_a.clearRect ( 0 , 0 , 500 , 500 );
+	ctx_b.clearRect ( 0 , 0 , 500 , 500 );
+
 
 	d3.csv(data_file_a, function(data) {
 		drawEachMatrixCanvas(data, ctx_a, false, eval("matrix_v" + what_is_lhs + "_modules"));
@@ -1225,6 +1197,7 @@ function drawEachMatrixCanvas(data, which_canvas, last_one, which_version) {
 		//a circle per observation
 		$.each(data, function(i, d) {
 			which_canvas.fillStyle = getModuleColor(d, which_version);
+			//which_canvas.fillStyle = "rgba(255,255,255," + alpha + ")"; //white
 			which_canvas.beginPath();
 			which_canvas.rect(xScale(d.to_file), yScale(d.from_file), point_size, point_size)
 			which_canvas.closePath();

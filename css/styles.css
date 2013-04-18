@@ -182,7 +182,7 @@ canvas {
 
 #canvas1 {
 	float:left; /* remove when raster is selected */ 
-	margin-left:112px;
+	margin-left:113px;
 }
 
 #canvas2 {
@@ -867,8 +867,7 @@ label {
 	font-style:italic;
 	font-size:14px;
 	font-family:Palatino, Georgia, Times, 'PT Serif';
-	color:white;
-	background-color:#3b3b3b;
+	background-color:#cccccc;
 	border-radius:5px;
 	padding-left:5px;
 	padding-right:5px;
