@@ -6,13 +6,13 @@ var point_size = 0.8,
 	max_version = 20,
 	matrix_load_delay = 250,
 	use_raster_for_matrix = true,
-	what_is_lhs = 17,
-	what_is_rhs = 18;
+	what_is_lhs = 19,
+	what_is_rhs = 20;
 
 //overrides
-var loc_code_max_value_override = 650000,
-	mccabe_per_kloc_code_override = 220,
-	sum_fanin_override = 27000,
+var loc_code_max_value_override = 670000,
+	mccabe_per_kloc_code_override = 210,
+	sum_fanin_override = 28000,
 	sum_vfanin_override = 1000000,
 	prop_cost_override = 0.26;
 
