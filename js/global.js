@@ -168,6 +168,34 @@ function assignEventListeners() {
 	$(".version_arrow").off("mouseleave");
 	$("body").off("keydown");
 	$("body").off("keyup");
+	$("#percentage_change_switch").off("click");
+	$("#below_fold_actual_values_switch").off("click");
+	$("#below_fold_percentage_change_switch").off("click");
+	
+	
+	$("#percentage_change_switch").toggle(function() {
+		$(this).html("<a href='#'>SHOW ACTUAL VALUES?</a>");
+	
+		return false;	
+	}, function() {
+		$(this).html("<a href='#'>SHOW PERCENTAGE CHANGE INSTEAD?</a>");
+		
+		return false;
+	});
+	
+	$("#below_fold_actual_values_switch").on("click", function() {
+		$("#below_fold_percentage_change_switch").attr("class", "below_fold_switch");
+		$("#below_fold_actual_values_switch").attr("class", "below_fold_switch selected");
+		
+		return false;
+	});
+	
+	$("#below_fold_percentage_change_switch").on("click", function() {
+		$("#below_fold_percentage_change_switch").attr("class", "below_fold_switch selected");
+		$("#below_fold_actual_values_switch").attr("class", "below_fold_switch");
+		
+		return false;
+	});
 	
 	$("#lhs_left").on("click", function() {
 		lhs_left($(this));
@@ -602,8 +630,8 @@ function loadMatrixView() {
 		//ok to add trailing .0 since we're only going from 16 onwards for module breakdown and matrix views
 		$("#lhs_files").text(addCommas(architectural_data_full.allversions_files_with_dependencies[what_is_lhs + ".0"]));
 		$("#rhs_files").text(addCommas(architectural_data_full.allversions_files_with_dependencies[what_is_rhs + ".0"]));
-		$("#lhs_density").text((architectural_data_full.allversions_dependencies_density[what_is_lhs + ".0"] * 100).toFixed(4) + "%");
-		$("#rhs_density").text((architectural_data_full.allversions_dependencies_density[what_is_rhs + ".0"] * 100).toFixed(4) + "%");
+		$("#lhs_density").html((architectural_data_full.allversions_dependencies_density[what_is_lhs + ".0"] * 10000).toFixed(2) + "<br /><span style='font-size:9px'>(density is per 10,000 file pairs)</span>");
+		$("#rhs_density").html((architectural_data_full.allversions_dependencies_density[what_is_rhs + ".0"] * 10000).toFixed(2) + "<br /><span style='font-size:9px'>(density is per 10,000 file pairs)</span>");
 		
 		addMatrixHighlighters("lhs");
 		addMatrixHighlighters("rhs");

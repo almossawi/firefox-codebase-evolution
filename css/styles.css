@@ -822,7 +822,8 @@ label {
 }
 
 #page #container #chart_container_container .chart_description p.footy {
-	font-size:80%;
+	font-size:88%;
+	color:#727272;
 	margin-bottom:0;
 	padding-bottom:0;
 	margin-top:0;
@@ -876,4 +877,57 @@ label {
 	padding-right:5px;
 	padding-top:2px;
 	padding-bottom:2px;
+}
+
+#percentage_change_switch {
+	letter-spacing:1px;
+	color:white;
+	font-weight:600;
+	width:1360px;
+	height:30px;
+	bottom:0;
+	font-size:11px;
+	margin-top:-19px;
+	z-index:99999;
+	text-align:center;
+}
+
+#percentage_change_switch a {
+	color:#959595;
+	/*color:#3b3b3b;
+	background-color:#d6d6d6;
+	border-radius:10px;*/
+	padding-left:8px;
+	padding-right:8px;
+	padding-top:4px;
+	padding-bottom:4px;
+}
+
+
+#below_fold_options {
+	margin-left:940px;
+	width:250px;
+}
+
+.below_fold_switch {
+	float:left;
+	font-weight:100;
+	font-size:11px;
+	letter-spacing:1px;
+	z-index:99999;
+	text-align:center;
+	padding-left:8px;
+	padding-right:8px;
+	padding-top:4px;
+	padding-bottom:4px;
+	border-radius:4px;
+	cursor:pointer;
+	color:#000000;
+	background-color:none;
+	width:90px;
+}
+
+.selected {
+	color:white;
+	background-color:#FF9500;
 }
