@@ -84,9 +84,9 @@
                     
                     
         	        <div id="percentage_change_switch">
-    	            	<a href="#">
+    	            	<!--<a href="#">
 	    	            	SHOW PERCENTAGE CHANGE INSTEAD?
-	    	            </a>
+	    	            </a>-->
 	                </div>
                 </div>
                 <div id="matrix_view" class="view">
@@ -157,9 +157,8 @@
                 </div>
                 
                 <div id="below_fold_options">
-	                <!--<div id="below_fold_label">SHOWING</div>-->
-    	            <div id="below_fold_actual_values_switch" class="below_fold_switch selected">VALUES</div>
-    	            <div id="below_fold_percentage_change_switch" class="below_fold_switch">PERC. CHANGE</div>
+    	            <!--<div id="below_fold_actual_values_switch" class="below_fold_switch selected">VALUES</div>
+    	            <div id="below_fold_percentage_change_switch" class="below_fold_switch">PERC. CHANGE</div>-->
         		</div>
         		                
                 <div style="clear:both"></div>
@@ -187,8 +186,9 @@
                     <div style="clear:both"></div>
                     <div class="chart_description">
                         <h1>Propagation cost</h1>
-                        <p>Propagation cost measures direct as well as indirect dependencies between files in a code-base. In practical terms, it gives a sense of the proportion of files that may be impacted when a change is made to some randomly chosen file<sup>3,4</sup>. Some argue that such a measure gives a more vivid view of a system's interdependencies.
-                        <p>The process of transforming a first-order dependency matrix that captures only direct dependencies between files to a visibility, also known as a reachability, matrix that captures indirect dependencies as well is achieved through matrix multiplication by raising the first-order dependency matrix to multiple successive powers until we achieve its transitive closure. Put plainly, that means that a matrix raised to the power of two would show the indirect dependencies between elements that have a path length of two, i.e. calls from A to C, if A calls B and B calls C. Thereafter, by summing these matrices together one gets the visibility matrix, V. For this ripple effect to be of use in analysis, the density of the visibility matrix is captured within the metric that we call propagation cost, which we define as <br /><i>prop cost = (&Sigma;rows)/m<sup>2</sup></i>, where m is the matrix height.</p>
+                        <p>Propagation cost measures direct as well as indirect dependencies between files in a code-base. In practical terms, it gives a sense of the proportion of files that may be impacted when a change is made to some randomly chosen file<sup>3,4</sup>.
+                        <p>The process of transforming a first-order dependency matrix that captures only direct dependencies between files to a visibility, also known as a reachability, matrix that captures indirect dependencies as well is achieved through matrix multiplication by raising the first-order dependency matrix to multiple successive powers until we achieve its transitive closure. Put plainly, that means that a matrix raised to the power of two would show the indirect dependencies between elements that have a path length of two, i.e. calls from A to C, if A calls B and B calls C. Thereafter, by summing these matrices together one gets the visibility matrix, V.</p>
+                        <p>For this ripple effect to be of use in analysis, the density of the visibility matrix is captured within the metric that we call propagation cost, which we define as <br /><i>prop cost = (&Sigma;rows)/m<sup>2</sup></i>, where m is the matrix height.</p>
                         <p class="footy"><sup>3</sup> Alan MacCormack, John Rusnak and Carliss Baldwin, <i>Exploring the Structure of Complex Software Designs: An Empirical Study of Open Source and Proprietary Code</i> (2006).</p>
                         <p class="footy"><sup>4</sup> Steven D. Eppinger and Tyson R. Browning, Design Structure Matrix Methods and Applications (2012).</p>
                     </div>
@@ -198,9 +198,11 @@
                     </div>
                     <div class="chart_description">
                         <h1>Core size</h1>
-                        <p>Core files are files that depend on a lot of files and have a lot of files depend on them, i.e. they have high fan-in and high fan-out. They are one of four types of files that one sees when plotting files along the axes of fan-in and fan-out, the intuition being that different directions and magnitudes of dependencies have varying impacts on software quality. A smaller core has been shown to result in fewer defects.</p>
+                        <p>Core files are files that are highly interconnected via chain of cyclic dependencies<sup>5</sup> and have been shown in various studies to have a higher propensity to result in defects.  They are one of four types of files that one sees when plotting files along the axes of fan-in and fan-out, the intuition being that different directions and magnitudes of dependencies have varying impacts on software quality. A smaller core has been shown to result in fewer defects.</p>
                         <p>Other types of files are peripheral files, which don’t depend on a lot of files and don't have a lot of files depend on them (low fan-in, low fan-out); shared files, which don’t depend on a lot of files, but have a lot of files depend on them (high fan-in, low fan-out) and control files, which depend on a lot of files, but don’t have a lot of files depend on them (low fan-in, high fan-out).</p>
-                        <p>Core size, here, is the percentage of files with one or more dependencies that have a fan-in above the fan-in median and a fan-out above the fan-out median.</p>
+                        <p>Core size, here, is the percentage of files with one or more dependencies that have a fan-in above the fan-in median and a fan-out above the fan-out median.  The fan-in and fan-out values for files are taken from the visibility matrix rather than the first-order matrix.</p>
+                        
+                        <p class="footy"><sup>5</sup> Dan Sturtevant and Alan MacCormack, System Design and the Cost of Complexity: Putting a Value on Modularity (2011).</p>
                     </div>
                     <div class="chart_container" id="allversions_percent_in_core">
                     	<span class="container_title">Core size</span>
@@ -257,9 +259,9 @@
                         </div>
                         <div id="fb_block" class="fb-like" data-href="http://almossawi.com/firefox" data-send="false" data-layout="box_count" data-width="150" data-show-faces="false" data-font="arial"></div>
                         <div id="credits_block">
-                        	<a href="http://almossawi.com" style="border-bottom:0">ALI ALMOSSAWI</a> &middot; ali@mozilla.com &middot; This is an early preview of a work-in-progress; please get in touch for all thoughts and comments &middot;
+                        	<a href="http://almossawi.com" style="border-bottom:0">ALI ALMOSSAWI</a> &middot; ali@mozilla.com &middot; This is still a work-in-progress; please get in touch for all thoughts and comments &middot;
                             <!--<a href="https://twitter.com/alialmossawi">Follow me on Twitter</a> &middot;-->May 2013
-                            <br />Background image courtesy of <a href="https://twitter.com/tyronflanagan">Ty Flanagan</a>. This work is being released under a Creative Commons Attribution-NonCommercial license (<a href="http://creativecommons.org/licenses/by-nc/3.0/">CC BY-NC</a>).
+                            <br />Background image courtesy of <a href="https://twitter.com/tyronflanagan">Ty Flanagan</a>. This project is being released under a Creative Commons license (<a href="http://creativecommons.org/licenses/by-nc/3.0/">CC BY-NC</a>).
                         </div>
                         <div style="float:right;padding-top:17px">
 	                        <iframe src="http://ghbtns.com/github-btn.html?user=almossawi&repo=Firefox-Codebase-Evolution&type=watch&size=large" allowtransparency="true" frameborder="0" scrolling="0" width="80" height="30" style="float:right"></iframe>
