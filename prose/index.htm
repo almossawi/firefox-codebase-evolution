@@ -18,6 +18,7 @@
     <link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/d3.v3.min.js"></script>
 	<script type="text/javascript" src="js/global.js"></script>
 	<link rel="stylesheet" href="css/styles_blog.css">
 </head>
@@ -247,11 +248,30 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p class="subtitle">3 Findings</p>
 <p class="subtitle">3.1 Architectural indicators generally show satisfactory to improving levels of maintainability</p>
 	<p>Cyclomatic complexity shows a slow decreasing trend at an average rate of -0.85% with the most recent release showing it to be the lowest ever.  This is a good thing.  It indicates that the code within files is, on average, getting less complex.</p>
+	<div class="chart_container" id="allversions_mccabe_per_kloc">
+		<div></div>
+	</div>
+	
 	<p>LOC code is growing at an average rate of 4.04%.  Using other open-source codebases as benchmarks, this appears to be a reasonable rate.  Only in v4.0 did LOC grow at a noticeably larger rate of 20.34%.  Given the context, this may be understandable seeing how significant a release v4.0 was for Mozilla.  At no point do we see any noticeable drops in LOC, something that would be indicative of a major refactoring effort, as was the case with the original Mozilla browser.  Thus, taking this and all the other results into consideration, one may perhaps suggest that the Firefox codebase has not accumulated the technical debt that would trigger a major refactoring effort.</p>
+	<div class="chart_container" id="allversions_loc_code">
+		<div></div>
+	</div>
+	
 	<p>We see a decreasing trend in first-order density, with the most significant drop occurring in v3.5 (-33.46%).  The mean number of dependencies per 10,000 file pairs is 2.91, with the maximum being 6.73 in the earliest release (v1.0) and the minimum being 1.65 in the latest release (v20.0).  This tells us that the complexity between files as measured by direct dependencies has decreased, which is a good thing.  For the average Firefox release, changing a randomly chosen file has the potential of impacting 0.000291% of files, or 8 files.</p>
+	<div class="chart_container" id="allversions_dependencies_density">
+		<div></div>
+	</div>
+	
 	<p>We see a stable propagation cost with a mean of 5.20% and a standard deviation of just 1.13%.  Thus, a change to a randomly selected file in Firefox has the potential to ultimately impact 5.20% of files.  For the average Firefox release that means around 1,453 files.  The stability of propagation cost is a good indicator, and the value is in my experience reasonable.  Propagation cost varies between 2.99% in v3.5 and 6.99% in v13.0.</p>
+	<div class="chart_container" id="allversions_prop_cost">
+		<div></div>
+	</div>
+	
 	<p>Core size shows a regime shift at v3.0 with the mean size increasing from 26.65% to 41.14%.  The average core size is higher than that of GNOME, for example.  v3.0 is the only Firefox release to have been in development for two years.   All others before the Rapid Release Cycle spent approximately one year in development. Further investigation would be needed to uncover what during those two years of development was the main driver of this uplift in the number of highly interconnected files.  Note that the total number of dependencies dropped significantly in that release, but for some reason, the proportion of highly interconnected files increased.</p>
-
+	<div class="chart_container" id="allversions_percent_in_core">
+		<div></div>
+	</div>
+	
 <p class="subtitle">3.2 Switching to the rapid release cycle (RRC) has had a positive impact on maintainability</p>
 <p>RRC began with v5.0 of Firefox and aimed to constrain the release cycle to 6-week time periods and tighten the software development lifecycle.  Comparing the seven observations from before the switch to RRC with the 16 afterwards reveals the following results.</p>
 	<p>Propagation cost shows little change before and after RRC, having slightly gone up from a mean of 4.36% to 5.57%, however, looking at its mean release-over-release growth, it becomes evident that it has become much less volatile, having gone down from 20.02% to just 3.30%, which is a good improvement.  Its standard deviation has dropped from 51.95% to 21.54%.</p>
