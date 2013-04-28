@@ -61,9 +61,10 @@ var version = ["1", "1.5", "2", "3", "3.5", "3.6", "4", "5", "6", "7", "8", "9",
 var metrics_nice = new Object();
 metrics_nice["mccabe_per_kloc_code"] = "Cyclomatic complexity";
 metrics_nice["loc_code"] = "LOC";
-metrics_nice["dependencies_density"] = "Dependency density";
+metrics_nice["dependencies_density"] = "First-order density";
 metrics_nice["prop_cost"] = "Propagation cost";
 metrics_nice["percent_in_core"] = "Core size";
+metrics_nice["files_with_dependencies"] = "Files";
 metrics_nice["sum_fanin"] = "Direct dependencies";
 metrics_nice["sum_vfanin"] = "Indirect dependencies";
 
@@ -85,6 +86,9 @@ $(document).ready(function () {
 		
 	$("#mccabe_per_kloc_code")
 		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["mccabe_per_kloc_code"] + "</div>");
+	
+	$("#dependencies_density")
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["dependencies_density"] + "</div>");
 		
 	$("#prop_cost")
 		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["prop_cost"] + "</div>");
@@ -92,11 +96,14 @@ $(document).ready(function () {
 	$("#percent_in_core")
 		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["percent_in_core"] + "</div>");
 		
-	$("#sum_fanin")
+	$("#files_with_dependencies")
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["files_with_dependencies"] + "</div>");
+		
+	/*$("#sum_fanin")
 		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["sum_fanin"] + "</div>");
 		
 	$("#sum_vfanin")
-		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["sum_vfanin"] + "</div>");
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["sum_vfanin"] + "</div>");*/
 	
 	//add legend and matrix highlighters on page load to save time
 	addModulesLegend();
@@ -608,11 +615,12 @@ function loadChartView(are_we_updating) {
 	 		
 			drawMetric("#metric #chart_view #loc_code", ["loc_code", "loc_code"], loc_code_max_value_override, 0, are_we_updating);
 			drawMetric("#metric #chart_view #mccabe_per_kloc_code", ["mccabe_per_kloc_code", "mccabe_per_kloc_code"], mccabe_per_kloc_code_override, 0, are_we_updating);
-			//drawMetric("#metric", ["loc_code", "dependencies_density"], "", 1, are_we_updating);
+			drawMetric("#metric #chart_view #dependencies_density", ["dependencies_density", "dependencies_density"], "", 1, are_we_updating);
 			drawMetric("#metric #chart_view #prop_cost", ["prop_cost", "prop_cost"], prop_cost_override, 1, are_we_updating);
 			drawMetric("#metric #chart_view #percent_in_core", ["percent_in_core", "percent_in_core"], "", 1, are_we_updating);
-			drawMetric("#metric #chart_view #sum_fanin", ["sum_fanin", "sum_fanin"], sum_fanin_override, 0, are_we_updating);
-			drawMetric("#metric #chart_view #sum_vfanin", ["sum_vfanin", "sum_vfanin"], sum_vfanin_override, 0, are_we_updating);	 
+			drawMetric("#metric #chart_view #files_with_dependencies", ["files_with_dependencies", "files_with_dependencies"], "", 0, are_we_updating);
+			//drawMetric("#metric #chart_view #sum_fanin", ["sum_fanin", "sum_fanin"], sum_fanin_override, 0, are_we_updating);
+			//drawMetric("#metric #chart_view #sum_vfanin", ["sum_vfanin", "sum_vfanin"], sum_vfanin_override, 0, are_we_updating);	 
 			
 			
 			chart_data_already_loaded = true;
@@ -927,7 +935,7 @@ function drawCharts() {
 				splice_from = 0,
 				max_y_value = "";
 			
-			if(id == "allversions_prop_cost" || id == "allversions_dependencies_density" || id == "allversions_percent_in_core")
+			if(id == "allversions_prop_cost" || id == "allversions_percent_in_core")
 				format = "%";
 			
 			if(id == "allversions_speed")

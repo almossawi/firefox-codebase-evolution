@@ -1,0 +1,173 @@
+html, body {
+	font: 13px;
+	font-family:'PT Serif', Georgia, Times, 'Times New Roman', serif;
+	margin:0;
+	padding:0;
+	background:#fff;
+	background-position:center 20px;
+	background-repeat:no-repeat;
+}
+
+h1 {
+	font-family: 'Gill Sans', 'Open Sans', sans-serif;
+	font-size:40px;
+	color:black;
+	font-weight:300;
+	padding:0;
+	margin:0;
+	text-align:left;
+	margin-top:30px;
+	clear:both;
+}
+
+h1.title {
+	font-family:Signika;
+	font-weight:400;
+	font-size:50px;
+	letter-spacing:-3px;
+	margin-bottom:100px;
+}
+
+h2 {
+	font-family: 'Gill Sans', 'Open Sans', sans-serif;
+	font-size:18px;
+	font-weight:300;
+	padding:0;
+	margin:0;
+	clear:both;
+	color:#373737;
+	padding-bottom:30px;
+}
+
+p.blockquote {
+	margin-left:100px;
+	width:570px;
+	font-style:italic;
+	text-align:justify;
+	padding-top:10px;
+	padding-bottom:10px;
+	font-size:14px;
+}
+
+.date {
+	font-family: 'Gill Sans', 'Open Sans', sans-serif;
+	clear:both;
+	position:absolute;
+	font-size:14px;
+	font-weight:300;
+	color:#666666;
+	margin-top:-30px;
+	margin-left:0px;
+}
+
+#main_container {
+	margin-left:auto;
+	margin-right:auto;
+	width:800px;
+	clear:both;
+	margin-top:0px;
+	margin-bottom:50px;
+}
+
+#content {
+	margin-left:auto;
+	margin-right:auto;
+	height:200px;
+	border-radius: 0px;
+	padding:15px;
+	font-size:16px;
+}
+
+p {
+	padding-top:4px;
+	line-height:24px;
+}
+
+img {
+	margin-left:80px;
+	padding-bottom:5px;
+	display:block;
+	margin:auto;
+}
+
+a, a:active, a:link, a:visited {
+	text-decoration:none;
+	color:#3b3b3b;
+	border-bottom:1px dotted #3b3b3b;
+}
+
+.highlight {
+	font-weight:normal;
+	font-size:130%;
+}
+
+.subtitle {
+	font-weight:400;
+	font-size:24px;
+	padding-bottom:0;
+	margin-bottom:0;
+	padding-top:10px;
+	color:#2a2a2a;
+	font-family: 'Gill Sans', 'Open Sans', sans-serif;
+}
+
+li {
+	line-height: 24px;
+}
+
+#footer {
+	position:absolute;
+	bottom:0;
+	height:200px;
+	width:100%;
+	border:1px solid black;
+}
+
+.post {
+	/*border-top:1px solid #cccccc;*/
+}
+
+table {
+	width:680px;
+	border:1px solid #cccccc;
+	display:block;
+	margin:auto;
+	padding:5px;
+}
+
+table tr td {
+	width:20%;
+	padding-bottom:7px;
+	font-size:14px;
+}
+
+td.lhs {
+	font-style:italic;
+	padding-right:18px;
+}
+
+table tr.header {
+	font-weight:600;
+}
+
+sup, sub {
+	font-size:13px;
+	vertical-align: baseline;
+	position: relative;
+	top: -0.4em;
+}
+sub { top: 0.4em; }
+
+p.footy {
+	color:#6d6d6d;
+	font-size:14px;
+	line-height:18px;
+}
+
+p.caption {
+	padding:0;
+	margin:0;
+	text-align:center;
+	font-size:12px;
+	font-style:italic;
+}
