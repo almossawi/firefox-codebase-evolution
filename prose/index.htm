@@ -30,7 +30,7 @@
 				<div style="position:absolute;margin-top:20px;height:40px"></div>
 				<h1>How maintainable is the Firefox codebase?</h1>
 				<h2>ALI ALMOSSAWI</h2>
-				<div class="date">Unpublished</div>
+				<div class="date">Early draft</div>
 
 <br /><br /><br />
 
@@ -207,8 +207,9 @@ The exploratory tool's source-code as well as the data described herein are avai
 	</tr>
 </table>
 <p class="caption">Table 2: Descriptive statistics for the set of Firefox modules (n=70)</p>
-
 <p>Full details are available in the spreadsheet <a href="#">here</a>.  Feel free to use that to do your own analysis.</p>
+<p>Modules are a bit more nuanced since we generally want most of the interaction between files to happen within modules rather than between them.  For simplicity, we consider a module to be a system, which allows us to continue using the same measures of goodness discussed earlier.  Hence, a module that has a higher density of dependencies is considered to be less maintainable than one with a lower density.  This only gives partial insight into a module's architecture, and begs the question: Well, how do the number and density of internal calls compare with the number and density of external ones?  That question is part of the motivation for the third, currently in-progress, view on the <a href="../">Evolution of the Firefox Codebase</a> page<sup>2</sup>.</p>
+<p class="footy"><sup>2</sup> ಠ_ಠ</p>
 
 <p class="subtitle">2.2 Processing the data</p>
 <p>Processing the data involves the use of a set of tools and scripts. The general workflow is shown in the following diagram.</p>
@@ -231,7 +232,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p>We use a Web script to query the Bugzilla database and gather defect data for individual releases.  The parameters of our request use the following criteria: </p>
 <ol>
 	<li>Status ≠ “unconfirmed”</li>
-	<li>Resolution = “fixed” or resolution = “---”<sup>2</sup></li>
+	<li>Resolution = “fixed” or resolution = “---”<sup>3</sup></li>
 	<li>Severity ≠ “enhancement”</li>
 	<li>Product = “Firefox”</li>
 	<li>Version = the set of major releases up to v20.0</li>
@@ -243,7 +244,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 
 <p>Though defects created by users within a particular time period need not necessarily map to the previous release, the assumption is that the second criterion would filter out most of those cases, i.e. a defect discovered by a user in an older version will likely have been resolved in the latest version. In previous work, this method was used to calculate assigned defects for a set of system-versions and got results that were very close to the actual number of defects reported by Bugzilla for those system-versions with the average overlap being 80% and the mode being 95% [10].</p>
 
-<p class="footy"><sup>2</sup> The resolution field can be either ‘fixed’ or ‘---‘, which accommodates both sets of closed and fixed defects as well as confirmed open ones.</p>
+<p class="footy"><sup>3</sup> The resolution field can be either ‘fixed’ or ‘---‘, which accommodates both sets of closed and fixed defects as well as confirmed open ones.</p>
 
 <p class="subtitle">3 Findings</p>
 <p class="subtitle">3.1 Architectural indicators generally show satisfactory to improving levels of maintainability</p>
@@ -280,7 +281,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 	<p>First-order density has improved seeing as it has gone down from 4.75 to 2.11, though that seems to be despite the switch to RRC rather than because of it; first-order density appears to have in fact exhibited a downward trend from v3.0 onwards.  The biggest dip occurred in v3.5 where it dropped 33.46%.</p>
 	<p>Cyclomatic complexity has been steadily improving over time, though like density, the trend of improvement started before the switch to RRC.  Having said that, its mean growth following the switch is a slightly improved -1.10% compared to -0.19% before.</p>
 
-<p class="subtitle">3.3 Module-level results</p>
+<p class="subtitle">3.3 A subset of modules consistently appear to be complex</p>
 <p>Splitting our module-level data by module and looking at the mean values for each module for each of the above metrics reveals the following about the maintainability levels of our various modules:</p>
 
 <table>
@@ -314,19 +315,27 @@ The exploratory tool's source-code as well as the data described herein are avai
 		<td>security<br />(19.96%)</td>
 		<td>content<br />(48.65%)</td>
 	</tr>
-	<tr>
-		<td class="lhs">files</td>
-		<td>widget<br />(476)</td>
-		<td>js<br />(6,445)</td>
-	</tr>
 </table>
 <p class="caption">Table 3: Comparing the maintainability levels of our Firefox modules from the past five releases (n=14)</p>
-<p>What we find is that <i>layout</i> has, on average, the lowest levels of complexity, specifically between its files, whereas <i>security</i> has the highest level of complexity, on average, both within its files as well as between its files as measured by propagation cost.  The following chart provides further details of how other modules fair.</p>
+<p>What we find is that <i>layout</i> has on average the lowest levels of complexity, specifically between its files, whereas <i>security</i> has on average the highest level of complexity both within its files as well as between them as measured by propagation cost.  The following charts provide further details of how other modules fair.</p>
 
-<p></p>
+<p>We see that modules tend to have similar levels of internal complexity, judging by their cyclomatic complexity measure.</p>
+<img src="images/mccabe_modules_comparison.png" />
+
+<p>Looking at first-order density, <i>browser</i> stands out as having a density that is noticeably higher than the next module, that is 1.13% compared to 0.73%.</p>
+<img src="images/density_modules_comparison.png" />
+
+<p>With propagation cost, we see that the three modules with the highest propagation costs, <i>security</i>, <i>browser</i> and <i>accessible</i>, are all noticeably higher than the remaining modules, being as they are 20.85%, 18.23% and 15.77%, respectively.</p>
+<img src="images/propcost_modules_comparison.png" />
+
+<p>Similarly, with core size, we see that the top module, <i>content</i>, is noticeably higher than the remaining modules, being as it is 48.65%.</p>
+<img src="images/coresize_modules_comparison.png" />
 
 <p class="subtitle">4 Take-away</p>
 <p>It is impressive that an open-source project developed by a distributed team of paid staff and contributors has been able to produce and, more importantly, maintain the quality of the Firefox product for over eight years.  The proportion of people overseeing the code quality processes at Mozilla is minuscule compared to the product's size and impact, which makes it all the more impressive.</p>
+<p>I have seen larger, more expensive, software projects become drastically less maintainable in only a few years by virtue of their development processes becoming more chaotic.  With Firefox, We see the decision to move to a tighter, more predictable, development process possibly aiding in improving quality.</p>
+<p>The analysis reveals no blazingly evident red flags when it comes to maintainability.  A subset of modules, namely, <i>accessible</i>, <i>browser</i> and <i>security</i>, frequently appear among the most complex modules.  Further investigation may be helpful in identifying why that is the case.</p>
+<p></p>
 
 <p class="subtitle">5 Acknowledgements</p>
 <p>Thank reviewers here...</p>
