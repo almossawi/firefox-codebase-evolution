@@ -145,7 +145,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 </table>
 <p class="caption">Table 1: Descriptive statistics for the set of Firefox releases (n=23)</p>
 
-<p>Full details are available in the spreadsheet <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdHJUT0M3YXNzdVVYUXRkQzBWellHamc&usp=sharing">here</a> and the .json file <a href="http://almossawi.com/firefox/data/architectural.json">here</a>.</p>
+<p>Full details are available in the spreadsheet <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdHJUT0M3YXNzdVVYUXRkQzBWellHamc#gid=0">here</a> and the .json file <a href="http://almossawi.com/firefox/data/architectural.json">here</a>.</p>
 <p>For each of the past five releases of Firefox (v16.0 to v20.0), we also analyze individual modules.  A module is defined as a top-level directory in the codebase that is referenced on the <a href="https://developer.mozilla.org/en-US/docs/Mozilla_Source_Code_Directory_Structure">Mozilla Source Code Directory Structure page</a>.  Modules that have fewer than several hundreds of files are not analyzed for the reasons mentioned earlier.  The following table shows descriptive statistics for our set of modules.</p>
 
 <table>
@@ -207,7 +207,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 	</tr>
 </table>
 <p class="caption">Table 2: Descriptive statistics for the set of Firefox modules (n=70)</p>
-<p>Full details are available in the spreadsheet <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdHJUT0M3YXNzdVVYUXRkQzBWellHamc&usp=sharing">here</a> and the .json file <a href="http://almossawi.com/firefox/data/architectural.json">here</a>.  Feel free to use that to do your own analysis.</p>
+<p>Full details are available in the spreadsheet <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdHJUT0M3YXNzdVVYUXRkQzBWellHamc#gid=1">here</a> and the .json file <a href="http://almossawi.com/firefox/data/architectural.json">here</a>.  Feel free to use that to do your own analysis.</p>
 <p>Modules are a bit more nuanced since we generally want most of the interaction between files to happen within modules rather than between them.  For simplicity, we consider a module to be a system, which allows us to continue using the same measures of goodness discussed earlier.  Hence, a module that has a higher density of dependencies is considered to be less maintainable than one with a lower density.  This only gives partial insight into a module's architecture, and begs the question: Well, how do the number and density of internal calls compare with the number and density of external ones?  That question is part of the motivation for the third, currently in-progress, view on the <a href="../">Evolution of the Firefox Codebase</a> page<sup>2</sup>.</p>
 <p class="footy"><sup>2</sup> ಠ_ಠ</p>
 
