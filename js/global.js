@@ -14,6 +14,8 @@ var loc_code_max_value_override = 670000,
 	mccabe_per_kloc_code_override = 210,
 	sum_fanin_override = 28000,
 	sum_vfanin_override = 1000000,
+	percent_in_core_override = 0.55,
+	dependencies_density_override = 0.2,
 	prop_cost_override = 0.26;
 
 	
@@ -615,9 +617,9 @@ function loadChartView(are_we_updating) {
 	 		
 			drawMetric("#metric #chart_view #loc_code", ["loc_code", "loc_code"], loc_code_max_value_override, 0, are_we_updating);
 			drawMetric("#metric #chart_view #mccabe_per_kloc_code", ["mccabe_per_kloc_code", "mccabe_per_kloc_code"], mccabe_per_kloc_code_override, 0, are_we_updating);
-			drawMetric("#metric #chart_view #dependencies_density", ["dependencies_density", "dependencies_density"], "", 1, are_we_updating);
+			drawMetric("#metric #chart_view #dependencies_density", ["dependencies_density", "dependencies_density"], dependencies_density_override, 1, are_we_updating);
 			drawMetric("#metric #chart_view #prop_cost", ["prop_cost", "prop_cost"], prop_cost_override, 1, are_we_updating);
-			drawMetric("#metric #chart_view #percent_in_core", ["percent_in_core", "percent_in_core"], "", 1, are_we_updating);
+			drawMetric("#metric #chart_view #percent_in_core", ["percent_in_core", "percent_in_core"], percent_in_core_override, 1, are_we_updating);
 			drawMetric("#metric #chart_view #files_with_dependencies", ["files_with_dependencies", "files_with_dependencies"], "", 0, are_we_updating);
 			//drawMetric("#metric #chart_view #sum_fanin", ["sum_fanin", "sum_fanin"], sum_fanin_override, 0, are_we_updating);
 			//drawMetric("#metric #chart_view #sum_vfanin", ["sum_vfanin", "sum_vfanin"], sum_vfanin_override, 0, are_we_updating);	 

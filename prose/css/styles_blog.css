@@ -93,7 +93,7 @@ img {
 a, a:active, a:link, a:visited {
 	text-decoration:none;
 	color:#3b3b3b;
-	border-bottom:1px dotted #3b3b3b;
+	border-bottom:1px dotted #a8a8a8;
 }
 
 .highlight {
@@ -159,7 +159,7 @@ sup, sub {
 sub { top: 0.4em; }
 
 p.footy {
-	color:#6d6d6d;
+	color:#626262;
 	font-size:14px;
 	line-height:18px;
 }
@@ -311,4 +311,12 @@ text.module_name {
 
 .axis g text {
 	opacity:0.5;
+}
+
+@media all {
+	.page-break	{ display: none; }
+}
+
+@media print {
+	.page-break	{ display: block; page-break-before: always; }
 }
