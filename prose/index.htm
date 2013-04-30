@@ -62,12 +62,12 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p>Cyclomatic complexity is defined as v(G) = e – n + 2p where v(G) is the cyclomatic number of a graph G, e is the number of edges, n is the number of nodes and p is the number of connected components, or exit nodes, in the graph. A block of code with a single set of if-else statements would be calculated as follows: e = 6, n = 6 and p = 1, therefore, v(G) = 6 – 6 + 2 * 1 = 2. The additive nature of the metric means that the complexity of several graphs is equal to the sum of each graph. In our measure of cyclomatic complexity, we control for size and hence, the value for each release is per 1,000 LOC.</p>
 
 <p class="subtitle">1.3 First-order density</p>
-<p>First-order density measures the number of direct dependencies between files.  For releases, we show it per 10,000 file pairs whereas for modules, where matrices are generally not as sparse, we show the density as a percentage. The way it is calculated is by first building an adjacency matrix, sometimes called a Design Structure Matrix (DSM), where all the files are listed along both edges and a dot is marked wherever a file on the left edge depends on a file on the top edge.  Because we're only capturing direct dependencies, this matrix is referred to as a first-order dependency matrix.</p>
+<p>First-order density measures the number of direct dependencies between files.  For releases, we show it per 10,000 file pairs whereas for modules, where matrices are generally not as sparse, we show the density as a percentage. The way it is calculated is by first building an adjacency matrix, sometimes called a Design Structure Matrix (DSM), using the set of source-code files sorted by their hierarchical directory structure. Wherever a file in a particular row depends on a file in a particular column, we mark the element with a '1'.  Because we're only capturing direct dependencies, this matrix is referred to as a first-order dependency matrix.</p>
 <p>In such a matrix, a square-shaped cluster indicates many dependencies between files within a module.  All the dots to the right and left of a cluster are files that the module depends on. All files above and below it are files that depend on it. In many paradigms, modularity (low coupling, high cohesion) is a desirable quality attribute. Hence, an ideal system has modules that have more intra-module dependencies and fewer inter-module dependencies.  Dividing the number of non-zero elements by the matrix size and adjusting by our multiplier then gives us our measure of density.</p>
 
 <p class="subtitle">1.4 Propagation cost</p>
 <p>Propagation cost measures direct as well as indirect dependencies between files in a codebase. In practical terms, it gives a sense of the proportion of files that may be impacted, on average, when a change is made to a randomly chosen file [6][7].</p>
-<p>The process of transforming a first-order dependency matrix that captures only direct dependencies between files to a visibility matrix, also known as a reachability matrix, that captures indirect dependencies as well is achieved through matrix multiplication by raising the first-order dependency matrix to multiple successive powers until we achieve its transitive closure. Thus, a matrix raised to the power of two would show the indirect dependencies between elements that have a path length of two, i.e. calls from A to C, if A calls B and B calls C. Thereafter, by summing these matrices together one gets the visibility matrix.  With the Firefox codebase, the longest chain of calls is seven calls, hence no file is that is connected to another is more than seven calls away.</p>
+<p>The process of transforming a first-order dependency matrix that captures only direct dependencies between files to a visibility matrix, also known as a reachability matrix, that captures indirect dependencies as well is achieved through matrix multiplication by raising the first-order dependency matrix to multiple successive powers until we achieve its transitive closure. Thus, a matrix raised to the power of two would show the indirect dependencies between elements that have a path length of two, i.e. calls from A to C, if A calls B and B calls C. Thereafter, by summing these matrices together one gets the visibility matrix.  With the Firefox codebase, the longest chain of calls is seven calls, hence no file that is connected to another is more than seven calls away.</p>
 <p>For this ripple effect to be of use in analysis, the density of the visibility matrix is captured within the metric that we call propagation cost.</p>
 
 <p class="subtitle">1.5 Core size</p>
@@ -281,7 +281,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 	<p>First-order density has improved seeing as it has gone down from 4.75 to 2.11, though that seems to be despite the switch to RRC rather than because of it; first-order density appears to have in fact exhibited a downward trend from v3.0 onwards.  The biggest dip occurred in v3.5 where it dropped 33.46%.</p>
 	<p>Cyclomatic complexity has been steadily improving over time, though like density, the trend of improvement started before the switch to RRC.  Having said that, its mean growth following the switch is a slightly improved -1.10% compared to -0.19% before.</p>
 
-<p class="subtitle">3.3 A subset of modules appear to be noticeably more complex than the rest</p>
+<p class="subtitle">3.3 A subset of modules appears to be noticeably more complex than the rest</p>
 <p>Splitting our module-level data by module and looking at the mean values for each module for each of the above metrics reveals the following about the maintainability levels of our various modules:</p>
 
 <table>
@@ -317,15 +317,15 @@ The exploratory tool's source-code as well as the data described herein are avai
 	</tr>
 </table>
 <p class="caption">Table 3: Comparing the maintainability levels of our Firefox modules from the past five releases (n=14)</p>
-<p>What we find is that <i>layout</i> has on average the lowest levels of complexity, specifically between its files, whereas <i>security</i> has on average the highest level of complexity both within its files as well as between them as measured by propagation cost.  The following charts provide further details of how other modules fair.</p>
+<p>What we find is that <i>layout</i> has on average the lowest level of complexity, specifically between its files, whereas <i>security</i> has on average the highest level of complexity both within its files as well as between them as measured by propagation cost.  The following charts provide further details of how other modules fair.</p>
 
-<p>In terms of internal complexity, our modules range from a mean cyclomatic complexity of 121.94 to 194.48 and are fairly tightly distributed compared to what we see with other measures.</p>
+<p>In terms of internal complexity, our modules range from a mean cyclomatic complexity of 121.94 to 194.48.</p>
 <img src="images/mccabe_modules_comparison.png" />
 
 <p>Looking at first-order density, <i>browser</i> stands out as having a mean density that is noticeably higher than the next module, that is, 1.13% compared to 0.73%.</p>
 <img src="images/density_modules_comparison.png" />
 
-<p>With propagation cost, we see that the three modules with the highest mean propagation costs, <i>security</i>, <i>browser</i> and <i>accessible</i>, are all noticeably higher than the remaining modules, being as they are 20.85%, 18.23% and 15.77%, respectively.  In some releases, such as in v16.0, we see the propagation costs of <i>accessible</i> and <i>browser</i> jump from 7.31% to 17.56% and from 2.62% to 17.22%, respectively, indicating a possibly adverse architectural change that was made in that release.</p>
+<p>With propagation cost, we see that the three modules with the highest mean propagation costs, <i>security</i>, <i>browser</i> and <i>accessible</i>, are all noticeably higher than the remaining modules, being as they are 20.85%, 18.23% and 15.77%, respectively.  In some releases, such as in v16.0, we see the propagation costs of <i>accessible</i> and <i>browser</i> jump from 7.31% to 23.80% and from 2.62% to 19.67%, respectively, indicating a possibly adverse architectural change that was made in that release.  The measure comes down in future releases for those two modules, though only negligibly.</p>
 <img src="images/propcost_modules_comparison.png" />
 
 <p>With core size, we see that the module with the highest mean core size, <i>content</i>, is noticeably higher than the remaining modules, being as it is 48.65%.</p>
@@ -333,8 +333,8 @@ The exploratory tool's source-code as well as the data described herein are avai
 
 <p class="subtitle">4 Take-away</p>
 <p>It is impressive that an open-source project developed by a distributed team of paid staff and volunteers has been able to produce and, more importantly, maintain the quality of the Firefox product for over eight years.  The proportion of people overseeing the code quality processes at Mozilla is minuscule compared to the product's size and impact, which makes it all the more impressive.</p>
-<p>I have seen larger, more expensive, software projects become drastically less maintainable in only a few years by virtue of their development processes becoming more chaotic and best practices being abandoned in favor of premature pragmatism.  With Firefox, We see the decision to move to a tighter, more predictable, development process possibly aiding in improving quality.</p>
-<p>The analysis reveals no imminently alarming red flags when it comes to maintainability.  A subset of modules, namely, <i>accessible</i>, <i>browser</i> and <i>security</i>, frequently appear among the most complex modules.  Further investigation may be helpful in identifying why that is the case.  Furthermore, the changes in version 3.0 of the product that led to Firefox's core size increasing by over 35% may be worth looking into.</p>
+<p>I have seen larger, more expensive, software projects become drastically less maintainable in only a few years by virtue of their development processes becoming more chaotic and coding best practices being abandoned in favor of premature pragmatism.  With Firefox, We see the decision to move to a tighter, more predictable, development process possibly aiding in improving quality.</p>
+<p>The analysis reveals no imminently alarming red flags when it comes to maintainability.  A number of modules, namely, <i>accessible</i>, <i>browser</i> and <i>security</i>, frequently appear among the most complex modules.  Further investigation may be helpful in identifying why that is the case.  Furthermore, the changes in version 3.0 of the product that led to Firefox's core size increasing by over 35% may be worth looking into.</p>
 
 <p class="subtitle">5 Acknowledgements</p>
 <p>Thank reviewers here.</p>
@@ -351,12 +351,8 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p>[9] MacCormack, A., C. Baldwin, and J. Rusnak. "The Architecture of Complex Systems: Do Core-periphery Structures Dominate?" MIT Research Paper no. 4770-10, Harvard Business School Finance Working Paper no. 1539115, 2010.</p>
 <p>[10] Almossawi, A., "An empirical study of defects and reopened defects in GNOME." Unpublished, 2012.</p>
 
-
-<p></p>
-<p></p>
-<p></p>
-<p>Don't forget to check out the <a href="../">Evolution of the Firefox Codebase</a> page, which allows you to interactively explore the data described herein.  This work is being shared under a Creative Commons license <a href="http://creativecommons.org/licenses/by-nc/3.0/">(CC BY-NC)</a>.</p>
-<p></p>
+<p style="border-top:1px solid #cccccc;margin-top:20px;padding-top:70px;padding-bottom:40px">Don't forget to check out the <a href="../">Evolution of the Firefox Codebase</a> page, which allows you to interactively explore the data described herein.  This work is being shared under a Creative Commons license <a href="http://creativecommons.org/licenses/by-nc/3.0/">(CC BY-NC)</a>.</p>
+<p style="padding-bottom:40px;font-size:14px">May 3, 2013 &nbsp;&middot;&nbsp; <a href="http://twitter.com/alialmossawi">Follow me on Twitter</a></p>
 
 			</div>
 		</div>

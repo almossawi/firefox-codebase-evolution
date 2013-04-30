@@ -15,7 +15,7 @@ var loc_code_max_value_override = 670000,
 	sum_fanin_override = 28000,
 	sum_vfanin_override = 1000000,
 	percent_in_core_override = 0.55,
-	dependencies_density_override = 0.2,
+	dependencies_density_override = 0.02,
 	prop_cost_override = 0.26;
 
 	
