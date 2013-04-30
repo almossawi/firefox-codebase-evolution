@@ -146,7 +146,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p class="caption">Table 1: Descriptive statistics for the set of Firefox releases (n=23)</p>
 
 <p>Full details are available in the spreadsheet <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdHJUT0M3YXNzdVVYUXRkQzBWellHamc#gid=0">here</a> and the .json file <a href="http://almossawi.com/firefox/data/architectural.json">here</a>.</p>
-<p>For each of the past five releases of Firefox (v16.0 to v20.0), we also analyze individual modules.  A module is defined as a top-level directory in the codebase that is also listed on the <a href="https://developer.mozilla.org/en-US/docs/Mozilla_Source_Code_Directory_Structure">Mozilla Source Code Directory Structure</a> page.  Modules that have fewer than several hundreds of files are not analyzed for the reasons mentioned earlier.  The following table shows descriptive statistics for our set of modules.</p>
+<p>For each of the past five releases of Firefox (v16.0 to v20.0), we also analyze individual modules.  A module is defined as a top-level directory in the codebase that is also listed on the <a href="https://developer.mozilla.org/en-US/docs/Mozilla_Source_Code_Directory_Structure">Mozilla Source Code Directory Structure</a> page.  Modules that have fewer than several hundreds of files are not analyzed for the reasons mentioned earlier.  The following table shows descriptive statistics for our set of modules.  Comparing, say, the mean core size in both tables suggests that perhaps a sizable portion of that measure for Firefox releases is driven by some of the smaller modules.</p>
 
 <table>
 	<tr class="header">
@@ -159,51 +159,51 @@ The exploratory tool's source-code as well as the data described herein are avai
 	</tr>
 	<tr>
 		<td class="lhs">loc</td>
-		<td>3,833,799</td>
-		<td>3,747,073</td>
-		<td>932,822</td>
-		<td>2,314,060</td>
-		<td>5,407,382</td>
+		<td>305,477</td>
+		<td>284,268</td>
+		<td>188,604</td>
+		<td>51,995</td>
+		<td>661,919</td>
 	</tr>
 	<tr>
 		<td class="lhs">cyclomatic complexity</td>
-		<td>189.03</td>
-		<td>186.61</td>
-		<td>15.63</td>
-		<td>163.64</td>
-		<td>214.15</td>
+		<td>157.14</td>
+		<td>157.23</td>
+		<td>27.22</td>
+		<td>77.01</td>
+		<td>207.29</td>
 	</tr>
 	<tr>
 		<td class="lhs">first-order density</td>
-		<td>2.91</td>
-		<td>2.38</td>
-		<td>1.63</td>
-		<td>1.65</td>
-		<td>6.73</td>
+		<td>0.44%</td>
+		<td>0.38%</td>
+		<td>0.33%</td>
+		<td>0.05%</td>
+		<td>1.40%</td>
 	</tr>
 	<tr>
 		<td class="lhs">propagation cost</td>
-		<td>5.20%</td>
-		<td>5.21%</td>
-		<td>1.13%</td>
-		<td>2.18%</td>
-		<td>6.99%</td>
+		<td>8.03%</td>
+		<td>5.59%</td>
+		<td>6.75%</td>
+		<td>1.00%</td>
+		<td>25.04%</td>
 	</tr>
 	<tr>
 		<td class="lhs">core size</td>
-		<td>39.25%</td>
-		<td>39.30%</td>
-		<td>6.21%</td>
-		<td>25.42%</td>
-		<td>49.73%</td>
+		<td>28.45%</td>
+		<td>25.85%</td>
+		<td>9.06%</td>
+		<td>15.84%</td>
+		<td>52.28%</td>
 	</tr>
 	<tr>
 		<td class="lhs">files</td>
-		<td>27,949</td>
-		<td>27,758</td>
-		<td>8,341</td>
-		<td>12,822</td>
-		<td>40,322</td>
+		<td>2,273</td>
+		<td>1,781</td>
+		<td>1,817</td>
+		<td>440</td>
+		<td>6,800</td>
 	</tr>
 </table>
 <p class="caption">Table 2: Descriptive statistics for the set of Firefox modules (n=70)</p>
