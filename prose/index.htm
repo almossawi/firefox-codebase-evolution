@@ -223,7 +223,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p>The static analysis tool outputs common metrics such as LOC and cyclomatic complexity, which can be extracted either through a user interface or via a Perl API.  Generating these and similarly common metrics for each codebase can be time-consuming.  Furthermore, it seems like the tool has to reprocess files every time a project is reopened.  On the plus side, we get a large amount of useful data that can be broken down by system, module or component.</p>
 
 <p class="subtitle">2.2.2 Dependency metrics</p>
-<p>The static analysis tool is used to export dependency data for a particular release.  The generated .csv file has three columns: from, to, references.  The first two columns store the full path of each file and the third is the number of references between the two files.  Each row in the file is a source-code file pair.  The .csv file is then processed by a Perl script, which replaces the data in the first two column with integers that reference file names stored in a separate lookup file.  That processed data is then used as input for a MATLAB script, which uses it to a) build a first-order Design Structure Matrix (DSM), b) raise it to multiple powers until its transitive closure is reached resulting in a visibility matrix and c) generate the desired complexity measures - dependencies density, propagation cost, core size and a few others.</p>
+<p>The static analysis tool is used to export dependency data for a particular release.  The generated .csv file has three columns: from, to, references.  The first two columns store the full path of each file and the third is the number of references between the two files.  Each row in the file is a source-code file pair.  The .csv file is then processed by a Perl script, which replaces the data in the first two columns with integers that reference file names stored in a separate lookup file.  That processed data is then used as input for a MATLAB script, which uses it to a) build a first-order dependency matrix, b) raise it to multiple powers until its transitive closure is reached resulting in a visibility matrix and c) generate the desired complexity measures &#8211; first-order density, propagation cost, core size and a few others.</p>
 <p>Here is an example of a first-order matrix showing direct dependencies between files in the <i>gfx</i> module in Firefox 20 (left) and the visibility matrix for the same module (right).  Notice how new patterns of dependencies emerge when we start considering indirect dependencies.</p>
 <img src="images/firefox20_gfx_module_matrices.png" style="width:600px" />
 <p class="caption">Diagram 3: A first-order dependency matrix (left) and visibility matrix (right) for the same module.</p>
@@ -253,7 +253,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 		<div></div>
 	</div>
 	
-	<p>LOC code is growing at an average rate of 4.04%.  Using other open-source codebases as benchmarks, this appears to be a reasonable rate.  Only in v4.0 did LOC grow at a noticeably larger rate of 20.34%.  Given the context, this may be understandable seeing how significant a release v4.0 was for Mozilla.  At no point do we see any noticeable drops in LOC, something that would be indicative of a major refactoring effort, as was the case with the original Mozilla browser.  Thus, taking this and all the other results into consideration, one may perhaps suggest that the Firefox codebase has not accumulated the technical debt that would trigger a major refactoring effort.</p>
+	<p>LOC code is growing at an average rate of 4.04%.  Using other open-source codebases as benchmarks, this appears to be a reasonable rate.  Only in v4.0 did LOC grow at a noticeably larger rate of 20.34%.  Given the context, this may be understandable seeing how significant a release v4.0 was for Mozilla.  At no point do we see any noticeable drops in LOC, something that would be indicative of a major refactoring effort, as was the case with the original Mozilla browser.  Thus, taking this and everything else into consideration, it may be possible to posit that the Firefox codebase has not accumulated the technical debt that would trigger a major refactoring effort.</p>
 	<div class="chart_container" id="allversions_loc_code">
 		<div></div>
 	</div>
@@ -278,7 +278,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 	<p>Propagation cost shows little change before and after RRC, having slightly gone up from a mean of 4.36% to 5.57%, however, looking at its mean release-over-release growth, it becomes evident that it has become much less volatile, having gone down from 20.02% to just 3.30%, which is a good improvement.  Its standard deviation has dropped from 51.95% to 21.54%.</p>
 	<p>Core size is, similarly, much less volatile after RRC, with its mean growth dropping from 6.65% to 1.92% and its standard deviation from 23.39% to 17.07%.</p>
 	<p>LOC's growth saw a substantial decrease following RRC with its mean growth dropping from 7.74% to 2.66%, which means that we now add an average of 114.63K lines of code per release compared to 296.74K lines of code before.  This is to be expected given the much shorter development periods and is in fact one of the reasons that drives organizations to adopt shorter and more nimble development lifecycles.</p>
-	<p>First-order density has improved seeing as it has gone down from 4.75 to 2.11, though that seems to be despite the switch to RRC rather than because of it; first-order density appears to have in fact exhibited a downward trend from v3.0 onwards.  The biggest dip occurred in v3.5 where it dropped 33.46%.</p>
+	<p>First-order density has improved seeing as it the mean density has gone down from 4.75 to 2.11, though that seems to be despite the switch to RRC rather than because of it; first-order density appears to have in fact exhibited a downward trend from v3.0 onwards.  The biggest dip occurred in v3.5 where it dropped 33.46%.</p>
 	<p>Cyclomatic complexity has been steadily improving over time, though like density, the trend of improvement started before the switch to RRC.  Having said that, its mean growth following the switch is a slightly improved -1.10% compared to -0.19% before.</p>
 
 <p class="subtitle">3.3 A subset of modules appears to be noticeably more complex than the rest</p>
@@ -316,7 +316,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 		<td>content<br />(48.65%)</td>
 	</tr>
 </table>
-<p class="caption">Table 3: Comparing the maintainability levels of our Firefox modules from the past five releases (n=14)</p>
+<p class="caption">Table 3: Comparing the maintainability levels of Firefox modules from the past five releases (n=14)</p>
 <p>What we find is that <i>layout</i> has on average the lowest level of complexity, specifically between its files, whereas <i>security</i> has on average the highest level of complexity both within its files as well as between them as measured by propagation cost.  The following charts provide further details of how other modules fair.</p>
 
 <p>In terms of internal complexity, our modules range from a mean cyclomatic complexity of 121.94 to 194.48.</p>
@@ -352,7 +352,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p>[10] Almossawi, A., "An empirical study of defects and reopened defects in GNOME." Unpublished, 2012.</p>
 
 <p style="border-top:1px solid #cccccc;margin-top:20px;padding-top:70px;padding-bottom:40px">Don't forget to check out the <a href="../">Evolution of the Firefox Codebase</a> page, which allows you to interactively explore the data described herein.  This work is being shared under a Creative Commons license <a href="http://creativecommons.org/licenses/by-nc/3.0/">(CC BY-NC)</a>.</p>
-<p style="padding-bottom:40px;font-size:14px">May 3, 2013 &nbsp;&middot;&nbsp; <a href="http://twitter.com/alialmossawi">Follow me on Twitter</a></p>
+<p style="padding-bottom:40px;font-size:14px">May 3, 2013<!-- &nbsp;&middot;&nbsp; <a href="http://twitter.com/alialmossawi">Follow me on Twitter</a>--></p>
 
 			</div>
 		</div>
