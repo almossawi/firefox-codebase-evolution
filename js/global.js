@@ -615,12 +615,12 @@ function loadChartView(are_we_updating) {
 			data_rhs.json_data = desired_order_arr;
 	 		
 	 		
-			drawMetric("#metric #chart_view #loc_code", ["loc_code", "loc_code"], loc_code_max_value_override, 0, are_we_updating);
-			drawMetric("#metric #chart_view #mccabe_per_kloc_code", ["mccabe_per_kloc_code", "mccabe_per_kloc_code"], mccabe_per_kloc_code_override, 0, are_we_updating);
-			drawMetric("#metric #chart_view #dependencies_density", ["dependencies_density", "dependencies_density"], dependencies_density_override, 1, are_we_updating);
-			drawMetric("#metric #chart_view #prop_cost", ["prop_cost", "prop_cost"], prop_cost_override, 1, are_we_updating);
-			drawMetric("#metric #chart_view #percent_in_core", ["percent_in_core", "percent_in_core"], percent_in_core_override, 1, are_we_updating);
-			drawMetric("#metric #chart_view #files_with_dependencies", ["files_with_dependencies", "files_with_dependencies"], "", 0, are_we_updating);
+			drawMetric("#metric #chart_view #loc_code", ["loc_code", "loc_code"], loc_code_max_value_override, 0, are_we_updating, false);
+			drawMetric("#metric #chart_view #mccabe_per_kloc_code", ["mccabe_per_kloc_code", "mccabe_per_kloc_code"], mccabe_per_kloc_code_override, 0, are_we_updating, false);
+			drawMetric("#metric #chart_view #dependencies_density", ["dependencies_density", "dependencies_density"], dependencies_density_override, 1, are_we_updating, false);
+			drawMetric("#metric #chart_view #prop_cost", ["prop_cost", "prop_cost"], prop_cost_override, 1, are_we_updating, false);
+			drawMetric("#metric #chart_view #percent_in_core", ["percent_in_core", "percent_in_core"], percent_in_core_override, 1, are_we_updating, false);
+			drawMetric("#metric #chart_view #files_with_dependencies", ["files_with_dependencies", "files_with_dependencies"], "", 0, are_we_updating, true);
 			//drawMetric("#metric #chart_view #sum_fanin", ["sum_fanin", "sum_fanin"], sum_fanin_override, 0, are_we_updating);
 			//drawMetric("#metric #chart_view #sum_vfanin", ["sum_vfanin", "sum_vfanin"], sum_vfanin_override, 0, are_we_updating);	 
 			
@@ -684,7 +684,7 @@ function addModulesLegend() {
 	}, 1000);
 }
 
-function drawMetric(container, metrics, max_value, is_percent, are_we_updating) {
+function drawMetric(container, metrics, max_value, is_percent, are_we_updating, remove_trailing_zeros) {
 	//make idempotent if redrawing, otherwise, we'll just update the data
 	if(!are_we_updating)
 		$(container + " svg").remove();
@@ -743,7 +743,7 @@ function drawMetric(container, metrics, max_value, is_percent, are_we_updating) 
 			    				if(is_percent)
 			    					return (eval("module_d.data[0]."+metric)*100).toFixed(2) + "%";
 			    				else
-									return getHumanSize(eval("module_d.data[0]."+metric));
+									return getHumanSize(eval("module_d.data[0]."+metric), remove_trailing_zeros);
 							})
 							.attr('x', xScale(eval("module_d.data[0]."+metric))+3);
 					}
@@ -755,7 +755,7 @@ function drawMetric(container, metrics, max_value, is_percent, are_we_updating) 
 			    				if(is_percent)
 			    					return (eval("module_d.data[0]."+metric)*100).toFixed(2) + "%";
 			    				else
-									return getHumanSize(eval("module_d.data[0]."+metric));
+									return getHumanSize(eval("module_d.data[0]."+metric), remove_trailing_zeros);
 							})
 							.attr("text-anchor", "end")
 							.attr('x', w-xScale(eval("module_d.data[0]."+metric))-3);
@@ -866,7 +866,7 @@ function drawMetric(container, metrics, max_value, is_percent, are_we_updating) 
 			    				if(is_percent)
 			    					return (eval("d.data[0]."+metric)*100).toFixed(2) + "%";
 			    				else
-									return getHumanSize(eval("d.data[0]."+metric));
+									return getHumanSize(eval("d.data[0]."+metric), remove_trailing_zeros);
 							})
 							.attr("class", d.module + " module_value")
 							.attr('y', function() {
@@ -880,7 +880,7 @@ function drawMetric(container, metrics, max_value, is_percent, are_we_updating) 
 			    				if(is_percent)
 			    					return (eval("d.data[0]."+metric)*100).toFixed(2) + "%";
 			    				else
-									return getHumanSize(eval("d.data[0]."+metric));
+									return getHumanSize(eval("d.data[0]."+metric), remove_trailing_zeros);
 							})
 							.attr("text-anchor", "end")
 							.attr("class", d.module + " module_value")
@@ -1172,7 +1172,7 @@ function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, cu
 										if(custom_units != "")
 											return d + custom_units;
 								
-										return (format == "%") ? (d*100).toFixed(2) + "%" : getHumanSize(d);
+										return (format == "%") ? (d*100).toFixed(2) + "%" : getHumanSize(d, false);
 									})					
 									.attr("x", function() { return xScale(i); })
 									.attr("y", function() { return yScale(d)-13; })
@@ -1299,7 +1299,7 @@ function addCommas(nStr) {
 	return x1 + x2;
 }
 
-function getHumanSize(size) {
+function getHumanSize(size, remove_trailing_zeros) {
 	var sizePrefixes = ' kmbtpezyxwvu';
 	if(size <= 0) return '0';
 	var t2 = Math.min(Math.floor(Math.log(size)/Math.log(1000)), 12);
@@ -1308,8 +1308,14 @@ function getHumanSize(size) {
 		sizePrefixes.charAt(t2).replace(' ', '');
 		
 	var mut = (Math.round(size * 100 / Math.pow(1000, t2)) / 100).toFixed(2) + sizePrefixes.charAt(t2).replace(' ', '');
-	mut = mut.replace(/(\.[0-9]*?)0+$/, "$1");
-	mut = mut.replace(/\.$/, "");   
+	
+	if(!remove_trailing_zeros) {
+		return mut;
+	}
+	else {
+		mut = mut.replace(/(\.[0-9]*?)0+$/, "$1");
+		mut = mut.replace(/\.$/, "");   
+	}
 	
 	return mut;
 }
