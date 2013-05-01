@@ -1303,9 +1303,15 @@ function getHumanSize(size) {
 	var sizePrefixes = ' kmbtpezyxwvu';
 	if(size <= 0) return '0';
 	var t2 = Math.min(Math.floor(Math.log(size)/Math.log(1000)), 12);
-	return (Math.round(size * 100 / Math.pow(1000, t2)) / 100).toFixed(2) +
+	//return (Math.round(size * 100 / Math.pow(1000, t2)) / 100).toFixed(2) +
 	//return (Math.round(size * 10 / Math.pow(1000, t2)) / 10) +
 		sizePrefixes.charAt(t2).replace(' ', '');
+		
+	var mut = (Math.round(size * 100 / Math.pow(1000, t2)) / 100).toFixed(2) + sizePrefixes.charAt(t2).replace(' ', '');
+	mut = mut.replace(/(\.[0-9]*?)0+$/, "$1");
+	mut = mut.replace(/\.$/, "");   
+	
+	return mut;
 }
 
 function isNumber(n) {
