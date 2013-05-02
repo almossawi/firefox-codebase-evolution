@@ -223,6 +223,8 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p class="subtitle">2.2.1 Common complexity metrics</p>
 <p>The static analysis tool outputs common metrics such as LOC and cyclomatic complexity, which can be extracted either through a user interface or via a Perl API.  Generating these and similarly common metrics for each codebase can be time-consuming.  Furthermore, it seems like the tool has to reprocess files every time a project is reopened.  On the plus side, we get a large amount of useful data that can be broken down by system, module or component.</p>
 
+<div class="page-break"></div>
+
 <p class="subtitle">2.2.2 Dependency metrics</p>
 <p>The static analysis tool is used to export dependency data for a particular release.  The generated .csv file has three columns: from, to, references.  The first two columns store the full path of each file and the third is the number of references between the two files.  Each row in the file is a source-code file pair.  The .csv file is then processed by a Perl script, which replaces the data in the first two columns with integers that reference file names stored in a separate lookup file.  That processed data is then used as input for a MATLAB script, which uses it to a) build a first-order dependency matrix, b) raise it to multiple powers until its transitive closure is reached resulting in a visibility matrix and c) generate the desired complexity measures &#8211; first-order density, propagation cost, core size and a few others.</p>
 <p>Here is an example of a first-order matrix showing direct dependencies between files in the <i>gfx</i> module in Firefox 20 (left) and the visibility matrix for the same module (right).  Notice how new patterns of dependencies emerge when we start considering indirect dependencies.</p>
@@ -340,6 +342,8 @@ The exploratory tool's source-code as well as the data described herein are avai
 
 <p class="subtitle">5 Acknowledgements</p>
 <p>Thank reviewers here.</p>
+
+<div class="page-break"></div>
 
 <p class="subtitle">6 References</p>
 <p>[1] Hatton, L. "The role of empiricism in improving the reliability of future software." Les Hatton. 2008. http://www.leshatton.org.</p>
