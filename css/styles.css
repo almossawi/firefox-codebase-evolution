@@ -562,9 +562,6 @@ line {
 
 .point {
 	fill:#2b2b2b;
-	/*stroke-width:1px;
-	stroke:rgb(255,255,255);*/
-	/*display:none;*/
 }
 
 .point.max {
