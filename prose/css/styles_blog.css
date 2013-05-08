@@ -321,3 +321,14 @@ text.module_name {
 @media print {
 	.page-break	{ display: block; page-break-before: always; }
 }
+
+.smile {
+	font-family:Courier;
+	font-size:90px;
+	display:block;
+	margin:auto;
+	width:300px;
+	padding-bottom:80px;
+	font-weight:bold;
+	text-align:center;
+}
