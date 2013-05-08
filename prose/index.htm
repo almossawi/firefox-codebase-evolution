@@ -5,12 +5,12 @@
 	
   	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-        <meta property="og:title" content="How maintainable is the Firefox codebase?" />
-        <meta property="og:description" content="This work explores a particular facet of quality in Firefox, namely, maintainability.  By appealing to the explanatory powers of five distinct and practical measures of architectural complexity, and with the aid of static analysis and network manipulation tools, we arrive at some preliminary findings.  We find that 39% of files in Firefox are highly interconnected, a value that went up significantly following version 3.0.  We find that making any change to a randomly selected file can, on average, directly impact eight files and indirectly impact over 1,400 files.  We see that files' internal complexity is on average going down.  Their external complexity as measured by direct dependencies is also going down, whereas their external complexity as measured by propagation cost has remained steady.  With respect to process, we find that the switch to the rapid release cycle from version 5.0 onwards had a positive impact on quality.  Though the analysis reveals no imminently alarming red flags when it comes to maintainability, it does shine light on a number of issues that would be worth investigating." />
-        <meta property="og:image" content="http://almossawi.com/fx-logo.png" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="http://almossawi.com/firefox/prose" />
-        <meta property="og:site_name" content="How maintainable is the Firefox codebase?" />
+    <meta property="og:title" content="How maintainable is the Firefox codebase?" />
+    <meta property="og:description" content="This work explores a particular facet of quality in Firefox, namely, maintainability.  By appealing to the explanatory powers of five distinct and practical measures of architectural complexity, and with the aid of static analysis and network manipulation tools, we arrive at some preliminary findings.  We find that 39% of files in Firefox are highly interconnected, a value that went up significantly following version 3.0.  We find that making any change to a randomly selected file can, on average, directly impact eight files and indirectly impact over 1,400 files.  We see that files' internal complexity is on average going down.  Their external complexity as measured by direct dependencies is also going down, whereas their external complexity as measured by propagation cost has remained steady.  With respect to process, we find that the switch to the rapid release cycle from version 5.0 onwards had a positive impact on quality.  Though the analysis reveals no imminently alarming red flags when it comes to maintainability, it does shine light on a number of issues that would be worth investigating." />
+    <meta property="og:image" content="http://almossawi.com/fx-logo.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://almossawi.com/firefox/prose" />
+    <meta property="og:site_name" content="How maintainable is the Firefox codebase?" />
 
 	<link href='https://fonts.googleapis.com/css?family=Lato:300,700' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Signika:400,300' rel='stylesheet' type='text/css'>
@@ -23,9 +23,22 @@
 	<link rel="stylesheet" href="css/styles_blog.css">
 </head>
 <body>
+	<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-35624223-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+	</script>
+
 	<div id="main_container">
 		<div id="content">
-			<!--<h1 class="title">How maintainable is the Firefox codebase?</h1>-->
 			<div class="post">
 				<div style="position:absolute;margin-top:20px;height:40px"></div>
 				<h1>How maintainable is the Firefox codebase?</h1>
@@ -364,8 +377,26 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p>[12] Almossawi, A., "An Empirical Study of Defects and Reopened Defects in GNOME." Unpublished, 2012.</p>
 
 <p style="border-top:1px solid #cccccc;margin-top:20px;padding-top:50px;padding-bottom:20px">Don't forget to check out the <a href="../">Evolution of the Firefox Codebase</a> page, which allows you to interactively explore the data described herein.  This work is being shared under a Creative Commons license <a href="http://creativecommons.org/licenses/by-nc/3.0/">(CC BY-NC)</a>.  To share your thoughts, feel free to <a href="https://twitter.com/alialmossawi">chat with me on Twitter</a>.</p>
-<p style="padding-bottom:40px;font-size:14px">May 10, 2013<!-- &nbsp;&middot;&nbsp; <a href="http://twitter.com/alialmossawi">Follow me on Twitter</a>--></p>
+<p style="padding-bottom:0px;font-size:14px">May 10, 2013<!-- &nbsp;&middot;&nbsp; <a href="http://twitter.com/alialmossawi">Follow me on Twitter</a>--></p>
 
+<div style="float:left;padding-bottom:20px">
+<a href="https://twitter.com/share" class="twitter-share-button" data-via="alialmossawi" data-count="none">Tweet</a>
+
+                            <script>
+                                ! function (d, s, id) {
+                                    var js, fjs = d.getElementsByTagName(s)[0];
+                                    if (!d.getElementById(id)) {
+                                        js = d.createElement(s);
+                                        js.id = id;
+                                        js.src = "//platform.twitter.com/widgets.js";
+                                        fjs.parentNode.insertBefore(js, fjs);
+                                    }
+                                }(document, "script", "twitter-wjs");
+                            </script>
+                        </div>
+<div style="float:left;padding-bottom:20px;padding-left:10px">
+	<iframe src="http://ghbtns.com/github-btn.html?user=almossawi&repo=Firefox-Codebase-Evolution&type=watch" allowtransparency="true" frameborder="0" scrolling="0" width="51" height="30" style="float:right"></iframe>
+</div>
 
 			</div>
 		</div>
