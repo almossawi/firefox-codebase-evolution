@@ -43,7 +43,7 @@
 				<div style="position:absolute;margin-top:20px;height:40px"></div>
 				<h1>How maintainable is the Firefox codebase?</h1>
 				<h2>ALI ALMOSSAWI</h2>
-				<div class="date">May 9, 2013</div>
+				<div class="date">May 13, 2013</div>
 				
 <br /><br /><br />
 <p>Look at this joyful man.</p>
@@ -225,8 +225,13 @@ The exploratory tool's source-code as well as the data described herein are avai
 </table>
 <p class="caption">Table 2: Descriptive statistics for the set of Firefox modules (n=70)</p>
 <p>Full details are available in the spreadsheet <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdHJUT0M3YXNzdVVYUXRkQzBWellHamc#gid=3">here</a> and the .json file <a href="http://almossawi.com/firefox/data/architectural.json">here</a>.</p>
-<p>Modules are a bit more nuanced since we generally want most of the interaction between files to happen within modules rather than between them.  For simplicity, we consider a module to be a system, which allows us to continue using the same measures of goodness discussed earlier.  Hence, a module that has a higher density of dependencies is considered to be less maintainable than one with a lower density.  This only gives partial insight into a module's architecture, and begs the question: Well, how do the number and density of internal calls compare with the number and density of external ones?  That question is part of the motivation for the third, currently in-progress, view on the <a href="../">Evolution of the Firefox Codebase</a> page<sup>3</sup>.</p>
-<p class="footy"><sup>3</sup> ಠ_ಠ</p>
+<p>Modules are a bit more nuanced since we generally want most of the interaction between files to happen within modules rather than between them.  For simplicity, we consider a module to be a system, which allows us to continue using the same measures of goodness discussed earlier.  Hence, a module that has a higher density of dependencies is considered to be less maintainable than one with a lower density.  This only gives partial insight into a module's architecture, and begs the question: Well, how do the number and density of internal calls compare with the number and density of external ones?  That question is part of the motivation for the third, currently in-progress, view on the <a href="../">Evolution of the Firefox Codebase</a> page.</p>
+<p>The distribution of files' fan-in and fan-out shows two distinct trends.  For direct fan-in and fan-out, we see a long tail indicating that the majority of files don't have that many inward and outward calls.  For indirect fan-in and fan-out, which as mentioned earlier, are used to classify a file into one of several types and consequently calculate the core size for a codebase, we see that files either don't have that many calls or have a high number of calls, as can be seen in the charts below.</p>
+
+<img src="images/vfi_vfo.png" style="width:698px"/>
+<p class="caption">Chart 1: Distribution of indirect fan-in and fan-out for the 12,822 files in Firefox v1.0.</p>
+
+<!--<p class="footy"><sup>3</sup> ಠ_ಠ</p>-->
 
 <p class="subtitle">2.2 Processing the data</p>
 <p>Processing the data involves the use of a set of tools and scripts. The general workflow is shown in the following diagram.</p>
@@ -353,7 +358,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 <img src="images/coresize_modules_comparison.png" />
 
 <p class="subtitle">4 Take-away</p>
-<p>It is impressive that an open-source project developed and maintained by a distributed team of paid staff and volunteers has been able to produce a product as impactful as the Firefox browser.  I have seen larger, more expensive, software projects become drastically less maintainable in only a few years by virtue of their development processes becoming more chaotic and coding best practices being abandoned in favor of premature pragmatism.  With Firefox, We see the decision to move to a tighter, more predictable, development process possibly helping to improve quality.</p>
+<p>It is impressive that an open-source project developed and maintained by a distributed team of paid staff and volunteers has been able to produce a product as impactful as the Firefox browser.  One sees larger, more expensive, software projects become drastically less maintainable in only a few years by virtue of their development processes becoming more chaotic and coding best practices being abandoned in favor of premature pragmatism.  With Firefox, We see the decision to move to a tighter, more predictable, development process possibly helping to improve quality.</p>
 <p>Firefox's core size is somewhat elevated indicating that highly interconnected files make up a sizable portion of the codebase.  Though the measure shows no signs of following an upward trend, that may quickly change should, say, any organizational dynamics change.  The changes in version 3.0 of the product that led to Firefox's core size increasing by over 35% may be worth looking into.  Having said that, the analysis reveals no imminently alarming red flags when it comes to maintainability.  A number of modules, namely, <i>accessible</i>, <i>browser</i> and <i>security</i>, frequently appear among the most complex modules.  Further investigation may be helpful in identifying why that is the case.</p>
 <p>A caveat worth mentioning in closing is that, as with any set of software metrics, the measures described herein only reveal part of the picture.  The chosen architectural measures make the assumption that directory structure reflects the logical hierarchy of modules within Firefox.  I have not looked into the extent to which this is the case.</p>
 
@@ -380,7 +385,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p>[12] Almossawi, A., "An Empirical Study of Defects and Reopened Defects in GNOME." Unpublished, 2012.</p>
 
 <p style="border-top:1px solid #cccccc;margin-top:20px;padding-top:50px;padding-bottom:20px">Don't forget to check out the <a href="../">Evolution of the Firefox Codebase</a> page, which allows you to interactively explore the data described herein.  This work is being shared under a Creative Commons license <a href="http://creativecommons.org/licenses/by-nc/3.0/">(CC BY-NC)</a>.  To share your thoughts, feel free to <a href="https://twitter.com/alialmossawi">chat with me on Twitter</a>.</p>
-<p style="padding-bottom:0px;font-size:14px">ali@mozilla.com &nbsp;&middot;&nbsp; May 9, 2013<!-- &nbsp;&middot;&nbsp; <a href="http://twitter.com/alialmossawi">Follow me on Twitter</a>--></p>
+<p style="padding-bottom:0px;font-size:14px">ali@mozilla.com &nbsp;&middot;&nbsp; May 13, 2013<!-- &nbsp;&middot;&nbsp; <a href="http://twitter.com/alialmossawi">Follow me on Twitter</a>--></p>
 
 <div style="float:left;padding-bottom:20px">
 	<a href="https://twitter.com/alialmossawi" class="twitter-follow-button" data-show-count="false">Follow @alialmossawi</a>
