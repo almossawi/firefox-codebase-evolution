@@ -228,7 +228,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p>Modules are a bit more nuanced since we generally want most of the interaction between files to happen within modules rather than between them.  For simplicity, we consider a module to be a system, which allows us to continue using the same measures of goodness discussed earlier.  Hence, a module that has a higher density of dependencies is considered to be less maintainable than one with a lower density.  This only gives partial insight into a module's architecture, and begs the question: Well, how do the number and density of internal calls compare with the number and density of external ones?  That question is part of the motivation for the third, currently in-progress, view on the <a href="../">Evolution of the Firefox Codebase</a> page.</p>
 <p>The distribution of files' fan-in and fan-out shows two distinct trends.  For direct fan-in and fan-out, we see a long tail indicating that the majority of files don't have that many inward and outward calls.  For indirect fan-in and fan-out, which as mentioned earlier, are used to classify a file into one of several types and consequently calculate the core size for a codebase, we see that files either don't have that many calls or have a high number of calls, as can be seen in the charts below.</p>
 
-<img src="images/vfi_vfo.png" style="width:698px"/>
+<img src="images/vfi_vfo.png" style="width:713px"/>
 <p class="caption">Chart 1: Distribution of indirect fan-in and fan-out for the 12,822 files in Firefox v1.0.</p>
 
 <!--<p class="footy"><sup>3</sup> ಠ_ಠ</p>-->
