@@ -92,7 +92,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p class="caption">Diagram 1: Four types of files.</p>
 
 <p>Other types of files are peripheral files, which don’t depend on a lot of files and don't have a lot of files depend on them; shared files, which don’t depend on a lot of files, but have a lot of files depend on them and control files, which depend on a lot of files, but don’t have a lot of files depend on them.</p>
-<p>Core size, here, is the percentage of files with one or more dependencies that have a fan-in above the fan-in median and a fan-out above the fan-out median. The fan-in and fan-out values for files are taken from the visibility matrix rather than the first-order matrix.  We distribute files that lie exactly on either of those medians among our four buckets in order not to bias any of them.  In the case of files lying on one of the medians, we distribute them evenly between the buckets on either side.  In the case of files lying on both medians, we distribute those equally among all four buckets.</p>
+<p>Core size, here, is the percentage of files with one or more dependencies that have a high fan-in and a high fan-out.  The fan-in and fan-out values for files are taken from the visibility matrix rather than the first-order matrix.  By looking at the distribution of files' fan-in and fan-out in the visibility matrix, there is a point.  It is this point that we use to segment files into oneIn previous work, the median fan-in and fan-out were used to segment the files, and filess whose fan-in and fan-out values were exactly on either of those medians were distributed equally among our four buckets in order not to bias any of them.<!--  In the case of files lying on one of the medians, we distribute them evenly between the buckets on either side.  In the case of files lying on both medians, we distribute those equally among all four buckets.-->  Here, we use </p>
 
 <p class="footy"><sup>2</sup> Fan-in captures the count of dependencies flowing into an element; fan-out captures the count of dependencies flowing out of an element.</p>
 
@@ -226,7 +226,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p class="caption">Table 2: Descriptive statistics for the set of Firefox modules (n=70)</p>
 <p>Full details are available in the spreadsheet <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdHJUT0M3YXNzdVVYUXRkQzBWellHamc#gid=3">here</a> and the .json file <a href="http://almossawi.com/firefox/data/architectural.json">here</a>.</p>
 <p>Modules are a bit more nuanced since we generally want most of the interaction between files to happen within modules rather than between them.  For simplicity, we consider a module to be a system, which allows us to continue using the same measures of goodness discussed earlier.  Hence, a module that has a higher density of dependencies is considered to be less maintainable than one with a lower density.  This only gives partial insight into a module's architecture, and begs the question: Well, how do the number and density of internal calls compare with the number and density of external ones?  That question is part of the motivation for the third, currently in-progress, view on the <a href="../">Evolution of the Firefox Codebase</a> page.</p>
-<p>The distribution of files' fan-in and fan-out shows two distinct trends.  For direct fan-in and fan-out, we see a long tail indicating that the majority of files don't have that many inward and outward calls.  For indirect fan-in and fan-out, which as mentioned earlier, are used to classify a file into one of several types and consequently calculate the core size for a codebase, we see that files either don't have that many calls or have a high number of calls, as can be seen in the charts below.</p>
+<p>The distribution of files' fan-in and fan-out shows two distinct patterns, both of which are skewed.  For direct fan-in and fan-out, we see a long tail indicating that the majority of files don't have that many inward and outward calls.  For indirect fan-in and fan-out, which as mentioned earlier, are used to classify a file into one of several types and consequently calculate the core size for a codebase, we see that files, typically, either don't have that many calls or have a high number of calls.</p>
 
 <img src="images/vfi_vfo.png" style="width:713px"/>
 <p class="caption">Chart 1: Distribution of indirect fan-in and fan-out for the 12,822 files in Firefox v1.0.</p>
@@ -255,9 +255,9 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p class="subtitle">2.2.3 Defect metrics</p>
 <p>We use a Web script to query the Bugzilla database and gather defect data for individual releases.  The parameters of our request use the following criteria: </p>
 <ol>
-	<li>Status ≠ “unconfirmed”</li>
+	<li>Status &ne; “unconfirmed”</li>
 	<li>Resolution = “fixed” or resolution = “---”<sup>3</sup></li>
-	<li>Severity ≠ “enhancement”</li>
+	<li>Severity &ne; “enhancement”</li>
 	<li>Product = “Firefox”</li>
 	<li>Version = the set of major releases up to v20.0</li>
 </ol>
