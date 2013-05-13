@@ -279,11 +279,13 @@ The exploratory tool's source-code as well as the data described herein are avai
 	<div class="chart_container" id="allversions_mccabe_per_kloc">
 		<div></div>
 	</div>
+	<p class="caption">Chart 2: Cyclomatic complexity.</p>
 	
 	<p>LOC code is growing at a mean rate of 4.04%.  Using other open-source codebases as benchmarks, this appears to be a reasonable rate.  Only in v4.0 did LOC grow at a noticeably larger rate of 20.34%.  Given the context, this may be understandable seeing how significant a release v4.0 was for Mozilla.  At no point do we see substantial drops in LOC, something that would be indicative of a major refactoring effort, as was the case with the original Mozilla browser.</p>
 	<div class="chart_container" id="allversions_loc_code">
 		<div></div>
 	</div>
+	<p class="caption">Chart 3: LOC.</p>
 	
 	<!--<div class="page-break"></div>-->
 	
@@ -291,16 +293,19 @@ The exploratory tool's source-code as well as the data described herein are avai
 	<div class="chart_container" id="allversions_dependencies_density_per_ten_thousand_file_pairs">
 		<div></div>
 	</div>
+	<p class="caption">Chart 4: First-order density.</p>
 	
 	<p>We see a stable propagation cost with a mean of 5.20% and a standard deviation of just 1.13%.  Thus, a change to a randomly selected file in Firefox has the potential to ultimately impact 5.20% of files.  For the average Firefox release that means around 1,453 files.  The stability of propagation cost is a good indicator, and the value is in my experience reasonable.  Propagation cost varies between 2.99% in v3.5 and 6.99% in v13.0.</p>
 	<div class="chart_container" id="allversions_prop_cost">
 		<div></div>
 	</div>
+	<p class="caption">Chart 5: Propagation cost.</p>
 	
 	<p>Core size shows a regime shift at v3.0 with the mean size increasing from 3.55% to 12.51%.  v3.0 is the only Firefox release to have been in development for two years.   All others before the Rapid Release Cycle spent approximately one year in development. Further investigation would be needed to uncover what, during those two years of development, was the main driver of this uplift in the number of highly interconnected files.  Note that the total number of dependencies dropped significantly in that release, however, the proportion of highly interconnected files increased.</p>
 	<div class="chart_container" id="allversions_percent_in_core_at_discontinuity">
 		<div></div>
 	</div>
+	<p class="caption">Chart 6: Core size.</p>
 	
 <p class="subtitle">3.2 Switching to the rapid release cycle (RRC) has had a positive impact on maintainability</p>
 <p>RRC began with v5.0 of Firefox and aimed to constrain the release cycle to 6-week time periods and tighten the software development lifecycle.  Comparing the seven observations from before the switch to RRC with the 16 afterwards reveals the following results.</p>
@@ -350,15 +355,19 @@ The exploratory tool's source-code as well as the data described herein are avai
 
 <p>In terms of internal complexity, our modules range from a mean cyclomatic complexity of 121.94 to 194.48.</p>
 <img src="images/mccabe_modules_comparison.png" />
+<p class="caption">Chart 7: Mean cyclomatic complexity.</p>
 
 <p>Looking at first-order density, <i>browser</i> stands out as having a mean density that is noticeably higher than the next module, that is, 1.13% compared to 0.73%.</p>
 <img src="images/density_modules_comparison.png" />
+<p class="caption">Chart 8: Mean first-order density.</p>
 
 <p>With propagation cost, we see that the three modules with the highest mean propagation costs, <i>security</i>, <i>browser</i> and <i>accessible</i>, are all noticeably higher than the remaining modules, being as they are 20.85%, 18.23% and 15.77%, respectively.  In some releases, such as in v16.0, we see the propagation costs of <i>accessible</i> and <i>browser</i> jump from 7.31% to 23.80% and from 2.62% to 19.67%, respectively, indicating a possibly adverse architectural change that was made in that release.  The measure comes down in future releases for those two modules, though only negligibly.</p>
 <img src="images/propcost_modules_comparison.png" />
+<p class="caption">Chart 9: Mean propagation cost.</p>
 
 <p>With core size, we see that the module with the highest mean core size, <i>content</i>, is noticeably higher than the remaining modules, being as it is 48.65%.</p>
 <img src="images/coresize_modules_comparison.png" />
+<p class="caption">Chart 10: Mean core size.</p>
 
 <p class="subtitle">4 Take-away</p>
 <p>It is impressive that an open-source project developed and maintained by a distributed team of paid staff and volunteers has been able to produce a product as impactful as the Firefox browser.  One sees larger, more expensive, software projects become drastically less maintainable in only a few years by virtue of their development processes becoming more chaotic and coding best practices being abandoned in favor of premature pragmatism.  With Firefox, We see the decision to move to a tighter, more predictable, development process possibly helping to improve quality.</p>
