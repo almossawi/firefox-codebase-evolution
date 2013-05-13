@@ -937,7 +937,7 @@ function drawCharts() {
 				splice_from = 0,
 				max_y_value = "";
 			
-			if(id == "allversions_prop_cost" || id == "allversions_percent_in_core")
+			if(id == "allversions_prop_cost" || id == "allversions_percent_in_core" || id == "allversions_percent_in_core_at_discontinuity")
 				format = "%";
 			
 			if(id == "allversions_speed")
@@ -955,6 +955,9 @@ function drawCharts() {
 				
 			if(id == "allversions_percent_in_core")
 				max_y_value = 1;
+				
+			if(id == "allversions_percent_in_core_at_discontinuity")
+				max_y_value = 0.5;
 			
 			drawEachBelowTheFoldChart(eval("data."+id), "#chart_container_container #" + id, format, humanify_numbers, custom_units, splice_from, max_y_value);
 		});

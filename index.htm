@@ -224,13 +224,12 @@
                     <div style="clear:both"></div>
                     <div class="chart_description">
                         <h1>Core size</h1>
-                        <p>Core files are files that are highly interconnected via a chain of cyclic dependencies and have been shown in various studies to have a higher propensity for defects<sup>5</sup>.  They are one of four types of files that one sees when plotting files along the axes of fan-in and fan-out, the intuition for this breakout being that different directions and magnitudes of dependencies have varying impacts on software quality. This intuition has been validated by several studies and a smaller core has been shown to result in fewer defects.</p>
+                        <p>Core files are files that are highly interconnected via a chain of cyclic dependencies and have been shown in various studies to have a higher propensity for defects<sup>5</sup>.  They are one of four types of files that one sees when plotting files along the axes of fan-in and fan-out, the intuition for this breakout being that different directions and magnitudes of dependencies have varying impacts on software quality. This intuition has been validated by several studies and a smaller core has been shown to result in fewer defects.  Core size is the percentage of files with one or more dependencies that have a high fan-in and a high fan-out.</p>
                         <p>Other types of files are peripheral files, which don’t depend on a lot of files and don't have a lot of files depend on them (low fan-in, low fan-out); shared files, which don’t depend on a lot of files, but have a lot of files depend on them (high fan-in, low fan-out) and control files, which depend on a lot of files, but don’t have a lot of files depend on them (low fan-in, high fan-out).</p>
-                        <p>Core size, here, is the percentage of files with one or more dependencies that have a fan-in above the fan-in median and a fan-out above the fan-out median.  The fan-in and fan-out values for files are taken from the visibility matrix rather than the first-order matrix.</p>
-                        
+
                         <p class="footy"><sup>5</sup> Alan MacCormack and Dan Sturtevant, System Design and the Cost of Complexity: Putting a Value on Modularity (2011).</p>
                     </div>
-                    <div class="chart_container" id="allversions_percent_in_core">
+                    <div class="chart_container" id="allversions_percent_in_core_at_discontinuity">
                     	<span class="container_title">Core size</span>
                         <div></div>
                     </div>

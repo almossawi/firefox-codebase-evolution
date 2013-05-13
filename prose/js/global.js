@@ -17,7 +17,7 @@ function drawCharts() {
 				splice_from = 0,
 				max_y_value = "";
 			
-			if(id == "allversions_prop_cost" || id == "allversions_percent_in_core")
+			if(id == "allversions_prop_cost" || id == "allversions_percent_in_core" || id == "allversions_percent_in_core_at_discontinuity")
 				format = "%";
 			
 			if(id == "allversions_speed")
@@ -35,6 +35,10 @@ function drawCharts() {
 				
 			if(id == "allversions_percent_in_core")
 				max_y_value = 1;
+				
+			if(id == "allversions_percent_in_core_at_discontinuity")
+				max_y_value = 0.5;
+				
 			console.log(id);
 			drawEachBelowTheFoldChart(eval("data."+id), "#" + id, format, humanify_numbers, custom_units, splice_from, max_y_value);
 		});
@@ -77,9 +81,11 @@ function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, cu
             
     var xAxis = d3.svg.axis()
         .scale(xScale)
-        .orient("bottom")
-        //.ticks(20);
-	$(".x g text").attr("text-anchor", "left");
+        .orient("bottom");
+    	//.ticks(20);
+    	
+	$(".x g text")
+		.attr("text-anchor", "left");
    
             
 	var yAxis = d3.svg.axis()
@@ -120,7 +126,10 @@ function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, cu
     $(".x .tick text")
     	.text(function(i, d) {
     		if(d.split(".")[1] == 0) return d.split(".")[0];
-    	});
+    	})
+        .attr('transform', function(d) {
+      		return "translate(-4, 0)";
+    	});;
     	    	
 	//draw y axis
 	svg.append("g")
