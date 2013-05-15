@@ -212,8 +212,7 @@
                     <div class="chart_description">
                         <h1>Propagation cost</h1>
                         <p>Propagation cost measures direct as well as indirect dependencies between files in a codebase. In practical terms, it gives a sense of the proportion of files that may be impacted, on average, when a change is made to a randomly chosen file<sup>3,4</sup>.
-                        <p>The process of transforming a first-order dependency matrix that captures only direct dependencies between files to a visibility matrix, also known as a reachability matrix, that captures indirect dependencies as well is achieved through matrix multiplication by raising the first-order dependency matrix to multiple successive powers until we achieve its transitive closure. Thus, a matrix raised to the power of two would show the indirect dependencies between elements that have a path length of two, i.e. calls from A to C, if A calls B and B calls C. Thereafter, by summing these matrices together one gets the visibility matrix, V.</p>
-                        <p>For this ripple effect to be of use in analysis, the density of the visibility matrix is captured within the metric that we call propagation cost, which we define as <br /><i>prop cost = (&Sigma;rows)/m<sup>2</sup></i>, where m is the matrix height.</p>
+                        <p>The process of transforming a first-order dependency matrix that captures only direct dependencies between files to a visibility matrix, also known as a reachability matrix, that captures indirect dependencies as well is achieved through matrix multiplication by raising the first-order dependency matrix to multiple successive powers until we achieve its transitive closure. Thus, a matrix raised to the power of two would show the indirect dependencies between elements that have a path length of two, i.e. calls from A to C, if A calls B and B calls C. Thereafter, by summing these matrices together one gets the visibility matrix.  For this ripple effect to be of use in analysis, the density of the visibility matrix is captured within the metric that we call propagation cost.</p>
                         <p class="footy"><sup>3</sup> Alan MacCormack, John Rusnak and Carliss Baldwin, <i>Exploring the Structure of Complex Software Designs: An Empirical Study of Open Source and Proprietary Code</i> (2006).</p>
                         <p class="footy"><sup>4</sup> Steven D. Eppinger and Tyson R. Browning, Design Structure Matrix Methods and Applications (2012).</p>
                     </div>
@@ -268,7 +267,7 @@
                     <div style="clear:both"></div>
                 <div id="wide_pane">
                         <div id="twitter_block">
-<a href="https://twitter.com/share" data-size="large" class="twitter-share-button" data-via="alialmossawi">Tweet</a>
+<a href="https://twitter.com/share" data-size="large" class="twitter-share-button" data-url="almossawi.com/firefox" data-text="Evolution of the Firefox codebase, http://almossawi.com/firefox">Tweet</a>
 
                             <script>
                                 ! function (d, s, id) {

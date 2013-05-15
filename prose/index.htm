@@ -56,14 +56,14 @@
 <p>This work explores a particular facet of quality in Firefox, namely, maintainability.  By appealing to the explanatory powers of five distinct and practical measures of architectural complexity, and with the aid of static analysis and network manipulation tools, we arrive at some preliminary findings.  We find that 11% of files in Firefox are highly interconnected, a value that went up significantly following version 3.0.  We find that making any change to a randomly selected file can, on average, directly impact eight files and indirectly impact over 1,400 files.  We see that files' internal complexity is on average going down.  Their external complexity as measured by direct dependencies is also going down, whereas their external complexity as measured by propagation cost has remained steady.  With respect to process, we find that the switch to the rapid release cycle from version 5.0 onwards had a positive impact on quality.  Though the analysis reveals no imminently alarming red flags when it comes to maintainability, it does shine light on a number of issues that would be worth investigating.</p>
 
 <p class="subtitle">1 Intro</p>
-<p>I recently started looking at the Firefox codebase.  What follows is a summary of my findings as well as a description of what I did, which might be helpful for those wishing to replicate this work with other codebases. The question that motivated this inquiry was: &ldquo;How healthy is the Firefox codebase&rdquo;, which suggests that the fundamental facet of interest in the system at hand is its quality.  The goal of this work was two-fold:</p>
+<p>The question that motivated this inquiry was: &ldquo;How healthy is the Firefox codebase&rdquo;, which suggests that the fundamental facet of interest in the system at hand is its quality.  The goal of this work was two-fold:</p>
 
 <ol>
 	<li>Answer said question.</li>
 	<li>Build an <a href="http://almossawi.com/firefox">interactive Web-based exploratory tool</a> that makes the data accessible and allows people to draw their own conclusions.</li>
 </ol>
 
-The exploratory tool's source-code as well as the data described herein are available on <a href="https://github.com/almossawi/Firefox-Codebase-Evolution/">Github</a>.
+The exploratory tool's source-code as well as the data described herein are available on <a href="https://github.com/almossawi/Firefox-Codebase-Evolution/">Github</a>.  This document contains a summary of my findings as well as a description of what I did, which might be helpful for those wishing to replicate this work with other codebases.
 
 <p class="subtitle">2 Defining quality</p>
 <p>As actively developed software ages, it tends to grow in size and can accumulate what is known as technical debt, wherein tiny deviations from a good process, shortcuts here and there and less than optimal code changes build up into debt that the team is then forced to pay off in the form of a refactoring effort.  One of the ways of measuring architectural changes in large codebases that can lead to technical debt is by looking at pertinent quality attributes, primary of which, in my opinion, is maintainability.  Maintainability is ambiguous though and can cover a wide spectrum of things.  What exactly do we mean by it?  Let us codify it using a set of concrete metrics.  In this case, I have chosen the following metrics:</p>
@@ -253,7 +253,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 <!--<div class="page-break"></div>-->
 
 <p class="subtitle">3.2.2 Dependency metrics</p>
-<p>The static analysis tool is used to export dependency data for a particular release.  The generated .csv file has three columns: from, to, references.  The first two columns store the full path of each file and the third is the number of references between the two files.  Each row in the file is a source-code file pair.  The .csv file is then processed by a Perl script, which replaces the data in the first two columns with integers that reference file names stored in a separate lookup file.  That processed data is then used as input for a MATLAB script, which uses it to a) build a first-order dependency matrix, b) raise it to multiple powers until its transitive closure is reached resulting in a visibility matrix and c) generate the desired complexity measures &#8211; first-order density, propagation cost, core size and a few others.</p>
+<p>The static analysis tool is used to export dependency data for a particular release.  The generated .csv file has three columns: <i>from</i>, <i>to</i> and <i>references</i>.  The first two columns store the full path of each file and the third is the number of references between the two files.  Each row in the file is a source-code file pair.  The .csv file is then processed by a Perl script, which replaces the data in the first two columns with integers that reference file names stored in a separate lookup file.  That processed data is then used as input for a MATLAB script, which uses it to a) build a first-order dependency matrix, b) raise it to multiple powers until its transitive closure is reached resulting in a visibility matrix and c) generate the desired complexity measures &#8211; first-order density, propagation cost, core size and a few others.</p>
 <p>Here is an example of a first-order matrix showing direct dependencies between files in the <i>gfx</i> module in Firefox 20 (left) and the visibility matrix for the same module (right).  Notice how new patterns of dependencies emerge when we start considering indirect dependencies.</p>
 <img src="images/firefox20_gfx_module_matrices.png" style="width:600px" />
 <p class="caption">Diagram 3: A first-order dependency matrix (left) and visibility matrix (right) for the same module.</p>
@@ -378,7 +378,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 </div>
 
 <div style="float:left;padding-bottom:20px;padding-left:10px">
-<a href="https://twitter.com/share" class="twitter-share-button" data-via="alialmossawi" data-count="none">Tweet</a>
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="almossawi.com/firefox/prose" data-text="How maintainable is the Firefox codebase? http://almossawi.com/firefox/prose" data-count="none">Tweet</a>
 
                             <script>
                                 ! function (d, s, id) {
