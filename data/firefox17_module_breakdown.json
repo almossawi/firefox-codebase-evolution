@@ -20,7 +20,8 @@
     		"periphery_size": 170,
     		"shared_size": 146,
     		"control_size": 55,
-    		"percent_in_core": 0.17420814
+    		"percent_in_core": 0.17420814,
+			"percent_in_core_at_discontinuity": 0.4254
 		}]
 	},
 	{
@@ -43,7 +44,8 @@
     		"periphery_size": 203,
     		"shared_size": 507,
     		"control_size": 239,
-    		"percent_in_core": 0.35197817
+    		"percent_in_core": 0.35197817,
+			"percent_in_core_at_discontinuity": 0.2158
 		}]
     },
     {
@@ -66,7 +68,8 @@
     		"periphery_size": 515,
     		"shared_size": 963,
     		"control_size": 234,
-    		"percent_in_core": 0.36302646
+    		"percent_in_core": 0.36302646,
+			"percent_in_core_at_discontinuity": 0.2021
 		}]
     },
     {
@@ -89,7 +92,8 @@
     		"periphery_size": 696,
     		"shared_size": 1238,
     		"control_size": 645,
-    		"percent_in_core": 0.25914195
+    		"percent_in_core": 0.25914195,
+			"percent_in_core_at_discontinuity": 0.0807
 		}]
     },
 	{
@@ -112,7 +116,8 @@
     		"periphery_size": 575,
     		"shared_size": 558,
     		"control_size": 565,
-    		"percent_in_core": 0.25099426
+    		"percent_in_core": 0.25099426,
+			"percent_in_core_at_discontinuity": 0.1324
 		}]
     },
     {
@@ -135,7 +140,8 @@
     		"periphery_size": 143,
     		"shared_size": 268,
     		"control_size": 228,
-    		"percent_in_core": 0.21279213
+    		"percent_in_core": 0.21279213,
+			"percent_in_core_at_discontinuity": 0.0392
 		}]
     },
 	{
@@ -158,7 +164,8 @@
     		"periphery_size": 1650,
     		"shared_size": 2092,
     		"control_size": 967,
-    		"percent_in_core": 0.15844667
+    		"percent_in_core": 0.15844667,
+			"percent_in_core_at_discontinuity": 0.0080
 		}]
     },
 	{
@@ -181,7 +188,8 @@
     		"periphery_size": 1082,
     		"shared_size": 1402,
     		"control_size": 1001,
-    		"percent_in_core": 0.32290047
+    		"percent_in_core": 0.32290047,
+			"percent_in_core_at_discontinuity": 0.0806
 		}]
     },
     {
@@ -204,7 +212,8 @@
     		"periphery_size": 789,
     		"shared_size": 821,
     		"control_size": 802,
-    		"percent_in_core": 0.27852113
+    		"percent_in_core": 0.27852113,
+			"percent_in_core_at_discontinuity": 0
 		}]
     },
     {
@@ -227,7 +236,8 @@
     		"periphery_size": 121,
     		"shared_size": 191,
     		"control_size": 158,
-    		"percent_in_core": 0.20945946
+    		"percent_in_core": 0.20945946,
+			"percent_in_core_at_discontinuity": 0.0134
 		}]
     },
     {
@@ -250,7 +260,8 @@
     		"periphery_size": 386,
     		"shared_size": 340,
     		"control_size": 222,
-    		"percent_in_core": 0.39804241
+    		"percent_in_core": 0.39804241,
+			"percent_in_core_at_discontinuity": 0.0779
 		}]
     },
     {
@@ -273,7 +284,8 @@
     		"periphery_size": 386,
     		"shared_size": 340,
     		"control_size": 222,
-    		"percent_in_core": 0.20504202
+    		"percent_in_core": 0.20504202,
+			"percent_in_core_at_discontinuity": 0.2464
 		}]
     },
     {
@@ -296,7 +308,8 @@
     		"periphery_size": 322,
     		"shared_size": 817,
     		"control_size": 359,
-    		"percent_in_core": 0.40174897
+    		"percent_in_core": 0.40174897,
+			"percent_in_core_at_discontinuity": 0.0509
 		}]
     },
     {
@@ -319,7 +332,8 @@
     		"periphery_size": 114,
     		"shared_size": 122,
     		"control_size": 111,
-    		"percent_in_core": 0.26751592
+    		"percent_in_core": 0.26751592,
+			"percent_in_core_at_discontinuity": 0.0949
 		}]
     }
 ]}

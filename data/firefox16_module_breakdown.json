@@ -261,7 +261,7 @@
     		"shared_size": 179,
     		"control_size": 172,
     		"percent_in_core": 0.22022838,
-			"percent_in_core_at_discontinuity": 
+			"percent_in_core_at_discontinuity": 0.1591
 		}]
     },
     {
@@ -285,7 +285,7 @@
     		"shared_size": 385,
     		"control_size": 214,
     		"percent_in_core": 0.16863406,
-			"percent_in_core_at_discontinuity": 
+			"percent_in_core_at_discontinuity": 0.3255
 		}]
     },
     {
@@ -309,7 +309,7 @@
     		"shared_size": 954,
     		"control_size": 214,
     		"percent_in_core": 0.23064771,
-			"percent_in_core_at_discontinuity": 
+			"percent_in_core_at_discontinuity": 0.1550
 		}]
     },
     {
@@ -333,7 +333,7 @@
     		"shared_size": 111,
     		"control_size": 108,
     		"percent_in_core": 0.25546381,
-			"percent_in_core_at_discontinuity": 
+			"percent_in_core_at_discontinuity": 0.0447
 		}]
     }
 ]}

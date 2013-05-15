@@ -14,7 +14,7 @@ var loc_code_max_value_override = 670000,
 	mccabe_per_kloc_code_override = 210,
 	sum_fanin_override = 28000,
 	sum_vfanin_override = 1000000,
-	percent_in_core_override = 0.55,
+	percent_in_core_override = 0.45,
 	dependencies_density_override = 0.015,
 	prop_cost_override = 0.26;
 
@@ -65,7 +65,7 @@ metrics_nice["mccabe_per_kloc_code"] = "Cyclomatic complexity";
 metrics_nice["loc_code"] = "LOC";
 metrics_nice["dependencies_density"] = "First-order density";
 metrics_nice["prop_cost"] = "Propagation cost";
-metrics_nice["percent_in_core"] = "Core size";
+metrics_nice["percent_in_core_at_discontinuity"] = "Core size";
 metrics_nice["files_with_dependencies"] = "Files";
 metrics_nice["sum_fanin"] = "Direct dependencies";
 metrics_nice["sum_vfanin"] = "Indirect dependencies";
@@ -95,8 +95,8 @@ $(document).ready(function () {
 	$("#prop_cost")
 		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["prop_cost"] + "</div>");
 		
-	$("#percent_in_core")
-		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["percent_in_core"] + "</div>");
+	$("#percent_in_core_at_discontinuity")
+		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["percent_in_core_at_discontinuity"] + "</div>");
 		
 	$("#files_with_dependencies")
 		.append("<div class='metric_title' style='width:460px'>" + metrics_nice["files_with_dependencies"] + "</div>");
@@ -619,7 +619,7 @@ function loadChartView(are_we_updating) {
 			drawMetric("#metric #chart_view #mccabe_per_kloc_code", ["mccabe_per_kloc_code", "mccabe_per_kloc_code"], mccabe_per_kloc_code_override, 0, are_we_updating, false);
 			drawMetric("#metric #chart_view #dependencies_density", ["dependencies_density", "dependencies_density"], dependencies_density_override, 1, are_we_updating, false);
 			drawMetric("#metric #chart_view #prop_cost", ["prop_cost", "prop_cost"], prop_cost_override, 1, are_we_updating, false);
-			drawMetric("#metric #chart_view #percent_in_core", ["percent_in_core", "percent_in_core"], percent_in_core_override, 1, are_we_updating, false);
+			drawMetric("#metric #chart_view #percent_in_core_at_discontinuity", ["percent_in_core_at_discontinuity", "percent_in_core_at_discontinuity"], percent_in_core_override, 1, are_we_updating, false);
 			drawMetric("#metric #chart_view #files_with_dependencies", ["files_with_dependencies", "files_with_dependencies"], "", 0, are_we_updating, true);
 			//drawMetric("#metric #chart_view #sum_fanin", ["sum_fanin", "sum_fanin"], sum_fanin_override, 0, are_we_updating);
 			//drawMetric("#metric #chart_view #sum_vfanin", ["sum_vfanin", "sum_vfanin"], sum_vfanin_override, 0, are_we_updating);	 
@@ -937,7 +937,7 @@ function drawCharts() {
 				splice_from = 0,
 				max_y_value = "";
 			
-			if(id == "allversions_prop_cost" || id == "allversions_percent_in_core" || id == "allversions_percent_in_core_at_discontinuity")
+			if(id == "allversions_prop_cost" || id == "allversions_percent_in_core_at_discontinuity")
 				format = "%";
 			
 			if(id == "allversions_speed")
@@ -952,9 +952,6 @@ function drawCharts() {
 			
 			if(id == "allversions_prop_cost")
 				max_y_value = 0.25;
-				
-			if(id == "allversions_percent_in_core")
-				max_y_value = 1;
 				
 			if(id == "allversions_percent_in_core_at_discontinuity")
 				max_y_value = 0.5;

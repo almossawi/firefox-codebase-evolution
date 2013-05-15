@@ -43,15 +43,20 @@
 				<div style="position:absolute;margin-top:20px;height:40px"></div>
 				<h1>How maintainable is the Firefox codebase?</h1>
 				<h2>ALI ALMOSSAWI</h2>
-				<div class="date">May 14, 2013</div>
+				<div class="date">May 15, 2013</div>
 				
 <br /><br /><br />
-<p>Look at this joyful man.</p>
+<!--<p>Look at this joyful man.</p>
 <div class="smile">(&middot;‿&middot;)</div>
 
 
-<p>He looks healthy doesn't he?  Not so fast, says Medical Science.  He might very well be healthy, but to make sure, we first need to probe his insides and take a look at his internal organs.</p>
-<p>A few months ago, I probed the insides of the Firefox codebase.  What follows is a summary of my findings as well as a description of what I did, which might be helpful for those wishing to replicate this work with other codebases.</p>
+<p>He looks healthy doesn't he?  Not so fast, says Medical Science.  He might very well be healthy, but to make sure, we first need to probe his insides and take a look at his internal organs.</p>-->
+
+<p class="subtitle">Abstract</p>
+<p>This work explores a particular facet of quality in Firefox, namely, maintainability.  By appealing to the explanatory powers of five distinct and practical measures of architectural complexity, and with the aid of static analysis and network manipulation tools, we arrive at some preliminary findings.  We find that 11% of files in Firefox are highly interconnected, a value that went up significantly following version 3.0.  We find that making any change to a randomly selected file can, on average, directly impact eight files and indirectly impact over 1,400 files.  We see that files' internal complexity is on average going down.  Their external complexity as measured by direct dependencies is also going down, whereas their external complexity as measured by propagation cost has remained steady.  With respect to process, we find that the switch to the rapid release cycle from version 5.0 onwards had a positive impact on quality.  Though the analysis reveals no imminently alarming red flags when it comes to maintainability, it does shine light on a number of issues that would be worth investigating.</p>
+
+<p class="subtitle">1 Intro</p>
+<p>I recently started looking at the Firefox codebase.  What follows is a summary of my findings as well as a description of what I did, which might be helpful for those wishing to replicate this work with other codebases.</p>
 <p>The question that motivated this inquiry was: &ldquo;How healthy is the Firefox codebase&rdquo;, which suggests that the fundamental facet of interest in the system at hand is its quality.  The goal of this work was two-fold:</p>
 
 <ol>
@@ -61,32 +66,31 @@
 
 The exploratory tool's source-code as well as the data described herein are available on <a href="https://github.com/almossawi/Firefox-Codebase-Evolution/">Github</a>.
 
-<p class="subtitle">Abstract</p>
-<p>This work explores a particular facet of quality in Firefox, namely, maintainability.  By appealing to the explanatory powers of five distinct and practical measures of architectural complexity, and with the aid of static analysis and network manipulation tools, we arrive at some preliminary findings.  We find that 11% of files in Firefox are highly interconnected, a value that went up significantly following version 3.0.  We find that making any change to a randomly selected file can, on average, directly impact eight files and indirectly impact over 1,400 files.  We see that files' internal complexity is on average going down.  Their external complexity as measured by direct dependencies is also going down, whereas their external complexity as measured by propagation cost has remained steady.  With respect to process, we find that the switch to the rapid release cycle from version 5.0 onwards had a positive impact on quality.  Though the analysis reveals no imminently alarming red flags when it comes to maintainability, it does shine light on a number of issues that would be worth investigating.</p>
-
-<p class="subtitle">1 Defining quality</p>
+<p class="subtitle">2 Defining quality</p>
 <p>As actively developed software ages, it tends to grow in size and can accumulate what is known as technical debt, wherein tiny deviations from a good process, shortcuts here and there and less than optimal code changes build up into debt that the team is then forced to pay off in the form of a refactoring effort.  One of the ways of measuring architectural changes in large codebases that can lead to technical debt is by looking at pertinent quality attributes, primary of which, in my opinion, is maintainability.  Maintainability is ambiguous though and can cover a wide spectrum of things.  What exactly do we mean by it?  Let us codify it using a set of concrete metrics.  In this case, I have chosen the following metrics:</p>
 
-<p class="subtitle">1.1 LOC</p>
+<p class="subtitle">2.1 LOC</p>
 <p>LOC measures the number of executable lines of code in each release, ignoring comments and blank lines, and is widely used as a baseline measure of quality [1][2]. A system with more LOC is typically more difficult to maintain.  LOC and defect density have an inverse relationship [3][4][5], or according to some studies a curvilinear relationship [6].  This may seem counterintuitive at first.  The explanation is that firstly, architecture does not change at the same rate as LOC, and secondly, that a sizable number of defects occur within the interfaces that tie modules or components together.  In a small system, the likelihood of a defect occuring in an interface is fairly high.  As the system's size increases, most of the new code ends up going into modules and components rather than into new interfaces, and hence the propensity for defects per LOC goes down as LOC goes up.
 <p>Here, the set of analyzed files includes all files that meet our file-type filter<sup>1</sup>, including unit tests, which in some versions constitute over 50% of all files and up to several hundreds of thousands of LOC. A lot of these unit tests are thrown out during a later stage for being singletons, i.e. having no dependencies to or from any other file in the codebase.</p>
 
 <p class="footy"><sup>1</sup> .c, .C, .cc, .cpp, .css, .cxx, .h, .H, .hh, .hpp, .htm, .html, .hxx, .inl, .java, .js, .py, .s, .xml</p>
 
-<p class="subtitle">1.2 Cyclomatic complexity</p>
+<p class="subtitle">2.2 Cyclomatic complexity</p>
 <p>Cyclomatic complexity, developed by Thomas McCabe in 1976, measures the number of linearly independent paths within a software system and can be applied either to the entire system or to a constituent part [7]. By viewing a block of code as a control graph, the nodes constitute indivisible lines of code that execute in sequence and the directed edges connect two nodes if one can occur after the other. So, for example, branching constructs like if-else statements would result in a node being connected to two output nodes, one for each branch.</p>
 <p>Cyclomatic complexity is defined as v(G) = e – n + 2p where v(G) is the cyclomatic number of a graph G, e is the number of edges, n is the number of nodes and p is the number of connected components, or exit nodes, in the graph. A block of code with a single set of if-else statements would be calculated as follows: e = 6, n = 6 and p = 1, therefore, v(G) = 6 – 6 + 2 * 1 = 2. The additive nature of the metric means that the complexity of several graphs is equal to the sum of each graph. In our measure of cyclomatic complexity, we control for size and hence, the value for each release is per 1,000 LOC.</p>
 
-<p class="subtitle">1.3 First-order density</p>
+<div class="page-break"></div>
+	
+<p class="subtitle">2.3 First-order density</p>
 <p>First-order density measures the number of direct dependencies between files.  For releases, we show it per 10,000 file pairs whereas for modules, where matrices are generally not as sparse, we show the density as a percentage. The way it is calculated is by first building an adjacency matrix, sometimes called a Design Structure Matrix (DSM), using the set of source-code files sorted by their hierarchical directory structure. Wherever a file in a particular row depends on a file in a particular column, we mark the element with a '1'.  Because we're only capturing direct dependencies, this matrix is referred to as a first-order dependency matrix.</p>
 <p>In such a matrix, a square-shaped cluster indicates many dependencies between files within a module.  All the dots to the right and left of a cluster are files that the module depends on. All files above and below it are files that depend on it. In many paradigms, modularity (low coupling, high cohesion) is a desirable quality attribute. Hence, an ideal system has modules that have more intra-module dependencies and fewer inter-module dependencies.  Dividing the number of non-zero elements by the matrix size and adjusting by our multiplier then gives us our measure of density.</p>
 
-<p class="subtitle">1.4 Propagation cost</p>
+<p class="subtitle">2.4 Propagation cost</p>
 <p>Propagation cost measures direct as well as indirect dependencies between files in a codebase. In practical terms, it gives a sense of the proportion of files that may be impacted, on average, when a change is made to a randomly chosen file [8][9].</p>
 <p>The process of transforming a first-order dependency matrix that captures only direct dependencies between files to a visibility matrix, also known as a reachability matrix, that captures indirect dependencies as well is achieved through matrix multiplication by raising the first-order dependency matrix to multiple successive powers until we achieve its transitive closure. Thus, a matrix raised to the power of two would show the indirect dependencies between elements that have a path length of two, i.e. calls from A to C, if A calls B and B calls C. Thereafter, by summing these matrices together one gets the visibility matrix.  With the Firefox codebase, the longest chain of calls is seven calls, hence no file that is connected to another is more than seven calls away.</p>
 <p>For this ripple effect to be of use in analysis, the density of the visibility matrix is captured within the metric that we call propagation cost.</p>
 
-<p class="subtitle">1.5 Core size</p>
+<p class="subtitle">2.5 Core size</p>
 <p>Core files are files that are highly interconnected via a chain of cyclic dependencies and have been shown in various studies to have a higher propensity for defects [10]. They are one of four types of files that one sees when plotting files along the axes of fan-in and fan-out<sup>2</sup>, the intuition for this breakout being that different directions and magnitudes of dependencies have varying impacts on software quality. This intuition has been validated by several studies [11][12] and a smaller core has been shown to result in fewer defects.</p>
 <img src="images/core_periph.png" />
 <p class="caption">Diagram 1: Four types of files.</p>
@@ -97,10 +101,10 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p>Since it makes practical sense to think of files beyond such a point as being part of a large cycle of calls, we use this point to calculate the core.  A core file is therefore one whose indirect fan-in is greater than the first discontinuity point in the distribution of fan-in values and whose indirect fan-out is greater than the first discontinuity point in the distribution of fan-out values<sup>3</sup>.</p>
 
 <p class="footy"><sup>2</sup> Fan-in captures the count of dependencies flowing into an element; fan-out captures the count of dependencies flowing out of an element.</p>
-<p class="footy"><sup>3</sup> The spreadsheet referenced below includes two columns for core size; one calculated as described and one calculated using medians.  When medians are used, we see a higher series of core sizes (mean = 39%); both series are highly and positively correlated.
+<p class="footy"><sup>3</sup> The spreadsheet referenced below includes two columns for core size; one calculated as described and one calculated using medians.  When medians are used, we see a series of higher core sizes (mean = 39%); both series are highly and positively correlated.
 
-<p class="subtitle">2 Method</p>
-<p class="subtitle">2.1 Data</p>
+<p class="subtitle">3 Method</p>
+<p class="subtitle">3.1 Data</p>
 <p>The dataset consists of the codebases of 23 major releases of Firefox, from v1.0 to v20.0, all of which are large enough for analysis and so we don't have to worry about adversely impacting our architectural measures as a result of having too few files.  Said measures can become unreliable when codebases are too small, which makes intuitive sense.  Furthermore, it is not very meaningful to talk about dependencies when the system size is small enough for one person to be knowledgeable about all of its modules.  The following table shows some descriptive statistics for the 23 codebases.</p>
 
 <!--<div class="page-break"></div>-->
@@ -211,11 +215,11 @@ The exploratory tool's source-code as well as the data described herein are avai
 	</tr>
 	<tr>
 		<td class="lhs">core size</td>
-		<td>28.45%</td>
-		<td>25.85%</td>
-		<td>9.06%</td>
-		<td>15.84%</td>
-		<td>52.28%</td>
+		<td>8.93%</td>
+		<td>5.03%</td>
+		<td>9.82%</td>
+		<td>0%</td>
+		<td>42.54%</td>
 	</tr>
 	<tr>
 		<td class="lhs">files</td>
@@ -229,14 +233,14 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p class="caption">Table 2: Descriptive statistics for the set of Firefox modules (n=70)</p>
 <p>Full details are available in the spreadsheet <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdHJUT0M3YXNzdVVYUXRkQzBWellHamc#gid=3">here</a> and the .json file <a href="http://almossawi.com/firefox/data/architectural.json">here</a>.</p>
 <p>Modules are a bit more nuanced since we generally want most of the interaction between files to happen within modules rather than between them.  For simplicity, we consider a module to be a system, which allows us to continue using the same measures of goodness discussed earlier.  Hence, a module that has a higher density of dependencies is considered to be less maintainable than one with a lower density.  This only gives partial insight into a module's architecture, and begs the question: Well, how do the number and density of internal calls compare with the number and density of external ones?  That question is part of the motivation for the third, currently in-progress, view on the <a href="../">Evolution of the Firefox Codebase</a> page.</p>
-<p>The distribution of files' fan-in and fan-out values shows two distinct patterns, both of which are skewed.  For direct fan-in and fan-out, we see a long tail indicating that the majority of files don't have that many direct inward and outward calls.  For indirect fan-in and fan-out values, which as mentioned earlier, are used to classify a file into one of several types and consequently calculate the core size for a codebase, we see that files either don't have that many indirect calls or are part of a set of files that has a high number of calls.</p>
+<p>The distribution of files' fan-in and fan-out values shows two distinct patterns, both of which are skewed.  For direct fan-in and fan-out, we see a smooth distribution with a very long tail indicating that the majority of files don't have that many direct inward and outward calls.  For indirect fan-in and fan-out values, which as mentioned earlier, are used to classify a file into one of several types and consequently calculate the core size for a codebase for module, we see that files either don't have that many indirect calls or are part of a cluster of files that has a high number of calls.  Almost all sets of files that were analyzed exhibit this &ldquo;Nessie&rdquo;-like pattern.  Those that do not most likely do not have a core.</p>
 
 <img src="images/vfi_vfo.png" style="width:713px"/>
 <p class="caption">Chart 1: Distribution of indirect fan-in and fan-out for the 12,822 files in Firefox v1.0.</p>
 
 <!--<p class="footy"><sup>3</sup> ಠ_ಠ</p>-->
 
-<p class="subtitle">2.2 Processing the data</p>
+<p class="subtitle">3.2 Processing the data</p>
 <p>Processing the data involves the use of a set of tools and scripts. The general workflow is shown in the following diagram.</p>
 
 <img src="images/process.png" style="width:570px"/>
@@ -244,18 +248,18 @@ The exploratory tool's source-code as well as the data described herein are avai
 
 <p>The tool set is comprised of a static analysis tool called Understand, MATLAB and a number of local and Web scripts. The input to the static analysis tool is a particular Firefox release's codebase or a particular module's code. The end-result is a set of metrics that are consolidated into a single dataset that may be analyzed further by a statistical analysis tool.  The three data sources that form the final dataset are enumerated below.</p>
 
-<p class="subtitle">2.2.1 Common complexity metrics</p>
+<p class="subtitle">3.2.1 Common complexity metrics</p>
 <p>The static analysis tool outputs common metrics such as LOC and cyclomatic complexity, which can be extracted either through a user interface or via a Perl API.  Generating these and similarly common metrics for each codebase can be time-consuming.  Furthermore, it seems like the tool has to reprocess files every time a project is reopened.  On the plus side, we get a large amount of useful data that can be broken down by system, module or component.</p>
 
 <!--<div class="page-break"></div>-->
 
-<p class="subtitle">2.2.2 Dependency metrics</p>
+<p class="subtitle">3.2.2 Dependency metrics</p>
 <p>The static analysis tool is used to export dependency data for a particular release.  The generated .csv file has three columns: from, to, references.  The first two columns store the full path of each file and the third is the number of references between the two files.  Each row in the file is a source-code file pair.  The .csv file is then processed by a Perl script, which replaces the data in the first two columns with integers that reference file names stored in a separate lookup file.  That processed data is then used as input for a MATLAB script, which uses it to a) build a first-order dependency matrix, b) raise it to multiple powers until its transitive closure is reached resulting in a visibility matrix and c) generate the desired complexity measures &#8211; first-order density, propagation cost, core size and a few others.</p>
 <p>Here is an example of a first-order matrix showing direct dependencies between files in the <i>gfx</i> module in Firefox 20 (left) and the visibility matrix for the same module (right).  Notice how new patterns of dependencies emerge when we start considering indirect dependencies.</p>
 <img src="images/firefox20_gfx_module_matrices.png" style="width:600px" />
 <p class="caption">Diagram 3: A first-order dependency matrix (left) and visibility matrix (right) for the same module.</p>
 
-<p class="subtitle">2.2.3 Defect metrics</p>
+<p class="subtitle">3.2.3 Defect metrics</p>
 <p>We use a Web script to query the Bugzilla database and gather defect data for individual releases.  The parameters of our request use the following criteria: </p>
 <ol>
 	<li>Status &ne; “unconfirmed”</li>
@@ -273,13 +277,15 @@ The exploratory tool's source-code as well as the data described herein are avai
 
 <p class="footy"><sup>4</sup> The resolution field can be either &lsquo;fixed&rsquo; or &lsquo;---&rsquo;, which accommodates both sets of closed and fixed defects as well as confirmed open ones.</p>
 
-<p class="subtitle">3 Findings</p>
-<p class="subtitle">3.1 Architectural indicators generally show satisfactory levels of maintainability</p>
+<p class="subtitle">4 Findings</p>
+<p class="subtitle">4.1 Architectural indicators generally show satisfactory levels of maintainability</p>
 	<p>Cyclomatic complexity shows a slow decreasing trend at a mean rate of -0.85% with the most recent release showing it to be the lowest ever.  This is a good thing.  It indicates that the code within files is, on average, getting less complex.</p>
 	<div class="chart_container" id="allversions_mccabe_per_kloc">
 		<div></div>
 	</div>
 	<p class="caption">Chart 2: Cyclomatic complexity.</p>
+	
+	<div class="page-break"></div>
 	
 	<p>LOC code is growing at a mean rate of 4.04%.  Using other open-source codebases as benchmarks, this appears to be a reasonable rate.  Only in v4.0 did LOC grow at a noticeably larger rate of 20.34%.  Given the context, this may be understandable seeing how significant a release v4.0 was for Mozilla.  At no point do we see substantial drops in LOC, something that would be indicative of a major refactoring effort, as was the case with the original Mozilla browser.</p>
 	<div class="chart_container" id="allversions_loc_code">
@@ -301,13 +307,15 @@ The exploratory tool's source-code as well as the data described herein are avai
 	</div>
 	<p class="caption">Chart 5: Propagation cost.</p>
 	
+	<div class="page-break"></div>
+	
 	<p>Core size shows a regime shift at v3.0 with the mean size increasing from 3.55% to 12.51%.  v3.0 is the only Firefox release to have been in development for two years.   All others before the Rapid Release Cycle spent approximately one year in development. Further investigation would be needed to uncover what, during those two years of development, was the main driver of this uplift in the number of highly interconnected files.  Note that the total number of dependencies dropped significantly in that release, however, the proportion of highly interconnected files increased.</p>
 	<div class="chart_container" id="allversions_percent_in_core_at_discontinuity">
 		<div></div>
 	</div>
 	<p class="caption">Chart 6: Core size.</p>
 	
-<p class="subtitle">3.2 Switching to the rapid release cycle (RRC) has had a positive impact on maintainability</p>
+<p class="subtitle">4.2 Switching to the rapid release cycle (RRC) has had a positive impact on maintainability</p>
 <p>RRC began with v5.0 of Firefox and aimed to constrain the release cycle to 6-week time periods and tighten the software development lifecycle.  Comparing the seven observations from before the switch to RRC with the 16 afterwards reveals the following results.</p>
 	<p>Propagation cost shows little change before and after RRC, having slightly gone up from a mean of 4.36% to 5.57%, however, looking at its mean release-over-release growth, it becomes evident that it has become much less volatile, having gone down from 20.02% to just 3.30%, which is a good improvement.  Its standard deviation has dropped from 51.95% to 21.54%.</p>
 	<p>Core size is, similarly, much less volatile after RRC, with its mean growth dropping from 47.51% to 6.54% and its standard deviation from 89.02% to 24.53%.</p>
@@ -315,7 +323,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 	<p>First-order density has improved seeing as it the mean density has gone down from 4.75 to 2.11, though that seems to be despite the switch to RRC rather than because of it; first-order density appears to have in fact exhibited a downward trend from v3.0 onwards.  The biggest dip occurred in v3.5 where it dropped 33.46%.</p>
 	<p>Cyclomatic complexity has been steadily improving over time, though like density, the trend of improvement started before the switch to RRC.  Having said that, its mean growth following the switch is a slightly improved -1.10% compared to -0.19% before.</p>
 
-<p class="subtitle">3.3 A subset of modules appears to be noticeably more complex than the rest</p>
+<p class="subtitle">4.3 A subset of modules appears to be noticeably more complex than the rest</p>
 <p>Splitting our module-level data by module and looking at the mean values for each module for each of the above metrics reveals the following about the maintainability levels of our various modules:</p>
 
 <table>
@@ -346,8 +354,8 @@ The exploratory tool's source-code as well as the data described herein are avai
 	</tr>
 	<tr>
 		<td class="lhs">core size</td>
-		<td>security<br />(19.96%)</td>
-		<td>content<br />(48.65%)</td>
+		<td>media<br />(0%)</td>
+		<td>security<br />(25.91%)</td>
 	</tr>
 </table>
 <p class="caption">Table 3: Comparing the maintainability levels of Firefox modules from the past five releases (n=14)</p>
@@ -365,24 +373,24 @@ The exploratory tool's source-code as well as the data described herein are avai
 <img src="images/propcost_modules_comparison.png" />
 <p class="caption">Chart 9: Mean propagation cost.</p>
 
-<p>With core size, we see that the module with the highest mean core size, <i>content</i>, is noticeably higher than the remaining modules, being as it is 48.65%.</p>
+<p>With core size, we see that the modules with the highest mean core sizes, <i>security</i> and <i>browser</i>, are noticeably higher than the remaining modules, being as they are 25.91% and 22.35%, respectively.  Some modules have tiny cores, and at least one module, <i>media</i>, has no discernible core.</p>
 <img src="images/coresize_modules_comparison.png" />
 <p class="caption">Chart 10: Mean core size.</p>
 
-<p class="subtitle">4 Take-away</p>
+<p class="subtitle">5 Take-away</p>
 <p>It is impressive that an open-source project developed and maintained by a distributed team of paid staff and volunteers has been able to produce a product as impactful as the Firefox browser.  One sees larger, more expensive, software projects become drastically less maintainable in only a few years by virtue of their development processes becoming more chaotic and coding best practices being abandoned in favor of premature pragmatism.  With Firefox, We see the decision to move to a tighter, more predictable, development process possibly helping to improve quality.</p>
 <p>Firefox's core size is somewhat elevated indicating that highly interconnected files make up a sizable portion of the codebase.  Though the measure shows no signs of following an upward trend, that may quickly change should, say, any organizational dynamics change.  The changes in version 3.0 of the product that led to Firefox's core size increasing by over 200% may be worth looking into.  Having said that, the analysis reveals no imminently alarming red flags when it comes to maintainability.  A number of modules, namely, <i>accessible</i>, <i>browser</i> and <i>security</i>, frequently appear among the most complex modules.  Further investigation may be helpful in identifying why that is the case.</p>
 <p>A caveat worth mentioning in closing is that, as with any set of software metrics, the measures described herein only reveal part of the picture.  The chosen architectural measures make the assumption that directory structure reflects the logical hierarchy of modules within Firefox.  I have not looked into the extent to which this is the case.</p>
 
-<p class="subtitle">5 Next steps</p>
+<p class="subtitle">6 Next steps</p>
 <p>An upcoming article will focus on defects, specifically, classes that show the highest propensity for regressions.  It will also take a closer look at how Firefox's architectural measures of complexity compare to those of other open-source projects.</p>
 
-<p class="subtitle">6 Acknowledgements</p>
-<p>Thanks to <a href="https://brendaneich.com/">Brendan Eich</a> and <a href="https://github.com/saptarshiguha">Saptarshi Guha</a> for their feedback, which helped improve this writeup.  Thanks to <a href="http://www.hbs.edu/faculty/Pages/profile.aspx?facId=6503">Alan MacCormack</a> for sharing his expertise about several of the ideas that were discussed here and <a href="http://blogs.gnome.org/aklapper/">André Klapper</a> for helping with some of the exploratory work that led up to this project.</p>
+<p class="subtitle">7 Acknowledgements</p>
+<p>Thanks to <a href="https://brendaneich.com/">Brendan Eich</a>, Brendan Colloran and <a href="https://github.com/saptarshiguha">Saptarshi Guha</a> for their feedback, which helped improve this writeup.  Thanks to <a href="http://www.hbs.edu/faculty/Pages/profile.aspx?facId=6503">Alan MacCormack</a> for sharing his experience with working with several of the measures that were discussed here and <a href="http://blogs.gnome.org/aklapper/">André Klapper</a> for helping with some of the exploratory work that led up to this project.</p>
 
 <div class="page-break"></div>
 
-<p class="subtitle">7 References</p>
+<p class="subtitle">8 References</p>
 <p>[1] Hatton, L. "The role of empiricism in improving the reliability of future software." Les Hatton. 2008. http://www.leshatton.org.</p>
 <p>[2] Shore, J. An Approximate Measure of Technical Debt. 11 19, 2008. http://jamesshore.com/Blog/An-Approximate-Measure-of-Technical-Debt.html (accessed February 2, 2013).</p>
 <p>[3] Kan, S. H. Metrics and Models in Software Quality Engineering. Addison Wesley, 1995.</p>
@@ -396,8 +404,8 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p>[11] MacCormack, A., C. Baldwin, and J. Rusnak. "The Architecture of Complex Systems: Do Core-periphery Structures Dominate?" MIT Research Paper no. 4770-10, Harvard Business School Finance Working Paper no. 1539115, 2010.</p>
 <p>[12] Almossawi, A., "An Empirical Study of Defects and Reopened Defects in GNOME." Unpublished, 2012.</p>
 
-<p style="border-top:1px solid #cccccc;margin-top:20px;padding-top:50px;padding-bottom:20px">Don't forget to check out the <a href="../">Evolution of the Firefox Codebase</a> page, which allows you to interactively explore the data described herein.  This work is being shared under a Creative Commons license <a href="http://creativecommons.org/licenses/by-nc/3.0/">(CC BY-NC)</a>.  To share your thoughts, feel free to <a href="https://twitter.com/alialmossawi">chat with me on Twitter</a>.</p>
-<p style="padding-bottom:0px;font-size:14px">ali@mozilla.com &nbsp;&middot;&nbsp; May 14, 2013<!-- &nbsp;&middot;&nbsp; <a href="http://twitter.com/alialmossawi">Follow me on Twitter</a>--></p>
+<p style="border-top:1px solid #cccccc;margin-top:20px;padding-top:50px;padding-bottom:20px">Don't forget to check out the <a href="../">Evolution of the Firefox Codebase</a> page, which allows you to interactively explore the data described herein.  This work is being shared under a Creative Commons license <a href="http://creativecommons.org/licenses/by-nc/3.0/">(CC BY-NC)</a>.  To share your thoughts, feel free to <a href="https://twitter.com/alialmossawi">chat with me on Twitter</a>.  Once again, you may download the data from <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdHJUT0M3YXNzdVVYUXRkQzBWellHamc#gid=6">here</a> and <a href="http://almossawi.com/firefox/data/architectural.json">here</a>.</p>
+<p style="padding-bottom:0px;font-size:14px">ali@mozilla.com &nbsp;&middot;&nbsp; May 15, 2013<!-- &nbsp;&middot;&nbsp; <a href="http://twitter.com/alialmossawi">Follow me on Twitter</a>--></p>
 
 <div style="float:left;padding-bottom:20px">
 	<a href="https://twitter.com/alialmossawi" class="twitter-follow-button" data-show-count="false">Follow @alialmossawi</a>
