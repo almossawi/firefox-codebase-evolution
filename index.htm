@@ -247,6 +247,7 @@
                         <p>This metric captures the amount of resident memory used after Mozilla's TP5 test is left running for 30 seconds. Resident memory is the physical amount of memory used by the Firefox process. The TP5 test, run five times in sequence, loads a set of 100 popular webpages into the browser, with a ten-second delay between each page load.</p>
                         <p>We run our memory usage tests on builds from mozilla-central. The result for each release is based on the latest test that was done on the code in mozilla-central before it was branched off to its release-specific branch. There is a gap of a number of weeks between that codebase and the codebase of the final release, hence it is important to keep this caveat in mind when interpreting the data.</p>
                         <p>This data is provided by our colleagues at areweslimyet.com. See their <a href="https://areweslimyet.com/faq.htm">FAQ</a> for more info.</p>
+                        <p><i>note: v20 saw two regressions that were fixed prior to the release.  See <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=820602">this</a> and <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=833518">this</a>.  Since data points here are taken from mozilla-central several weeks before a release, the data point for v20 has been taken out.</i></p>
                     </div>
                     <div class="chart_container" id="allversions_mem">
                     	<span class="container_title">Resident memory</span>
