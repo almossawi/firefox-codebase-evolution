@@ -165,9 +165,10 @@ function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, cu
     svg.append('svg:text')
 			.text("Firefox release")
 			.attr('class', 'y_label')
-    		.attr('text-anchor', 'bottom')
+    		.attr('text-anchor', 'start')
 			.attr('dy', 190)
-			.attr('dx', 307)
+			.attr('dx', 309)
+			.style("letter-spacing", "-1")
 
 	//draw the line
 	var spliced_data;
