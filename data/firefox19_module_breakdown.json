@@ -308,7 +308,7 @@
     		"periphery_size": 340,
     		"shared_size": 951,
     		"control_size": 395,
-    		"percent_in_core": 0.34713622291,
+    		"percent_in_core": 0.34713622291 ,
 			"percent_in_core_at_discontinuity": 0.0588
 		}]
     },

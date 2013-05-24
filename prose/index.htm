@@ -182,18 +182,18 @@ The exploratory tool's source-code as well as the data described herein are avai
 	</tr>
 	<tr>
 		<td class="lhs">loc</td>
-		<td>305,477</td>
-		<td>284,268</td>
-		<td>188,604</td>
-		<td>51,995</td>
-		<td>661,919</td>
+		<td>314,765</td>
+		<td>293,705</td>
+		<td>193,555</td>
+		<td>53,935</td>
+		<td>720,382</td>
 	</tr>
 	<tr>
 		<td class="lhs">cyclomatic complexity</td>
-		<td>157.14</td>
-		<td>157.23</td>
-		<td>27.22</td>
-		<td>77.01</td>
+		<td>158.97</td>
+		<td>157.19</td>
+		<td>26.05</td>
+		<td>80.72</td>
 		<td>207.29</td>
 	</tr>
 	<tr>
@@ -202,31 +202,31 @@ The exploratory tool's source-code as well as the data described herein are avai
 		<td>0.38%</td>
 		<td>0.33%</td>
 		<td>0.05%</td>
-		<td>1.40%</td>
+		<td>1.35%</td>
 	</tr>
 	<tr>
 		<td class="lhs">propagation cost</td>
-		<td>8.03%</td>
-		<td>5.59%</td>
-		<td>6.75%</td>
+		<td>8.58%</td>
+		<td>6.16%</td>
+		<td>7.13%</td>
 		<td>1.00%</td>
 		<td>25.04%</td>
 	</tr>
 	<tr>
 		<td class="lhs">core size</td>
-		<td>8.93%</td>
-		<td>5.03%</td>
-		<td>9.82%</td>
+		<td>7.22%</td>
+		<td>5.73%</td>
+		<td>7.28%</td>
 		<td>0%</td>
-		<td>42.54%</td>
+		<td>32.55%</td>
 	</tr>
 	<tr>
 		<td class="lhs">files</td>
-		<td>2,273</td>
-		<td>1,781</td>
-		<td>1,817</td>
-		<td>440</td>
-		<td>6,800</td>
+		<td>2,306</td>
+		<td>1,970</td>
+		<td>1,825</td>
+		<td>448</td>
+		<td>6,806</td>
 	</tr>
 </table>
 <p class="caption">Table 2: Descriptive statistics for the set of Firefox modules (n=70)</p>
@@ -326,25 +326,25 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p class="subtitle">4.3 A subset of modules appears to be noticeably more complex than the rest</p>
 <p>Splitting our module-level data by module and looking at the mean values for each module for each of the above metrics gives some insight into how the different modules fare in terms of complexity, as shown in the following charts.</p>
 
-<p>In terms of internal complexity, our modules range from a mean cyclomatic complexity of 121.94 to 194.48.</p>
+<p>In terms of internal complexity, our modules range from a mean cyclomatic complexity of 121.95 to 194.48.</p>
 <img src="images/mccabe_modules_comparison.png" />
 <p class="caption">Chart 7: Mean cyclomatic complexity.</p>
 
-<p>Looking at first-order density, <i>browser</i> stands out as having a mean density that is noticeably higher than the next module, that is, 1.13% compared to 0.73%.</p>
+<p>Looking at first-order density, <i>browser</i> stands out as having a mean density that is noticeably higher than the next module, that is, 1.10% compared to 0.73%.</p>
 <img src="images/density_modules_comparison.png" />
 <p class="caption">Chart 8: Mean first-order density.</p>
 
-<p>With propagation cost, we see that the three modules with the highest mean propagation costs, <i>security</i>, <i>browser</i> and <i>accessible</i>, are all noticeably higher than the remaining modules, being as they are 20.85%, 18.23% and 15.77%, respectively.  In some releases, such as in v16.0, we see the propagation costs of <i>accessible</i> and <i>browser</i> jump from 7.31% to 23.80% and from 2.62% to 19.67%, respectively, indicating a possibly adverse architectural change that was made in that release.  The measure comes down in future releases for those two modules, though only negligibly.</p>
+<p>With propagation cost, we see that the three modules with the highest mean propagation costs, <i>accessible</i>, <i>security</i> and <i>browser</i>, are all noticeably higher than the remaining modules, being as they are 21.32%, 20.85% and 20.39%, respectively.  In some releases, such as in v18, we see the propagation cost of <i>gfx</i> jump from 8.93% to 16.44%, indicating a possibly adverse architectural change that was made in that release.  The measure comes down in future releases for that module.</p>
 <img src="images/propcost_modules_comparison.png" />
 <p class="caption">Chart 9: Mean propagation cost.</p>
 
-<p>With core size, we see that the modules with the highest mean core size, <i>security</i> and <i>browser</i>, are noticeably higher than the remaining modules, being as they are 25.91% and 22.35%, respectively.  Some modules have tiny cores, and at least one module, <i>media</i>, has no discernible core.</p>
+<p>With core size, we see that the module with the highest mean core size, <i>security</i>, is noticeably higher than the remaining modules, being as it is 25.91%.  Some modules have tiny cores, and at least one module, <i>media</i>, has no discernible core.</p>
 <img src="images/coresize_modules_comparison.png" />
 <p class="caption">Chart 10: Mean core size.</p>
 
 <p class="subtitle">5 Take-away</p>
 <p>It is impressive that an open-source project developed and maintained by a distributed team of paid staff and volunteers has been able to produce a product as impactful as the Firefox browser.  One sees larger, more expensive, software projects become drastically less maintainable in only a few years by virtue of their development processes becoming more chaotic and coding best practices being abandoned in favor of premature pragmatism.  With Firefox, We see the decision to move to a tighter, more predictable, development process possibly helping to improve quality.</p>
-<p>Firefox's core size may be somewhat elevated indicating that highly interconnected files make up a sizable portion of the codebase.  Though the measure shows no signs of following an upward trend, that may quickly change should, say, any organizational dynamics change.  The changes in version 3.0 of the product that led to Firefox's core size increasing by over 200% may be worth looking into.  Having said that, the analysis reveals no imminently alarming red flags when it comes to maintainability.  A number of modules, namely, <i>accessible</i>, <i>browser</i> and <i>security</i>, frequently appear among the most complex modules.  Further investigation may be helpful in identifying why that is the case.</p>
+<p>Firefox's core size may be somewhat elevated indicating that highly interconnected files make up a sizable portion of the codebase.  Though the measure shows no signs of following an upward trend, that may quickly change should, say, any organizational dynamics change.  The changes in version 3.0 of the product that led to Firefox's core size increasing by over 200% may be worth looking into.  Having said that, the analysis reveals no imminently alarming red flags when it comes to maintainability.  A number of modules, such as <i>browser</i> and <i>security</i>, frequently appear among the most complex modules.  Further investigation may be helpful in identifying why that is the case.</p>
 <p>A caveat worth mentioning in closing is that, as with any set of software metrics, the measures described herein only reveal part of the picture.  The chosen architectural measures make the assumption that directory structure reflects the logical hierarchy of modules within Firefox.  I have not looked into the extent to which this is the case.</p>
 
 <p class="subtitle">6 Next steps</p>
@@ -370,7 +370,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p>[12] Almossawi, A., "An Empirical Study of Defects and Reopened Defects in GNOME." Unpublished, 2012.</p>
 
 <p style="border-top:1px solid #cccccc;margin-top:20px;padding-top:50px;padding-bottom:20px">Don't forget to check out the <a href="../">Evolution of the Firefox Codebase</a> page, which allows you to interactively explore the data described herein.  This work is being shared under a Creative Commons license <a href="http://creativecommons.org/licenses/by-nc/3.0/">(CC BY-NC)</a>.  To share your thoughts, feel free to <a href="https://twitter.com/alialmossawi">chat with me on Twitter</a>.  Once again, you may download the data from <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdHJUT0M3YXNzdVVYUXRkQzBWellHamc#gid=6">here</a> and <a href="http://almossawi.com/firefox/data/architectural.json">here</a>.</p>
-<p style="padding-bottom:0px;font-size:14px">ali@mozilla.com &nbsp;&middot;&nbsp; May 15, 2013 &nbsp;&middot;&nbsp; <span style="font-size:9pt;color:#6b6b6b">Updated May 23, 2013 to <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdEQyc3RfTjYyUzFGMEI1RzE5a0tzTXc#gid=075">include .jsm files</a> (thanks to <a href="https://twitter.com/fabricedesre">Fabrice Desré</a>, <a href="https://twitter.com/dietrich">Dietrich Ayala</a> and <a href="https://twitter.com/EnglishMossop">Dave Townsend</a>)</span></p>
+<p style="padding-bottom:0px;font-size:14px">ali@mozilla.com &nbsp;&middot;&nbsp; May 15, 2013 &nbsp;&middot;&nbsp; <span style="font-size:9pt;color:#6b6b6b">Updated May 24, 2013 to <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdEQyc3RfTjYyUzFGMEI1RzE5a0tzTXc#gid=075">include .jsm files</a> (thanks to <a href="https://twitter.com/fabricedesre">Fabrice Desré</a>, <a href="https://twitter.com/dietrich">Dietrich Ayala</a> and <a href="https://twitter.com/EnglishMossop">Dave Townsend</a>)</span></p>
 
 <div style="float:left;padding-bottom:20px">
 	<a href="https://twitter.com/alialmossawi" class="twitter-follow-button" data-show-count="false">Follow @alialmossawi</a>
