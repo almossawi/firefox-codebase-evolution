@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>How maintainable is the Firefox codebase?</title>
+        <link href='https://fonts.googleapis.com/css?family=Lato:300,700' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Signika:400,300' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+        <link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="css/styles_blog.css">
+        <style>
+            table {
+                float:left;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-35624223-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+        <div id="main_container" style="width:1420px">
+            <div id="content">
+                <div class="post">
+                    <br />
+                    <table>
+                        <tr class="header">
+                            <td></td>
+                            <td>Mean</td>
+                            <td>Median</td>
+                            <td>Stdev</td>
+                            <td>Min</td>
+                            <td>Max</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">loc</td>
+                            <td>3,833,799</td>
+                            <td>3,747,073</td>
+                            <td>932,822</td>
+                            <td>2,314,060</td>
+                            <td>5,407,382</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">cyclomatic complexity</td>
+                            <td>189.03</td>
+                            <td>186.61</td>
+                            <td>15.63</td>
+                            <td>163.64</td>
+                            <td>214.15</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">first-order density</td>
+                            <td>2.91</td>
+                            <td>2.38</td>
+                            <td>1.63</td>
+                            <td>1.65</td>
+                            <td>6.73</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">propagation cost</td>
+                            <td>5.20%</td>
+                            <td>5.21%</td>
+                            <td>1.13%</td>
+                            <td>2.18%</td>
+                            <td>6.99%</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">core size</td>
+                            <td>11.34%</td>
+                            <td>12.72%</td>
+                            <td>3.84%</td>
+                            <td>2.85%</td>
+                            <td>16.62%</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">files</td>
+                            <td>27,949</td>
+                            <td>27,758</td>
+                            <td>8,341</td>
+                            <td>12,822</td>
+                            <td>40,322</td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr class="header">
+                            <td></td>
+                            <td>Mean</td>
+                            <td>Median</td>
+                            <td>Stdev</td>
+                            <td>Min</td>
+                            <td>Max</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">loc</td>
+                            <td>3,870,870</td>
+                            <td>3,777,124</td>
+                            <td>961,098</td>
+                            <td>2,314,060</td>
+                            <td>5,493,638</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">cyclomatic complexity</td>
+                            <td>188.82</td>
+                            <td>186.34</td>
+                            <td>15.72</td>
+                            <td>163.47</td>
+                            <td>214.15</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">first-order density</td>
+                            <td>2.89</td>
+                            <td>2.31</td>
+                            <td>1.64</td>
+                            <td>1.65</td>
+                            <td>6.73</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">propagation cost</td>
+                            <td>5.45%</td>
+                            <td>5.71%</td>
+                            <td>0.99%</td>
+                            <td>3.21%</td>
+                            <td>6.85%</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">core size</td>
+                            <td>12.44%</td>
+                            <td>13.73%</td>
+                            <td>3.87%</td>
+                            <td>2.85%</td>
+                            <td>16.62%</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">files</td>
+                            <td>28,331</td>
+                            <td>27,347</td>
+                            <td>8,458</td>
+                            <td>12,822</td>
+                            <td>40,582</td>
+                        </tr>
+                    </table>
+                    <div style="clear:both"></div>
+                    <p class="caption">Descriptive statistics for releases before and after adding .jsm files (n=23)</p>
+                    <br />
+                    <table>
+                        <tr class="header">
+                            <td></td>
+                            <td>Mean</td>
+                            <td>Median</td>
+                            <td>Stdev</td>
+                            <td>Min</td>
+                            <td>Max</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">loc</td>
+                            <td>305,477</td>
+                            <td>284,268</td>
+                            <td>188,604</td>
+                            <td>51,995</td>
+                            <td>661,919</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">cyclomatic complexity</td>
+                            <td>157.14</td>
+                            <td>157.23</td>
+                            <td>27.22</td>
+                            <td>77.01</td>
+                            <td>207.29</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">first-order density</td>
+                            <td>0.44%</td>
+                            <td>0.38%</td>
+                            <td>0.33%</td>
+                            <td>0.05%</td>
+                            <td>1.40%</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">propagation cost</td>
+                            <td>8.03%</td>
+                            <td>5.59%</td>
+                            <td>6.75%</td>
+                            <td>1.00%</td>
+                            <td>25.04%</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">core size</td>
+                            <td>8.93%</td>
+                            <td>5.03%</td>
+                            <td>9.82%</td>
+                            <td>0%</td>
+                            <td>42.54%</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">files</td>
+                            <td>2,273</td>
+                            <td>1,781</td>
+                            <td>1,817</td>
+                            <td>440</td>
+                            <td>6,800</td>
+                        </tr>
+                    </table>
+                    <table>
+                        <tr class="header">
+                            <td></td>
+                            <td>Mean</td>
+                            <td>Median</td>
+                            <td>Stdev</td>
+                            <td>Min</td>
+                            <td>Max</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">loc</td>
+                            <td>314,765</td>
+                            <td>293,705</td>
+                            <td>193,555</td>
+                            <td>53,935</td>
+                            <td>720,382</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">cyclomatic complexity</td>
+                            <td>158.97</td>
+                            <td>157.19</td>
+                            <td>26.05</td>
+                            <td>80.72</td>
+                            <td>207.29</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">first-order density</td>
+                            <td>0.44%</td>
+                            <td>0.38%</td>
+                            <td>0.33%</td>
+                            <td>0.05%</td>
+                            <td>1.35%</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">propagation cost</td>
+                            <td>8.58%</td>
+                            <td>6.16%</td>
+                            <td>7.13%</td>
+                            <td>1.00%</td>
+                            <td>25.04%</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">core size</td>
+                            <td>7.22%</td>
+                            <td>5.73%</td>
+                            <td>7.28%</td>
+                            <td>0%</td>
+                            <td>32.55%</td>
+                        </tr>
+                        <tr>
+                            <td class="lhs">files</td>
+                            <td>2,306</td>
+                            <td>1,970</td>
+                            <td>1,825</td>
+                            <td>448</td>
+                            <td>6,806</td>
+                        </tr>
+                    </table>
+                    <div style="clear:both"></div>
+                    <p class="caption">Descriptive statistics for modules before and after adding .jsm files (n=70)</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

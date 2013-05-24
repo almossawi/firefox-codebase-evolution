@@ -326,15 +326,15 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p class="subtitle">4.3 A subset of modules appears to be noticeably more complex than the rest</p>
 <p>Splitting our module-level data by module and looking at the mean values for each module for each of the above metrics gives some insight into how the different modules fare in terms of complexity, as shown in the following charts.</p>
 
-<p>In terms of internal complexity, our modules range from a mean cyclomatic complexity of 121.95 to 194.48.</p>
+<p>In terms of internal complexity, our modules range from a mean cyclomatic complexity of 121.43 to 194.48.</p>
 <img src="images/mccabe_modules_comparison.png" />
 <p class="caption">Chart 7: Mean cyclomatic complexity.</p>
 
-<p>Looking at first-order density, <i>browser</i> stands out as having a mean density that is noticeably higher than the next module, that is, 1.10% compared to 0.73%.</p>
+<p>Looking at first-order density, <i>browser</i> stands out as having a mean density that is noticeably higher than the next module, that is, 1.24% compared to 0.73%.</p>
 <img src="images/density_modules_comparison.png" />
 <p class="caption">Chart 8: Mean first-order density.</p>
 
-<p>With propagation cost, we see that the three modules with the highest mean propagation costs, <i>accessible</i>, <i>security</i> and <i>browser</i>, are all noticeably higher than the remaining modules, being as they are 21.32%, 20.85% and 20.39%, respectively.  In some releases, such as in v18, we see the propagation cost of <i>gfx</i> jump from 8.93% to 16.44%, indicating a possibly adverse architectural change that was made in that release.  The measure comes down in future releases for that module.</p>
+<p>With propagation cost, we see that the three modules with the highest mean propagation costs, <i>accessible</i>, <i>security</i> and <i>browser</i>, are all noticeably higher than the remaining modules, being as they are 21.32%, 20.85% and 19.98%, respectively.  In some releases, such as in v18, we see the propagation cost of <i>gfx</i> jump from 8.93% to 16.44%, indicating a possibly adverse architectural change that was made in that release.  The measure comes down in future releases for that module.</p>
 <img src="images/propcost_modules_comparison.png" />
 <p class="caption">Chart 9: Mean propagation cost.</p>
 
