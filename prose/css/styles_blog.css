@@ -230,6 +230,11 @@ path {
   stroke:#2b2b2b;
 }
 
+.additional_path_format {
+  stroke:#cccccc;
+}
+
+
 line {
   stroke-width:1px;
   stroke:#cccccc;

@@ -937,7 +937,7 @@ function drawCharts() {
 				splice_from = 0,
 				max_y_value = "";
 			
-			if(id == "allversions_prop_cost" || id == "allversions_percent_in_core_at_discontinuity")
+			if(id == "allversions_prop_cost_no_unit_tests" || id == "allversions_percent_in_core_no_unit_tests" || id == "allversions_percent_in_core_at_discontinuity_no_unit_tests")
 				format = "%";
 			
 			if(id == "allversions_speed")
@@ -950,10 +950,13 @@ function drawCharts() {
 			if(id == "allversions_mem" || id == "allversions_speed") splice_from = 6;
 			if(id == "allversions_defects_per_hundred_thousand_loc_code") splice_from = 7;
 			
-			if(id == "allversions_prop_cost")
-				max_y_value = 0.25;
+			if(id == "allversions_prop_cost_no_unit_tests")
+				max_y_value = 0.45;
 				
-			if(id == "allversions_percent_in_core_at_discontinuity")
+			if(id == "allversions_percent_in_core_no_unit_tests")
+				max_y_value = 1;
+				
+			if(id == "allversions_percent_in_core_at_discontinuity_no_unit_tests")
 				max_y_value = 0.5;
 			
 			drawEachBelowTheFoldChart(eval("data."+id), "#chart_container_container #" + id, format, humanify_numbers, custom_units, splice_from, max_y_value);
@@ -1280,6 +1283,7 @@ function getModuleColor(d, which_version) {
 			&& (d.to_file <= which_version[modules[i]][1] && d.to_file >= which_version[modules[i]][0])
 		) {
 			return "rgba(" + module_colors[modules[i]] + "," + alpha + ")";
+			//return "rgba(255,255,255," + alpha + ")"; //return white, used for media lab slides
 		}
 	}
 	

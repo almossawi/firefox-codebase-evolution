@@ -10,6 +10,8 @@ function drawCharts() {
 		var architectural_data_full = data;
 		
 		$.each($(".chart_container"), function(index, value) {
+			var additional_data = "";
+			
 			var id= $(value).attr("id"); //console.log("id is " + id);
 			var format = "s",
 				humanify_numbers = true,
@@ -17,7 +19,7 @@ function drawCharts() {
 				splice_from = 0,
 				max_y_value = "";
 			
-			if(id == "allversions_prop_cost" || id == "allversions_percent_in_core" || id == "allversions_percent_in_core_at_discontinuity")
+			if(id == "allversions_prop_cost_no_unit_tests" || id == "allversions_percent_in_core_no_unit_tests" || id == "allversions_percent_in_core_at_discontinuity_no_unit_tests")
 				format = "%";
 			
 			if(id == "allversions_speed")
@@ -28,29 +30,37 @@ function drawCharts() {
 				
 			if(id == "allversions_crashes") splice_from = 8;
 			if(id == "allversions_mem" || id == "allversions_speed") splice_from = 6;
-			if(id == "allversions_defects_per_hundred_thousand_loc_code") splice_from = 7;
+			if(id == "allversions_defects_per_hundred_thousand_loc_code_no_unit_tests") splice_from = 7;
 			
-			if(id == "allversions_prop_cost")
-				max_y_value = 0.25;
+			if(id == "allversions_prop_cost_no_unit_tests")
+				max_y_value = 0.45;
 				
-			if(id == "allversions_percent_in_core")
+			if(id == "allversions_percent_in_core_no_unit_tests")
 				max_y_value = 1;
 				
-			if(id == "allversions_percent_in_core_at_discontinuity")
+			if(id == "allversions_percent_in_core_at_discontinuity_no_unit_tests")
 				max_y_value = 0.5;
+			
+			if(id == "allversions_loc_code_no_unit_tests")
+				additional_data = data.allversions_loc_code_notestfiles;
 				
 			console.log(id);
-			drawEachBelowTheFoldChart(eval("data."+id), "#" + id, format, humanify_numbers, custom_units, splice_from, max_y_value);
+			drawEachBelowTheFoldChart(eval("data."+id), "#" + id, format, humanify_numbers, custom_units, splice_from, max_y_value, additional_data);
 		});
 	});
 }
 
-function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, custom_units, splice_from, max_y_value) {
+function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, custom_units, splice_from, max_y_value, additional_data) {
+	console.log(data);
+	
 	var w = 700,
 		h = 200,
 		xPadding = 22,
 		yPadding = 30,
 		enter_animation_duration = 600;
+		
+	//for media lab poster
+	//w = 570;
 	
 	//we always use the div within the container for placing the svg
 	container += " div";
@@ -68,6 +78,8 @@ function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, cu
     //if(format == "%") {
     //	yMax = 1; //0 to 100%
     //}
+    
+    //yMax = 0.4;
 
 	//console.log(d3.keys(data));
 	//console.log(d3.keys(data).sort(function(a,b) { return a-b; }));
@@ -160,7 +172,7 @@ function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, cu
     	.attr('y2', xPadding)
     	.attr('x1', 0)
     	.attr('x2', 0);
-			
+
     //y labels
     svg.append('svg:text')
 			.text("Firefox release")
@@ -196,12 +208,23 @@ function drawEachBelowTheFoldChart(data, container, format, humanify_numbers, cu
 	    			console.log(d3.entries(data_zeros_removed));
 	    			return line(d3.entries(data_zeros_removed));
 	    			*/
-	    			
     		if(splice_from != 0)
     			return line(spliced_data);
     		else
     			return line(d3.entries(data));
     	});
+    	
+    /*if(additional_data != "") {
+    	console.log(container);
+    	
+    	svg.append("svg:path")
+	    	.attr("class", "the_glorious_line additional_path_format")
+    		.attr("d", function() {
+    			console.log(d3.entries(data));
+    			console.log(d3.entries(additional_data));
+    			return line(d3.entries(additional_data));
+    		});
+    }*/
     	
     //x-axis text	
     /*d3.select(which_metric + " svg")

@@ -6,7 +6,7 @@
   	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <meta property="og:title" content="How maintainable is the Firefox codebase?" />
-    <meta property="og:description" content="This work explores a particular facet of quality in Firefox, namely, maintainability.  By appealing to the explanatory powers of five practical measures of architectural complexity, and with the aid of static analysis and network manipulation tools, we arrive at some preliminary findings.  We find that 12% of files in Firefox are highly interconnected, a value that went up significantly following version 3.0.  We find that making any change to a randomly selected file can, on average, directly impact eight files and indirectly impact over 1,500 files.  We see that files' internal complexity is on average going down.  Their external complexity as measured by direct dependencies is also going down, whereas their external complexity as measured by propagation cost has remained steady.  With respect to process, we find that the switch to the rapid release cycle from version 5.0 onwards had a positive impact on quality.  Though the analysis reveals no imminently alarming red flags when it comes to maintainability, it does shine light on a number of issues that would be worth investigating." />
+    <meta property="og:description" content="This work explores a particular facet of quality in Firefox, namely, maintainability.  By appealing to the explanatory powers of five practical measures of architectural complexity, and with the aid of static analysis and network manipulation tools, we arrive at some preliminary findings.  We find that 21% of files in Firefox are highly interconnected, a value that went up significantly following version 3.0.  We find that making any change to a randomly selected file can, on average, directly impact 10 files and indirectly impact over 2,300 files.  We see that files' internal complexity is on average going down.  Their external complexity as measured by direct dependencies is also going down, whereas their external complexity as measured by propagation cost has remained steady.  With respect to process, we find that the switch to the rapid release cycle from version 5.0 onwards had a positive impact on quality.  Though the analysis reveals no imminently alarming red flags when it comes to maintainability, it does shine light on a number of issues that would be worth investigating." />
     <meta property="og:image" content="http://almossawi.com/fx-logo.png" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="http://almossawi.com/firefox/prose" />
@@ -43,7 +43,7 @@
 				<div style="position:absolute;margin-top:20px;height:40px"></div>
 				<h1>How maintainable is the Firefox codebase?</h1>
 				<h2>ALI ALMOSSAWI</h2>
-				<div class="date">May 15, 2013</div>
+				<div class="date">May 15, 2013 (updated July 26, 2013)</div>
 				
 <br /><br /><br />
 <!--<p>Look at this joyful man.</p>
@@ -53,7 +53,7 @@
 <p>He looks healthy doesn't he?  Not so fast, says Medical Science.  He might very well be healthy, but to make sure, we first need to probe his insides and take a look at his internal organs.</p>-->
 
 <p class="subtitle">Abstract</p>
-<p>This work explores a particular facet of quality in Firefox, namely, maintainability.  By appealing to the explanatory powers of five practical measures of architectural complexity, and with the aid of static analysis and network manipulation tools, we arrive at some preliminary findings.  We find that 12% of files in Firefox are highly interconnected, a value that went up significantly following version 3.0.  We find that making any change to a randomly selected file can, on average, directly impact eight files and indirectly impact over 1,500 files.  We see that files' internal complexity is on average going down.  Their external complexity as measured by direct dependencies is also going down, whereas their external complexity as measured by propagation cost has remained steady.  With respect to process, we find that the switch to the rapid release cycle from version 5.0 onwards had a positive impact on quality.  Though the analysis reveals no imminently alarming red flags when it comes to maintainability, it does shine light on a number of issues that would be worth investigating.  An upcoming article will take a closer look at how Firefox's architectural measures of complexity compare to those of other open-source projects.</p>
+<p>This work explores a particular facet of quality in Firefox, namely, maintainability.  By appealing to the explanatory powers of five practical measures of architectural complexity, and with the aid of static analysis and network manipulation tools, we arrive at some preliminary findings.  We find that 21% of files in Firefox are highly interconnected, a value that went up significantly following version 3.0.  We find that making any change to a randomly selected file can, on average, directly impact 10 files and indirectly impact over 2,300 files.  We see that files' internal complexity is on average going down.  Their external complexity as measured by direct dependencies is also going down, whereas their external complexity as measured by propagation cost has remained steady.  With respect to process, we find that the switch to the rapid release cycle from version 5.0 onwards had a positive impact on quality.  Though the analysis reveals no imminently alarming red flags when it comes to maintainability, it does shine light on a number of issues that would be worth investigating.  An upcoming article will take a closer look at how Firefox's architectural measures of complexity compare to those of other open-source projects.</p>
 
 <p class="subtitle">1 Intro</p>
 <p>The question that motivated this inquiry was: &ldquo;How healthy is the Firefox codebase&rdquo;, which suggests that the fundamental facet of interest in the system at hand is its quality.  The goal of this work was two-fold:</p>
@@ -70,7 +70,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 
 <p class="subtitle">2.1 LOC</p>
 <p>LOC measures the number of executable lines of code in each release, ignoring comments and blank lines, and is widely used as a baseline measure of quality [1][2]. A system with more LOC is typically more difficult to maintain.  LOC and defect density have an inverse relationship [3][4][5], or according to some studies a curvilinear relationship [6].  This may seem counterintuitive at first.  The explanation is that firstly, architecture does not change at the same rate as LOC, and secondly, that a sizable number of defects occur within the interfaces that tie modules or components together.  In a small system, the likelihood of a defect occuring in an interface is fairly high.  As the system's size increases, most of the new code ends up going into modules and components rather than into new interfaces, and hence the propensity for defects per LOC goes down as LOC goes up.
-<p>Here, the set of analyzed files includes all files that meet our file-type filter<sup>1</sup>, including unit tests, which in some versions constitute over 50% of all files and up to several hundreds of thousands of LOC. A lot of these unit tests are thrown out during a later stage for being singletons, i.e. having no dependencies to or from any other file in the codebase.</p>
+<p>Here, the set of analyzed files includes all files that meet our file-type filter<sup>1</sup>, not including unit tests.  The original version of this article included unit tests in the analysis since the original aim was to show the evolution of the Firefox codebase.  Now, with the focus shifted to comparing Firefox to other codebases, which will be the subject of an upcoming article, it no longer makes sense to have those files as part of the analysis, even with their negligible impact on the results.</p>
 
 <p class="footy"><sup>1</sup> .c, .C, .cc, .cpp, .css, .cxx, .h, .H, .hh, .hpp, .htm, .html, .hxx, .inl, .java, .js, .jsm, .py, .s, .xml</p>
 
@@ -81,7 +81,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 <div class="page-break"></div>
 	
 <p class="subtitle">2.3 First-order density</p>
-<p>First-order density measures the number of direct dependencies between files.  It is calculated by first building an adjacency matrix, sometimes called a Design Structure Matrix (DSM), using the set of source-code files sorted by their hierarchical directory structure. Wherever a file in a particular row depends on a file in a particular column, we mark the element with a '1'.  Because we're only capturing direct dependencies, this matrix is referred to as a first-order dependency matrix.  The density of said matrix is the first-order density.  For releases, we show it per 10,000 file pairs whereas for modules, where matrices are generally not as sparse, we show the density as a percentage.</p>
+<p>First-order density measures the number of direct dependencies between files.  It is calculated by first building an adjacency matrix, sometimes called a Design Structure Matrix (DSM), using the set of source-code files sorted by their hierarchical directory structure. Wherever a file in a particular row depends on a file in a particular column, we mark the element with a '1'.  Because we are only capturing direct dependencies, this matrix is referred to as a first-order dependency matrix.  The density of said matrix is the first-order density.  For releases, we show it per 10,000 file pairs whereas for modules, where matrices are generally not as sparse, we show the density as a percentage.</p>
 <p>In such a matrix, a square-shaped cluster indicates many dependencies between files within a module.  All the dots to the right and left of a cluster are files that the module depends on. All files above and below it are files that depend on it. In many paradigms, modularity (low coupling, high cohesion) is a desirable quality attribute. Hence, an ideal system has modules that have more intra-module dependencies and fewer inter-module dependencies.</p>
 
 <p class="subtitle">2.4 Propagation cost</p>
@@ -119,56 +119,57 @@ The exploratory tool's source-code as well as the data described herein are avai
 	</tr>
 	<tr>
 		<td class="lhs">loc</td>
-		<td>3,870,870</td>
-		<td>3,777,124</td>
-		<td>961,098</td>
-		<td>2,314,060</td>
-		<td>5,493,638</td>
+		<td>2,885,799</td>
+		<td>2,686,348</td>
+		<td>595,408</td>
+		<td>2,066,655</td>
+		<td>4,012,434</td>
 	</tr>
 	<tr>
 		<td class="lhs">cyclomatic complexity</td>
-		<td>188.82</td>
-		<td>186.34</td>
-		<td>15.72</td>
-		<td>163.47</td>
-		<td>214.15</td>
+		<td>188.37</td>
+		<td>187.54</td>
+		<td>18.52</td>
+		<td>155.67</td>
+		<td>217.95</td>
 	</tr>
 	<tr>
 		<td class="lhs">first-order density</td>
-		<td>2.89</td>
-		<td>2.31</td>
+		<td>7.82</td>
+		<td>8.43</td>
 		<td>1.64</td>
-		<td>1.65</td>
-		<td>6.73</td>
+		<td>5.17</td>
+		<td>10.64</td>
 	</tr>
 	<tr>
 		<td class="lhs">propagation cost</td>
-		<td>5.45%</td>
-		<td>5.71%</td>
-		<td>0.99%</td>
-		<td>3.21%</td>
-		<td>6.85%</td>
+		<td>17.45%</td>
+		<td>19.18%</td>
+		<td>5.93%</td>
+		<td>4.02%</td>
+		<td>24.24%</td>
 	</tr>
 	<tr>
 		<td class="lhs">core size</td>
-		<td>12.44%</td>
-		<td>13.73%</td>
-		<td>3.87%</td>
-		<td>2.85%</td>
-		<td>16.62%</td>
+		<td>21.39%</td>
+		<td>22.73%</td>
+		<td>6.17%</td>
+		<td>6.84%</td>
+		<td>28.84%</td>
+		
 	</tr>
 	<tr>
 		<td class="lhs">files</td>
-		<td>28,331</td>
-		<td>27,347</td>
-		<td>8,458</td>
-		<td>12,822</td>
-		<td>40,582</td>
+		<td>13,266</td>
+		<td>11,907</td>
+		<td>2,844</td>
+		<td>9,478</td>
+		<td>18,460</td>
 	</tr>
 </table>
 <p class="caption">Table 1: Descriptive statistics for the set of Firefox releases (n=23)</p>
 
-<p>Full details are available in the spreadsheet <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdHJUT0M3YXNzdVVYUXRkQzBWellHamc#gid=6">here</a> and the .json file <a href="http://almossawi.com/firefox/data/architectural.json">here</a>.</p>
+<p>Full details are available in the spreadsheet <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdHJUT0M3YXNzdVVYUXRkQzBWellHamc#gid=9">here</a> and the .json file <a href="http://almossawi.com/firefox/data/architectural.json">here</a>.</p>
 <p>For each of the past five releases of Firefox (v16.0 to v20.0), we also analyze individual modules.  A module is defined as a top-level directory in the codebase that is also listed on the <a href="https://developer.mozilla.org/en-US/docs/Mozilla_Source_Code_Directory_Structure">Mozilla Source Code Directory Structure</a> page.  Modules that have fewer than several hundreds of files are not analyzed for the reasons mentioned earlier.  The following table shows descriptive statistics for our set of modules.  Comparing, say, the mean core size in both tables suggests that some portion of that measure for Firefox releases is driven by some of the smaller modules.</p>
 
 <table>
@@ -278,24 +279,24 @@ The exploratory tool's source-code as well as the data described herein are avai
 
 <p class="subtitle">4 Findings</p>
 <p class="subtitle">4.1 Architectural indicators generally show satisfactory levels of maintainability</p>
-	<p>Cyclomatic complexity shows a slow decreasing trend at a mean rate of -0.86% with the most recent release showing it to be the lowest ever.  This is a good thing.  It indicates that the code within files is, on average, getting less complex.</p>
-	<div class="chart_container" id="allversions_mccabe_per_kloc">
+	<p>Cyclomatic complexity shows a slow decreasing trend at a mean rate of -1.11% with the most recent release showing it to be the lowest ever.  This is a good thing.  It indicates that the code within files is, on average, getting less complex.</p>
+	<div class="chart_container" id="allversions_mccabe_per_kloc_no_unit_tests">
 		<div></div>
 	</div>
 	<p class="caption">Chart 2: Cyclomatic complexity.</p>
 	
 	<div class="page-break"></div>
 	
-	<p>LOC code is growing at a mean rate of 4.12%.  Using other open-source codebases as benchmarks, this appears to be a reasonable rate.  Only in v4.0 did LOC grow at a noticeably larger rate of 20.98%.  Given the context, this may be understandable seeing how significant a release v4.0 was for Mozilla.  At no point do we see substantial drops in LOC, something that would be indicative of a major refactoring effort, as was the case with the original Mozilla browser.</p>
-	<div class="chart_container" id="allversions_loc_code">
+	<p>LOC code is growing at a mean rate of 3.07%.  Using other open-source codebases as benchmarks, this appears to be a reasonable rate.  Only in v4.0 did LOC grow at a noticeably larger rate of 18.53%.  Given the context, this may be understandable seeing how significant a release v4.0 was for Mozilla.  At no point do we see substantial drops in LOC, something that would be indicative of a major refactoring effort, as was the case with the original Mozilla browser.</p>
+	<div class="chart_container" id="allversions_loc_code_no_unit_tests">
 		<div></div>
 	</div>
 	<p class="caption">Chart 3: LOC.</p>
 	
 	<!--<div class="page-break"></div>-->
 	
-	<p>We see a decreasing trend in first-order density, with the most significant drop occurring in v3.5 (-33.84%).  The mean number of dependencies per 10,000 file pairs is 2.89, with the maximum being 6.73 in the earliest release (v1.0) and the minimum being 1.65 in the latest release (v20.0).  This tells us that the complexity between files as measured by direct dependencies has decreased, which is a good thing.  For the average Firefox release, changing a randomly chosen file has the potential of impacting 0.000289% of files, or 8 files.</p>
-	<div class="chart_container" id="allversions_dependencies_density_per_ten_thousand_file_pairs">
+	<p>We see a decreasing trend in first-order density, with the most significant drop occurring in v4.0 (-14.92%).  We see a general increase in direct dependencies in the subset of releases surrounding v3.0, some of which were in development for long periods of time.  The largest growth is 19.85% and occurrs in v3.0.  The mean number of dependencies per 10,000 file pairs is 7.82, with the maximum being 10.64 in v3.5 and the minimum being 5.17 in the v18.0.  This tells us that the complexity between files as measured by direct dependencies has decreased, which is a good thing.  For the average Firefox release, changing a randomly chosen file has the potential of impacting 0.000782% of files, or ten files.</p>
+	<div class="chart_container" id="allversions_dependencies_density_per_ten_thousand_file_pairs_no_unit_tests">
 		<div></div>
 	</div>
 	<p class="caption">Chart 4: First-order density.</p>
@@ -303,25 +304,25 @@ The exploratory tool's source-code as well as the data described herein are avai
 		
 	<div class="page-break"></div>
 	
-	<p>We see a stable propagation cost with a mean of 5.45% and a standard deviation of just 0.99%.  Thus, a change to a randomly selected file in Firefox has the potential to ultimately impact 5.45% of files.  For the average Firefox release that means around 1,544 files.  The stability of propagation cost is a good indicator, and the value is in my experience reasonable.  Propagation cost varies between 3.21% in v3.5 and 6.85% in v17.0.</p>
-	<div class="chart_container" id="allversions_prop_cost">
+	<p>We see a growing propagation cost that starts at 4% and continues to increase with a mean of 58.86% up until v5.0, after which it stabilizes, seeing as its growth goes down to 2.09%.  v5.0 is an interesting release as it is the first in Mozilla's Rapid Release Cycle.  The shift in propagation cost in v3.5 may be considered a regime shift.  In practical terms, what propagation cost shows is that a change to a randomly selected file in Firefox has the potential to ultimately impact 17.45% of files.  For the average Firefox release that means around 2,308 files.  The stability of propagation cost is a good indicator, and the value is in my experience reasonable.  Propagation cost varies between 4.02% in v1.0 and 24.24% in v5.0.</p>
+	<div class="chart_container" id="allversions_prop_cost_no_unit_tests">
 		<div></div>
 	</div>
 	<p class="caption">Chart 5: Propagation cost.</p>
 	
-	<p>Core size shows a regime shift at v3.0 with the mean size increasing from 3.55% to 13.78%.  v3.0 is the only Firefox release to have been in development for two years.   All others before the Rapid Release Cycle spent approximately one year in development. Further investigation would be needed to uncover what, during those two years of development, was the main driver of this uplift in the number of highly interconnected files.  Note that the total number of dependencies dropped significantly in that release, however, the proportion of highly interconnected files increased.</p>
-	<div class="chart_container" id="allversions_percent_in_core_at_discontinuity">
+	<p>Core size, similarly, shows a regime shift in v3.5 with the mean size increasing from 9.93% to 23.80%.  v3.5 follows v3.0, which is the only Firefox release to have been in development for two years.   All others before the Rapid Release Cycle spent approximately one year in development. Further investigation would be needed to uncover what during those years of development may have been the driver of this uplift in the number of highly interconnected files.  Note that the total number of dependencies also went up in that release, following which it begins its slow downward trend.  As with propagation cost, we see core size stabilizing after v5.0.</p>
+	<div class="chart_container" id="allversions_percent_in_core_at_discontinuity_no_unit_tests">
 		<div></div>
 	</div>
 	<p class="caption">Chart 6: Core size.</p>
 	
 <p class="subtitle">4.2 Switching to the rapid release cycle (RRC) has had a positive impact on maintainability</p>
 <p>RRC began with v5.0 of Firefox and aimed to constrain the release cycle to 6-week time periods and tighten the software development lifecycle.  Comparing the seven observations from before the switch to RRC with the 16 afterwards reveals the following results.</p>
-	<p>Propagation cost shows little change before and after RRC, having slightly gone up from a mean of 4.68% to 5.80%, however, looking at its mean release-over-release growth, it becomes evident that it has become much less volatile, having gone down from 16.26% to just 4.15%, which is a good improvement.  Its standard deviation has dropped from 43.00% to 13.29%.</p>
-	<p>Core size is, similarly, much less volatile after RRC, with its mean growth dropping from 55.61% to 4.19% and its standard deviation from 117.80% to 9.76%.</p>
-	<p>LOC's growth saw a substantial decrease following RRC with its mean growth dropping from 7.86% to 3.79%, which means that we now add an average of 146.71K lines of code per release compared to 302.70K lines of code before.  This is to be expected given the much shorter development periods and is in fact one of the reasons that drives organizations to adopt shorter and more nimble development lifecycles.</p>
-	<p>First-order density has improved seeing as the mean density has gone down from 4.77 to 2.09, though that seems to be despite the switch to RRC rather than because of it; first-order density appears to have in fact exhibited a downward trend from v3.0 onwards.  The biggest dip occurred in v3.5 where it dropped 33.84%.</p>
-	<p>Cyclomatic complexity has been steadily improving over time, though like density, the trend of improvement started before the switch to RRC.  Having said that, its mean growth following the switch is a slightly improved -1.26% compared to -0.21% before.</p>
+	<p>Propagation cost has clearly gone up, despite RRC, however, looking at its mean release-over-release growth, it becomes evident that it has become much less volatile, having gone down from 58.86% to just 2.09%, which is a good improvement.  Its standard deviation has dropped from 105.26% to 14.49%.</p>
+	<p>Core size is, similarly, much less volatile after RRC, with its mean growth dropping from 35.47% to 2.73% and its standard deviation from 88.08% to 16.24%.</p>
+	<p>LOC's growth saw a substantial decrease following RRC with its mean growth dropping from 4.02% to 2.69%, which means that we now add an average of 77.63K lines of code per release compared to 116.01K lines of code before.  This is to be expected given the much shorter development periods and is in fact one of the reasons that drives organizations to adopt shorter and more nimble development lifecycles.</p>
+	<p>First-order density has improved seeing as the mean density has gone down from 9.29 to 7.17, though that seems to be despite the switch to RRC rather than because of it; first-order density appears to have in fact exhibited a downward trend from v3.5 onwards.  The biggest dip occurred in v4.0 where it dropped 14.92%.</p>
+	<p>Cyclomatic complexity has been steadily improving over time, though like density, the trend of improvement started before the switch to RRC.  Having said that, its mean growth following the switch is a slightly better -1.26% compared to -0.71% before.</p>
 
 <p class="subtitle">4.3 A subset of modules appears to be noticeably more complex than the rest</p>
 <p>Splitting our module-level data by module and looking at the mean values for each module for each of the above metrics gives some insight into how the different modules fare in terms of complexity, as shown in the following charts.</p>
@@ -344,7 +345,7 @@ The exploratory tool's source-code as well as the data described herein are avai
 
 <p class="subtitle">5 Take-away</p>
 <p>It is impressive that an open-source project developed and maintained by a distributed team of paid staff and volunteers has been able to produce a product as impactful as the Firefox browser.  One sees larger, more expensive, software projects become drastically less maintainable in only a few years by virtue of their development processes becoming more chaotic and coding best practices being abandoned in favor of premature pragmatism.  With Firefox, We see the decision to move to a tighter, more predictable, development process possibly helping to improve quality.</p>
-<p>Firefox's core size may be somewhat elevated indicating that highly interconnected files make up a sizable portion of the codebase.  Though the measure shows no signs of following an upward trend, that may quickly change should, say, any organizational dynamics change.  The changes in version 3.0 of the product that led to Firefox's core size increasing by over 200% may be worth looking into.  Having said that, the analysis reveals no imminently alarming red flags when it comes to maintainability.  A number of modules, such as <i>accessible</i> and <i>security</i>, frequently appear among the most complex modules.  Further investigation may be helpful in identifying why that is the case.</p>
+<p>Firefox's core size may be somewhat elevated indicating that highly interconnected files make up a sizable portion of the codebase.  Though the measure shows no signs of following an upward trend, that may quickly change should, say, any organizational dynamics change.  The changes in version 3.5 of the product that led to Firefox's core size increasing by over 200% may be worth looking into.  Having said that, the analysis reveals no imminently alarming red flags when it comes to maintainability.  A number of modules, such as <i>accessible</i> and <i>security</i>, frequently appear among the most complex modules.  Further investigation may be helpful in identifying why that is the case.</p>
 <p>A caveat worth mentioning in closing is that, as with any set of software metrics, the measures described herein only reveal part of the picture.  The chosen architectural measures make the assumption that directory structure reflects the logical hierarchy of modules within Firefox.  I have not looked into the extent to which this is the case.</p>
 
 <p class="subtitle">6 Next steps</p>
@@ -369,8 +370,8 @@ The exploratory tool's source-code as well as the data described herein are avai
 <p>[11] MacCormack, A., C. Baldwin, and J. Rusnak. "The Architecture of Complex Systems: Do Core-periphery Structures Dominate?" MIT Research Paper no. 4770-10, Harvard Business School Finance Working Paper no. 1539115, 2010.</p>
 <p>[12] Almossawi, A., "An Empirical Study of Defects and Reopened Defects in GNOME." Unpublished, 2012.</p>
 
-<p style="border-top:1px solid #cccccc;margin-top:20px;padding-top:50px;padding-bottom:20px">Don't forget to check out the <a href="../">Evolution of the Firefox Codebase</a> page, which allows you to interactively explore the data described herein.  This work is being shared under a Creative Commons license <a href="http://creativecommons.org/licenses/by-nc/3.0/">(CC BY-NC)</a>.  To share your thoughts, feel free to <a href="https://twitter.com/alialmossawi">chat with me on Twitter</a>.  Once again, you may download the data from <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdHJUT0M3YXNzdVVYUXRkQzBWellHamc#gid=6">here</a> and <a href="http://almossawi.com/firefox/data/architectural.json">here</a>.</p>
-<p style="padding-bottom:0px;font-size:14px">ali@mozilla.com &nbsp;&middot;&nbsp; May 15, 2013 &nbsp;&middot;&nbsp; <span style="font-size:9pt;color:#6b6b6b">Updated May 24, 2013 to <a href="modules-compare-may242013.htm">include .jsm files</a> (thanks to <a href="https://twitter.com/fabricedesre">Fabrice Desré</a>, <a href="https://twitter.com/dietrich">Dietrich Ayala</a> and <a href="https://twitter.com/EnglishMossop">Dave Townsend</a>)</span></p>
+<p style="border-top:1px solid #cccccc;margin-top:20px;padding-top:50px;padding-bottom:20px">Don't forget to check out the <a href="../">Evolution of the Firefox Codebase</a> page, which allows you to interactively explore the data described herein.  This work is being shared under a Creative Commons license <a href="http://creativecommons.org/licenses/by-nc/3.0/">(CC BY-NC)</a>.  To share your thoughts, feel free to <a href="https://twitter.com/alialmossawi">chat with me on Twitter</a>.  Once again, you may download the data from <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdHJUT0M3YXNzdVVYUXRkQzBWellHamc#gid=9">here</a> and <a href="http://almossawi.com/firefox/data/architectural.json">here</a>.</p>
+<p style="padding-bottom:0px;font-size:14px">ali@mozilla.com &nbsp;&middot;&nbsp; May 15, 2013 &nbsp;&middot;&nbsp; <span style="font-size:9pt;color:#6b6b6b">Updated on May 24, 2013 to <a href="modules-compare-may242013.htm">include .jsm files</a> and on July 26, 2013 to take out unit tests.</span></p>
 
 <div style="float:left;padding-bottom:20px">
 	<a href="https://twitter.com/alialmossawi" class="twitter-follow-button" data-show-count="false">Follow @alialmossawi</a>

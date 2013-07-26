@@ -5,3 +5,6 @@ data/.DS_Store
 
 data/.DS_Store
 other/
+data/firefox16_visibility_file_dependencies.csv.deps
+
+data/firefox16_firstorder_file_dependencies.csv.deps
