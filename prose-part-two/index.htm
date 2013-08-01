@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Technical debt in Firefox and Chromium</title>
+	
+  	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta property="og:title" content="Technical debt in Firefox and Chromium" />
+    <meta property="og:description" content="Some things tend to degrade with time.  Within the context of software, degrading means that a system deviates in two specific ways: that it no longer functions as well and that it no longer satisfies its quality attributes.  Quality attributes are those cross-cutting requirements such as maintainability and reliability, which one may argue are more important for a system's success than functional requirements..." />
+    <meta property="og:image" content="http://almossawi.com/firefox/prose-part-two/images/thumb.jpg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://almossawi.com/firefox/prose-part-two/" />
+    <meta property="og:site_name" content="Technical debt in Firefox and Chromium" />
+
+	<link href='https://fonts.googleapis.com/css?family=Lato:300,700' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Signika:400,300' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/d3.v3.min.js"></script>
+	<script type="text/javascript" src="js/global.js"></script>
+	<link rel="stylesheet" href="css/styles_blog.css">
+</head>
+<body>
+	<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-35624223-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+	</script>
+
+	<div id="main_container">
+		<div id="content">
+			<div class="post">
+				<div style="position:absolute;margin-top:20px;height:40px"></div>
+				<h1>Technical debt in Firefox and Chromium</h1>
+				<h2>ALI ALMOSSAWI</h2>
+				<div class="date">August 1, 2013</div>
+				
+<br /><br />
+<p class="subtitle">Previously on...</p>
+<p>A couple of months ago, I posted an article titled <a href="http://almossawi.com/firefox/prose">How maintainable is the Firefox codebase</a>, which discussed how an important quality attribute, namely, maintainability, could be quantified.  It thereafter looked at how Firefox was doing with respect to those measures and suggested some preliminary findings.  The aim of this second, much shorter, article is to provide better context by comparing Firefox to another popular and complex software system.  The upcoming third and final article will focus on the propensity of different modules for defects.  The ideas shared in all three writeups will form the groundwork for a chapter in a book on complex data, to be published next year.</p>
+<p>The original article has been slightly modified in two ways since it was first published.  The first is that .jsm files were added to the analysis, thanks to a few readers who noticed that they were missing.  The second is that unit tests have been excluded from the analysis.  The results have not changed much, since most of those unit tests were already being thrown out during the analysis.  Nevertheless, certain bumps, such as those around v3 for example, are now more apparent.</p>
+<p>Also worth mentioning at the outset is that most of the material herein is based on a talk that I recently gave at <a href="http://macroconnections.media.mit.edu/events/links-2013/">Links 2013</a> titled &lsquo;Measuring quality in a complex software system&rsquo;, the slides for which may be found <a href="http://almossawi.com/links2013">here</a>.<!--  I also <a href="http://almossawi.com/links2013/poster.png">created a visualization</a> for that conference, inspired by one of my favorite stories from Greek mythology, that some might find useful.--></p>
+
+<p class="subtitle">1 Why is technical debt important?</p>
+<p>Some things tend to degrade with time.  Within the context of software, degrading means that a system deviates in two specific ways: that it no longer functions as well and that it no longer satisfies its quality attributes.  Quality attributes are those cross-cutting requirements such as maintainability and reliability, which one may argue are more important for a system's success than functional requirements.</p>
+<p>The buildup of harmful elements that lead to degradation may be said to be inevitable in software for a number of reasons, primary of which is the inherent complexity of software.  To paraphrase Fred Brooks, this inherent complexity is due to the fact that no two components in software are the same, which is in contrast to the physical disciplines where there is such a thing as matter and where components have physical attributes that are unequivocally apparent and constraining.  Other factors that contribute to the buildup of these harmful elements include changes in team dynamics, business pressures that lead to tight deadlines, industry shifts and so on.</p>
+<p>A term that is sometimes used to describe a subset of these harmful elements is technical debt, which is a fitting metaphor, as it indicates that a software engineering malpractice here or a concession with respect to coding standards there can incur a debt that one must then pay off in the form of time, effort or defects.  In fact, it is typical for teams working on large projects to pay off this debt every so often in the form of a formal exercise known as a refactoring effort.</p>
+<p>To demonstrate how seriously technical debt can impact complexity, and hence quality, here is an example <a href="http://almossawi.com/links2013/#7">based on a slide by my colleague Dan Sturtevant</a>.  Imagine we have a simple system, made up of 12 components, which is to say, 12 files.  If we model that system using an adjacency matrix and wherever there is one or more dependencies between two components, we mark it with a dot, we end up with a matrix such as the one in diagram 1 that has a density of 47.  If we then find the transitive closure for that matrix, which means capturing not only direct dependencies, but indirect ones as well, we end up with a matrix that has a density of 81.</p>
+<img src="images/td1.png" style="width:100%;padding-top:30px"/>
+<p class="caption">Diagram 1: The density of a simple system's direct (left) and indirect (right) dependencies.</p>
+
+<p>Now, if we add just two dependencies between two sets of files, marked in red, in a way that breaks the design principle of modularity, and then find the transitive closure again, we end up with a matrix that has a density of 144.  In other words, every component in the system can now potentially impact every other component were it be modified.  By making only two changes, we have significantly increased the complexity of our system.</p>
+<img src="images/td2.png" style="width:100%;padding-top:30px"/>
+<p class="caption">Diagram 2: The density of a simple system's direct and indirect dependencies after adding two new dependencies to it.</p>
+
+</p>
+
+<p class="subtitle">2 Five measures of technical debt</p>
+<p>To measure technical debt, we use five measures that have been shown in various studies to be strong predictors of quality.  The details of each metric have been previously discussed, though here is a quick rundown of them.</p>
+<ol>
+	<li>Lines of code, which is a common measure of system size.</li>
+	<li>Cyclomatic complexity, which is a measure of the internal complexity of components, or more specifically, the number of independent paths of execution within a component.</li>
+	<li>Direct dependencies, which is a measure of the density of dependencies between components.</li>
+	<li>Propagation cost, which is a measure of the density of direct and indirect dependencies between components.  Propagation cost gives a sense of the number of components that a particular component could potentially impact were it to be modified.</li>
+	<li>Core size, which is a measure of the proportion of highly interconnected components.</li>
+</ol>
+
+<p class="subtitle">3 Our armory of tools</p>
+<p>In order to capture those metrics, we use a simple armory of tools.</p>
+<ol>
+	<li>Static analysis.  A technique that allows one to analyze a codebase without having to execute it.  Some use it to find defects; we use it here to generate lines of code, cyclomatic complexity and a map of inter-component dependencies.</li>
+	<li>Network manipulation.  Since we model our systems using matrices during analysis, a network manipulation tool allows us to transform those matrices and generate metrics such as direct dependencies, propagation cost and core size from them.</li>
+	<li>Design Structure matrix (DSM).  In engineering disciplines, an adjacency matrix may also be referred to as a DSM.  A DSM proves useful not only for analysis, but also as a visualization tool, since it allows one to see various patterns of structural complexity within a system or module.</li>
+</ol>
+
+<p>Here is an example of two DSMs for a system made up of 16,551 components.  On the left is a DSM showing direct dependencies and on the right is one showing both direct and indirect dependencies.  It is not only clear that clusters in the latter are much more vivid compared to the former, but also that new clusters have emerged.</p>
+
+<img src="images/dsm.png" style="width:100%;padding-top:30px"/>
+<p class="caption">Diagram 3: Direct dependencies (left) and indirect dependencies (right) for Firefox 16.</p>
+
+<p class="subtitle">4 Gathering the Chromium data</p>
+<p>The Chromium source-code can be accessed in one of several ways.  In order to check out the source for specific releases, we use the <a href="http://www.chromium.org/developers/how-tos/get-the-code">gclient</a> command-line tool.  For the set of major releases, we use the major.minor.build.path strings from the <a href="https://en.wikipedia.org/wiki/Google_Chrome#Release_history">Chrome release history page</a>.  There is a tool called <a href="https://omahaproxy.appspot.com/">OmahaProxy</a> that allows one to translate Chrome revisions to SVN revisions should one wish to check out the source-code by revision.  One can configure gclient to exclude certain files, such as WebKit Layout Tests for example, as described <a href="http://www.chromium.org/developers/how-tos/get-the-code">here</a>.  We check out the entire release, and then prior to analysis, use a bash script to remove unit tests, which make up a significant portion of the codebase.</p>
+<p>Processing the Chromium data took on average an order of magnitude longer than Firefox, i.e. about 20 or so hours per release compared to two or so hours with Firefox.  The result of that tedious process is the <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdGhMbTNoRkRoa1RNRTQxTGRpWWJCVlE#gid=1">following dataset</a>.  For simplicity, Chromium releases are referred to using their major release number.  For the full release string, please refer to the dataset.</p>
+
+<div class="page-break"></div>
+
+<p class="subtitle">5 How do Firefox and Chromium fare</p>
+<p>As shown in tables 1 and 2 below, both Firefox and Chromium are fairly complex systems, making them worthy of analysis.  Firefox has around 2.9 million lines of code on average per release and Chromium has around 4.8 million lines of code on average per release.</p>
+
+<table style="margin-top:20px">
+	<tr class="header">
+		<td></td>
+		<td>Mean</td>
+		<td>Median</td>
+		<td>Stdev</td>
+		<td>Min</td>
+		<td>Max</td>
+	</tr>
+	<tr>
+		<td class="lhs">loc</td>
+		<td>2,885,799</td>
+		<td>2,686,348</td>
+		<td>595,408</td>
+		<td>2,066,655</td>
+		<td>4,012,434</td>
+	</tr>
+	<tr>
+		<td class="lhs">files</td>
+		<td>13,266</td>
+		<td>11,907</td>
+		<td>2,844</td>
+		<td>9,478</td>
+		<td>18,460</td>
+	</tr>
+</table>
+<p class="caption">Table 1: Descriptive statistics for the set of Firefox releases (n=23)</p>
+
+<br />
+
+<table>
+	<tr class="header">
+		<td></td>
+		<td>Mean</td>
+		<td>Median</td>
+		<td>Stdev</td>
+		<td>Min</td>
+		<td>Max</td>
+	</tr>
+	<tr>
+		<td class="lhs">loc</td>
+		<td>4,767,974</td>
+		<td>5,157,958</td>
+		<td>1,951,894</td>
+		<td>896,204</td>
+		<td>7,331,584</td>
+	</tr>
+	<tr>
+		<td class="lhs">files</td>
+		<td>29,020</td>
+		<td>31,132</td>
+		<td>12,349</td>
+		<td>5,009</td>
+		<td>46,620</td>
+	</tr>
+</table>
+<p class="caption">Table 2: Descriptive statistics for the set of Chromium releases (n=23)</p>
+
+<p>With lines of code, we see that Chromium is growing at a higher rate of 7.31% compared to Firefox's 2.66%.  Chromium begins with a smaller codebase up until v4 when it jumps by 52.61% to 3.26 million lines of code.  In Firefox, the largest increase in lines of code occurs in v4 when it goes up by 15.63% to 2.64 million lines of code.  Recall that we are only looking at executable lines of code here and are excluding unit tests.</p>
+<img src="images/loc_vs.png" style="width:100%"/>
+<p class="caption">Chart 1: A comparison of lines of code.</p>
+
+<p>With cyclomatic complexity, we see that Chromium has a consistently lower cyclomatic complexity per kloc compared to Firefox, seeing as it is 122.26 on average compared to 188.37 on average in Firefox.  In both systems, the general trend is a downward one.  In Firefox, we see an increase in cyclomatic complexity between versions 1 and 3.5, following which the downward trend begins.  In Chromium, we see a noticeable increase in v2 and then a second noticeable increase in v6.  What the result tells us is that the files in Chromium are internally less complex than in Firefox, meaning that the coding constructs in them result in fewer independent paths.</p>
+<img src="images/mccabe_vs.png" style="width:100%"/>
+<p class="caption">Chart 2: A comparison of cyclomatic complexity.</p>
+
+<p>With direct dependencies, we see that both Chromium and Firefox are following a downward trend.  Chromium begins with a much higher density of direct dependencies, the highest being 18.20 per 10,000 file pairs in v2.  Direct dependencies in Chromium drop in v4 by 116.21%, following which they decrease at an average rate of 5.08%.  Firefox's density of direct dependencies indicates a decreasing trend at an average rate of 2.60%, with the only discernible increase occurring between versions 3 and 4.  A change to a randomly selected file in Chromium can directly impact 14 files, whereas a change to a randomly selected file in Firefox can directly impact 10 files.</p>
+<img src="images/firstorder_vs.png" style="width:100%"/>
+<p class="caption">Chart 3: A comparison of direct dependencies per 10,000 file pairs.</p>
+
+<p>With propagation cost, we see that Chromium is consistently more complex than Firefox, with an average propagation cost of 29.88% compared to Firefox's 17.45%.  With Firefox, propagation starts at around 4.02% in v1 and increases steadily at a rate of 56.86% until v5, after which it stabilizes at 20.53% and its growth rate drops to 2.09%.  Recall that v5 is when the Rapid Release Cycle began.  With Chromium, we see a significant growth in propagation cost between v2 and v4 and then a negligible one thereafter.  What propagation cost tells us, in practical terms, is that a change to a randomly selected file in Firefox has the potential to impact 2,308 files, on average.  In Chromium, a change to a randomly selected file has the potential to impact around 8,562 files, on average.</p>
+<img src="images/propcost_vs.png" style="width:100%"/>
+<p class="caption">Chart 4: A comparison of propagation cost.</p>
+
+<p>Similarly, with core size, Chromium is consistently more complex than Firefox.  The average core size in Chromium is 33.22% compared to Firefox's 21.39%.  Hence, the number of highly interconnected files in Chromium is noticeably higher than that of Firefox, which is to say that it is more likely for a new or modified file in Chromium to increase the system's complexity than in Firefox.</p>
+<img src="images/core_vs.png" style="width:100%"/>
+<p class="caption">Chart 5: A comparison of core size.</p>
+
+<p class="subtitle">6 Take-away</p>
+<p>The take-away here is that Chromium and Firefox are complex in different ways.  Whereas Chromium has a lower cyclomatic complexity and a slightly lower density of direct dependencies, Firefox has a noticeably lower propagation cost and noticeably lower core size.  Moreover, Firefox is growing at a lower rate and for a longer period of time&#8212;nine years compared to five years.  Also, because Firefox is smaller in size, despite its higher density of direct dependencies, in practice, making a change to a randomly selected file can impact fewer files&#8212;10 compared to 14.  All metrics being equal, an impartial observer may conclude that Firefox fares better than Chromium with respect to technical debt.</p>
+
+<p class="subtitle">7 Highly interconnected files in Firefox and Chromium: a poster</p>
+<p>I thought it would be fun to create a static visualization that compares the proportion of highly interconnected files in both systems, drawing inspiration from a story from Greek mythology.  The story is about an angel who had wings whose feathers were tied together with wax.  He was told not to get too close to the sun or else the wax would melt and he would fall into the ocean and drown.  Of course, he did just that and tragically met his demise.  It seemed fitting to use that as a metaphor and perhaps say the same about highly interconnected files: the more of them a system has, the more difficult it becomes for it to remain in flight due to increased complexity and a higher likelihood of defects<sup>2</sup>.  Below are some sketches for the visualization followed by the final piece.</p>
+<p class="footy"><sup>2</sup> Refer to the original article for relevant citations.</p>
+<img src="images/sketch1.png" style="width:100%"/>
+<img src="images/sketch2.png" style="width:100%"/>
+<img src="images/fonts.png" style="width:100%"/>
+
+<div class="page-break"></div>
+<img src="images/poster-medium-res.jpg" style="width:100%"/>
+<p class="caption">Diagram 4: Highly interconnected files in Firefox and Chromium visualization.</p>
+
+<p>The hi-res version of the visualization may be downloaded from <a href="http://almossawi.com/links2013/poster.png">here</a> and is also available on <a href="http://visual.ly/highly-interconnected-files-firefox-and-chromium">Visually</a>.</p>
+
+
+<p class="subtitle">8 Next steps</p>
+<p>An upcoming article will focus on defects, specifically, classes that show the highest propensity for regressions.</p>
+
+<p class="subtitle">9 Acknowledgements</p>
+<p>Thanks to <a href="https://ftagada.wordpress.com/">Fabien Tassin</a> for promptly responding to some Chromium-related inquiries.</p>
+
+
+<p style="border-top:1px solid #cccccc;margin-top:20px;padding-top:50px;padding-bottom:20px">Once again, <a href="http://almossawi.com/links2013">here are the slides</a> from my recent talk.  This work is being shared under a Creative Commons license <a href="http://creativecommons.org/licenses/by-nc/3.0/">(CC BY-NC)</a>.  To share your thoughts, feel free to <a href="https://twitter.com/alialmossawi">chat with me on Twitter</a>.  You may download the data from <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdGhMbTNoRkRoa1RNRTQxTGRpWWJCVlE#gid=1">here</a>, <a href="https://docs.google.com/spreadsheet/ccc?key=0Ai_gYoOkxENIdHJUT0M3YXNzdVVYUXRkQzBWellHamc#gid=9">here</a> and <a href="http://almossawi.com/firefox/data/architectural.json">here</a>.</p>
+<p style="padding-bottom:0px;font-size:14px">ali@mozilla.com &nbsp;&middot;&nbsp; August 1, 2013</p>
+
+<div style="float:left;padding-bottom:20px">
+	<a href="https://twitter.com/alialmossawi" class="twitter-follow-button" data-show-count="false">Follow @alialmossawi</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+
+<div style="float:left;padding-bottom:20px;padding-left:10px">
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="almossawi.com/firefox/prose-part-two" data-count="none" data-text="Technical debt in Firefox and Chromium http://almossawi.com/firefox/prose-part-two">Tweet</a>
+
+                            <script>
+                                ! function (d, s, id) {
+                                    var js, fjs = d.getElementsByTagName(s)[0];
+                                    if (!d.getElementById(id)) {
+                                        js = d.createElement(s);
+                                        js.id = id;
+                                        js.src = "//platform.twitter.com/widgets.js";
+                                        fjs.parentNode.insertBefore(js, fjs);
+                                    }
+                                }(document, "script", "twitter-wjs");
+                            </script>
+                        </div>
+<div style="float:left;padding-bottom:20px;padding-left:10px">
+	<iframe src="http://ghbtns.com/github-btn.html?user=almossawi&repo=Firefox-Codebase-Evolution&type=watch" allowtransparency="true" frameborder="0" scrolling="0" width="51" height="30" style="float:right"></iframe>
+</div>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
