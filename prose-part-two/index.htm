@@ -80,7 +80,7 @@
 <ol>
 	<li>Static analysis.  A technique that allows one to analyze a codebase without having to execute it.  Some use it to find defects; we use it here to generate lines of code, cyclomatic complexity and a map of inter-component dependencies.</li>
 	<li>Network manipulation.  Since we model our systems using matrices during analysis, a network manipulation tool allows us to transform those matrices and generate metrics such as direct dependencies, propagation cost and core size from them.</li>
-	<li>Design Structure matrix (DSM).  In engineering disciplines, an adjacency matrix may be referred to as a DSM.  A DSM proves useful not only for analysis, but also as a visualization tool, since it allows one to see various patterns of structural complexity within a system or module.</li>
+	<li>Design Structure Matrix (DSM).  In engineering disciplines, an adjacency matrix may be referred to as a DSM.  A DSM proves useful not only for analysis, but also as a visualization tool, since it allows one to see various patterns of structural complexity within a system or module.</li>
 </ol>
 
 <p>Here is an example of two DSMs for a system made up of 16,551 components.  On the left is a DSM showing direct dependencies and on the right is one showing both direct and indirect dependencies.  Not only are clusters in the latter matrix much more vivid compared to the former, but we also see that new clusters have emerged.  The squares along the diagonals are modules; their intensity and size are an indication of a module's density of internal dependencies and size, respectively.  Vertical lines indicate files that have a high fan-in, i.e. that have a lot of call-ins, and horizontal lines indicate files that have a high fan-out, i.e. that have a lot of call-outs.</p>
